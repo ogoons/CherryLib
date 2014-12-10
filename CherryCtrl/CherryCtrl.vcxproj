@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{58CB4A65-1428-4EE5-B2B1-293514A2421B}</ProjectGuid>
+    <RootNamespace>CherryCtrl</RootNamespace>
+    <Keyword>MFCDLLProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_AFXEXT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)CherryUtil</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>.\CherryCtrl.def</ModuleDefinitionFile>
+      <AdditionalDependencies>CherryUtil.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0412</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_AFXEXT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)CherryUtil</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>.\CherryCtrl.def</ModuleDefinitionFile>
+      <AdditionalDependencies>CherryUtil.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0412</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="CherryCtrl.def" />
+    <None Include="ReadMe.txt" />
+    <None Include="res\CherryCtrl.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CherryAnimateImageCtrl.cpp" />
+    <ClCompile Include="CherryButton.cpp" />
+    <ClCompile Include="CherryCheckBox.cpp" />
+    <ClCompile Include="CherryComboBox.cpp" />
+    <ClCompile Include="CherryCtrl.cpp" />
+    <ClCompile Include="CherryDialog.cpp" />
+    <ClCompile Include="CherryEdit.cpp" />
+    <ClCompile Include="CherryFont.cpp" />
+    <ClCompile Include="CherryFontByStatus.cpp" />
+    <ClCompile Include="CherryHeaderCtrl.cpp" />
+    <ClCompile Include="CherryImage.cpp" />
+    <ClCompile Include="CherryImageCtrl.cpp" />
+    <ClCompile Include="CherryImageList.cpp" />
+    <ClCompile Include="CherryLinkCtrl.cpp" />
+    <ClCompile Include="CherryListCtrl.cpp" />
+    <ClCompile Include="CherryMemDC.cpp" />
+    <ClCompile Include="CherryMessageBox.cpp" />
+    <ClCompile Include="CherryNotificationDialog.cpp" />
+    <ClCompile Include="CherryNotificationIcon.cpp" />
+    <ClCompile Include="CherryProgressCtrl.cpp" />
+    <ClCompile Include="CherryRadioButton.cpp" />
+    <ClCompile Include="CherrySliderCtrl.cpp" />
+    <ClCompile Include="CherryStatic.cpp" />
+    <ClCompile Include="CherryTabCtrl.cpp" />
+    <ClCompile Include="CherryToggleButton.cpp" />
+    <ClCompile Include="CherryWnd.cpp" />
+    <ClCompile Include="dllmain.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\CherryUtil\CherryUtil.h" />
+    <ClInclude Include="CherryAnimateImageCtrl.h" />
+    <ClInclude Include="CherryButton.h" />
+    <ClInclude Include="CherryCheckBox.h" />
+    <ClInclude Include="CherryComboBox.h" />
+    <ClInclude Include="CherryDialog.h" />
+    <ClInclude Include="CherryEdit.h" />
+    <ClInclude Include="CherryException.h" />
+    <ClInclude Include="CherryFont.h" />
+    <ClInclude Include="CherryFontByStatus.h" />
+    <ClInclude Include="CherryHeaderCtrl.h" />
+    <ClInclude Include="CherryImage.h" />
+    <ClInclude Include="CherryImageCtrl.h" />
+    <ClInclude Include="CherryImageList.h" />
+    <ClInclude Include="CherryLinkCtrl.h" />
+    <ClInclude Include="CherryListCtrl.h" />
+    <ClInclude Include="CherryMemDC.h" />
+    <ClInclude Include="CherryMessageBox.h" />
+    <ClInclude Include="CherryNotificationDialog.h" />
+    <ClInclude Include="CherryNotificationIcon.h" />
+    <ClInclude Include="CherryProgressCtrl.h" />
+    <ClInclude Include="CherryRadioButton.h" />
+    <ClInclude Include="CherrySliderCtrl.h" />
+    <ClInclude Include="CherryStatic.h" />
+    <ClInclude Include="CherryTabCtrl.h" />
+    <ClInclude Include="CherryToggleButton.h" />
+    <ClInclude Include="CherryWnd.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CherryCtrl.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ToDoList.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="CherryCtrl.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

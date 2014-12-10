@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CherryCtrl", "CherryCtrl\CherryCtrl.vcxproj", "{58CB4A65-1428-4EE5-B2B1-293514A2421B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4A5A6A98-7FBC-4D0D-BFDB-05BD7DDF6B88} = {4A5A6A98-7FBC-4D0D-BFDB-05BD7DDF6B88}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CherryCtrlExam", "CherryCtrlExam\CherryCtrlExam.vcxproj", "{160070A0-DBDF-4CE3-A3F0-74508B8A005F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{58CB4A65-1428-4EE5-B2B1-293514A2421B} = {58CB4A65-1428-4EE5-B2B1-293514A2421B}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CherryUpdate", "CherryUpdate\CherryUpdate.vcxproj", "{CFFE84C1-7912-4FDC-9D07-9BA097035C6B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CherryUtil", "CherryUtil\CherryUtil.vcxproj", "{4A5A6A98-7FBC-4D0D-BFDB-05BD7DDF6B88}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CherryUpdateExam", "CherryUpdateExam\CherryUpdateExam.vcxproj", "{791CE701-970B-4951-A880-DA0311B11A83}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CFFE84C1-7912-4FDC-9D07-9BA097035C6B} = {CFFE84C1-7912-4FDC-9D07-9BA097035C6B}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58CB4A65-1428-4EE5-B2B1-293514A2421B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{58CB4A65-1428-4EE5-B2B1-293514A2421B}.Debug|Win32.Build.0 = Debug|Win32
+		{58CB4A65-1428-4EE5-B2B1-293514A2421B}.Release|Win32.ActiveCfg = Release|Win32
+		{58CB4A65-1428-4EE5-B2B1-293514A2421B}.Release|Win32.Build.0 = Release|Win32
+		{160070A0-DBDF-4CE3-A3F0-74508B8A005F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{160070A0-DBDF-4CE3-A3F0-74508B8A005F}.Debug|Win32.Build.0 = Debug|Win32
+		{160070A0-DBDF-4CE3-A3F0-74508B8A005F}.Release|Win32.ActiveCfg = Release|Win32
+		{160070A0-DBDF-4CE3-A3F0-74508B8A005F}.Release|Win32.Build.0 = Release|Win32
+		{CFFE84C1-7912-4FDC-9D07-9BA097035C6B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CFFE84C1-7912-4FDC-9D07-9BA097035C6B}.Debug|Win32.Build.0 = Debug|Win32
+		{CFFE84C1-7912-4FDC-9D07-9BA097035C6B}.Release|Win32.ActiveCfg = Release|Win32
+		{CFFE84C1-7912-4FDC-9D07-9BA097035C6B}.Release|Win32.Build.0 = Release|Win32
+		{4A5A6A98-7FBC-4D0D-BFDB-05BD7DDF6B88}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4A5A6A98-7FBC-4D0D-BFDB-05BD7DDF6B88}.Debug|Win32.Build.0 = Debug|Win32
+		{4A5A6A98-7FBC-4D0D-BFDB-05BD7DDF6B88}.Release|Win32.ActiveCfg = Release|Win32
+		{4A5A6A98-7FBC-4D0D-BFDB-05BD7DDF6B88}.Release|Win32.Build.0 = Release|Win32
+		{791CE701-970B-4951-A880-DA0311B11A83}.Debug|Win32.ActiveCfg = Debug|Win32
+		{791CE701-970B-4951-A880-DA0311B11A83}.Debug|Win32.Build.0 = Debug|Win32
+		{791CE701-970B-4951-A880-DA0311B11A83}.Release|Win32.ActiveCfg = Release|Win32
+		{791CE701-970B-4951-A880-DA0311B11A83}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
