@@ -30,5 +30,3 @@ public:
 };
 
 extern CCherryCtrlExamApp theApp;
-
-CString GetInstallDirPath();

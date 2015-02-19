@@ -32,7 +32,6 @@ void CNotificationDialog::PostNcDestroy()
 	CCherryNotificationDialog::PostNcDestroy();
 }
 
-
 int CNotificationDialog::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CCherryNotificationDialog::OnCreate(lpCreateStruct) == -1)

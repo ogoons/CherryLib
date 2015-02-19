@@ -64,7 +64,6 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 
 	//m_comboBox.SetCherryFont(_T("맑은 고딕"), 12, Color(255, 0, 0), CherryFont::STYLE_DEFAULT);
 
-
 	m_toggleButton.Create(NULL, _T("wimax_on_off.png"), CCherryToggleButton::STYLE_AUTORESIZE | CCherryToggleButton::STYLE_AUTOTOGGLEBUTTON, WS_CHILD | WS_VISIBLE, CRect(250, 150, 0, 0), this, 500);
 
 	m_radioButton1.Create(_T("라디오 버튼 1"), _T("check.png"), CCherryRadioButton::STYLE_AUTORESIZE | CCherryRadioButton::STYLE_AUTOCHECKBOX, NULL, WS_CHILD | WS_VISIBLE, CRect(300, 150, 0, 0), this, 501);
@@ -145,13 +144,12 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 	m_edit.SetFontStyle(CCherryFont::STYLE_BOLD);
 	m_edit.SetFontColor(Color(255, 0, 0));
 
-
-	m_checkBox.Create(_T("[CherryCheckBox] 체크박스(&C)\nadfkjlasfas\najfldjflksdf\nadlfjalkdfjla"), _T("wimax_on_off.png"), CCherryCheckBox::STYLE_AUTORESIZE | CCherryCheckBox::STYLE_AUTOCHECKBOX, WS_CHILD | WS_VISIBLE, CRect(200, 400, 0, 0), this, 1010);
+	m_checkBox.Create(_T("[CherryCheckBox] 체크박스(&C)\nadfkjlasfas\najfldjflksdf\nadlfjalkdfjla"), _T("wimax_on_off.png"), CCherryCheckBox::STYLE_AUTORESIZE | CCherryCheckBox::STYLE_AUTOCHECKBOX, WS_CHILD | WS_VISIBLE, CRect(200, 380, 0, 0), this, 1010);
 	m_checkBox.EnableHoverHandCursor(TRUE);
 	//CCherryFont hoverFont(_T("굴림"), 100, Color(23, 233, 56), CherryFont::STYLE_VCENTER);
 	//m_checkBox.SetHoverFont(hoverFont);
 	//m_checkBox.SetFontColor(Color(255, 0, 0));
-	m_checkBox.SetHoverFontSize(30);
+	m_checkBox.SetHoverFontSize(20);
 	//m_checkBox.EnableWindow(FALSE);
 
 	m_sliderCtrl.Create(_T("slider_thumb.bmp"), _T("prg.png"), 7, CCherrySliderCtrl::STYLE_HORIZONTAL_LEFT_TO_RIGHT, WS_CHILD | WS_VISIBLE, /*CRect(200, 500, 500, 520)*/ CRect(400, 500, 0, 0), this, 1011);
@@ -173,7 +171,6 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 
 	// CCherryListCtrl
 	m_listCtrl.Create(_T("header_.png"), _T("list.png"), 60, 50, NULL, WS_VISIBLE | WS_CHILD | LVS_REPORT | LVS_NOCOLUMNHEADER, CRect(700, 10, 1100, 200), this, 1012);
-
 	m_listCtrl.InsertColumn(0, _T("테스트1"), LVCFMT_LEFT, 100);
 	m_listCtrl.InsertColumn(1, _T("테스트2"), LVCFMT_LEFT/*| HDF_OWNERDRAW*/, 150);
 	
@@ -190,9 +187,8 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 	m_listCtrl.SetNormalFontStyle(CCherryFont::STYLE_VCENTER | CCherryFont::STYLE_LEFT);
 	m_listCtrl.SetSelectedFontStyle(CCherryFont::STYLE_VCENTER | CCherryFont::STYLE_LEFT);
 
-
 	// CCherryTabCtrl
-	m_tabCtrl.Create(_T("tab.png"), CCherryTabCtrl::STYLE_TAB_LEFT, WS_CHILD | WS_VISIBLE, CRect(700, 250, 1200, 500), this, 1013);
+	m_tabCtrl.Create(_T("tab.png"), CCherryTabCtrl::STYLE_TAB_BOTTOM, WS_CHILD | WS_VISIBLE, CRect(700, 250, 1200, 500), this, 1013);
 
 	m_wnd1.Create(NULL, _T("babo1"), WS_CHILD | WS_VISIBLE, CRect(), &m_tabCtrl, 1014);
 	m_wnd1.SetBackColor(RGB(255, 0, 0));
@@ -216,11 +212,12 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 	m_tabCtrl.AddPage(&m_wnd5);
 
 	//m_tabCtrl.AddPage(NULL);
-	//m_tabCtrl.SetTabButtonGap(20);
+	//m_tabCtrl.SetTabButtonGap(20);s
 
 	//m_tabCtrl.GetTabButton(2)->SetNormalFontColor(Color(255, 255, 0, 0));
 
 
+                                                                                                                                                                                                                                                                                                                                                                                                                                      
 	return TRUE;
 }
 

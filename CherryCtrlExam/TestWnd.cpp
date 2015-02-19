@@ -21,9 +21,7 @@ void CTestWnd::OnDrawCherry(CCherryMemDC *pDC)
 	CRect clientRect;
 	GetClientRect(clientRect);
 
-	
 	pDC->FillSolidRect(clientRect, m_color);
-
 }
 
 void CTestWnd::SetBackColor(COLORREF color)

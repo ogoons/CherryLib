@@ -6,6 +6,9 @@
 #include "CherryCtrlExam.h"
 #include "CherryCtrlExamDlg.h"
 
+#include "CherryUtil.h"
+#pragma comment(lib, "CherryUtil.lib")
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -16,32 +19,6 @@
 BEGIN_MESSAGE_MAP(CCherryCtrlExamApp, CWinApp)
 	ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
 END_MESSAGE_MAP()
-
-
-
-///////////////////////////////////////////////////////////////////////////
-///
-/// \brief		GetInstallDirPath
-/// \author		ogoons
-/// \date		2014-03-14
-/// \param		
-/// \return		
-/// \remark		
-/// \section	
-///
-///////////////////////////////////////////////////////////////////////////
-CString GetInstallDirPath()
-{
-	CString strPath;
-	GetModuleFileName(NULL, strPath.GetBuffer(MAX_PATH), MAX_PATH);
-	strPath.ReleaseBuffer();
-
-	PathRemoveFileSpec(strPath.GetBuffer(MAX_PATH));
-	strPath.ReleaseBuffer();
-
-	return strPath;
-}
-
 
 // CCherryCtrlExamApp 생성
 
@@ -93,7 +70,7 @@ BOOL CCherryCtrlExamApp::InitInstance()
 	SetRegistryKey(_T("로컬 응용 프로그램 마법사에서 생성된 응용 프로그램"));
 
 	CString strPath;
-	strPath.Format(_T("%s\\Skin"), GetInstallDirPath());
+	strPath.Format(_T("%s\\Skin"), GetCurrentPath());
 	CCherryImage::SetDefaultImagePath(strPath);
 
 	CCherryCtrlExamDlg dlg;

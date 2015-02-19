@@ -2,6 +2,8 @@
 
 #include "CherryWnd.h"
 #include "CherryRadioButton.h"
+#include "CherryDialog.h"
+#include "CherryTabBackWnd.h"
 
 #include <vector>
 
@@ -53,13 +55,18 @@ protected:
 	DWORD								m_dwCherryStyle;
 
 	CCherryRadioButton					*m_pHeadTab;
+	CCherryTabBackWnd					m_tabBackWnd;
+
 	vector<CCherryRadioButton *>		m_tabVector;
 	vector<CCherryWnd *>				m_pageVector;
-
+	
 	LPCTSTR								m_lpszTabImagePath;
 	UINT								m_nTabGap;
 
 	UINT								m_nCtrlIDCount;
+
+	CWnd								m_firstArrowWnd;
+	CWnd								m_secondArrowWnd;
 	
 // Operations
 public:
@@ -94,7 +101,13 @@ protected:
 
 	virtual LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	virtual void OnDrawCherry(CCherryMemDC *pDC);
 	void OnPageChange(DWORD dwIndex);
+
+public:
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
+//	afx_msg void OnParentNotify(UINT message, LPARAM lParam);
+	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 };

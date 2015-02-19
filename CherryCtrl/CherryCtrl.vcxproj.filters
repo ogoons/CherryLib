@@ -111,6 +111,9 @@
     <ClCompile Include="CherryMemDC.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="CherryTabBackWnd.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -201,6 +204,9 @@
       <Filter>Lib</Filter>
     </ClInclude>
     <ClInclude Include="CherryMemDC.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryTabBackWnd.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

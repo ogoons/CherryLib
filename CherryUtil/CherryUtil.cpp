@@ -65,7 +65,7 @@ BOOL CCherryUtilApp::InitInstance()
 ///////////////////////////////////////////////////////////////////////////
 ///
 /// \brief		Windows 버전 확인
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-11-07
 /// \param		
 /// \return		BOOL
@@ -95,7 +95,7 @@ extern "C" CHERRYUTIL_DECL_API BOOL IsWindowsVersionOrGreater(WORD wMajorVersion
 ///////////////////////////////////////////////////////////////////////////
 ///
 /// \brief		DLL 버전 가져오기
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-09-04
 /// \param		
 /// \return		
@@ -143,4 +143,27 @@ extern "C" CHERRYUTIL_DECL_API DWORD GetDllVersion(_In_ LPCTSTR lpszDllName, _Ou
 	}
 
 	return dwVersion;
+}
+
+///////////////////////////////////////////////////////////////////////////
+///
+/// \brief		현재 프로세스의 디렉토리 경로를 반환
+/// \author		ogoons
+/// \date		2015-01-20
+/// \param		
+/// \return		CString
+/// \remark		
+/// \section	
+///
+///////////////////////////////////////////////////////////////////////////
+CHERRYUTIL_DECL_API CString GetCurrentPath()
+{
+	CString strPath;
+	GetModuleFileName(NULL, strPath.GetBuffer(MAX_PATH), MAX_PATH);
+	strPath.ReleaseBuffer();
+
+	PathRemoveFileSpec(strPath.GetBuffer(MAX_PATH));
+	strPath.ReleaseBuffer();
+
+	return strPath;
 }

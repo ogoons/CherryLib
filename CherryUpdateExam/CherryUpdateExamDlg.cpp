@@ -97,7 +97,6 @@ BOOL CCherryUpdateExamDlg::OnInitDialog()
 	//  프레임워크가 이 작업을 자동으로 수행합니다.
 	SetIcon(m_hIcon, TRUE);			// 큰 아이콘을 설정합니다.
 	SetIcon(m_hIcon, FALSE);		// 작은 아이콘을 설정합니다.
-
 	
 	m_updater.Open(_T("CherryUpdateExam"), _T("2.0.0.1"), _T("http://ogoons.com/update"), _T("UpdateProfile.xml"), _T("D:\\UpdateText"));
 

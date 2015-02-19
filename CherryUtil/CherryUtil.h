@@ -50,5 +50,18 @@ public:
 - Windows 8.1
 */
 
-extern "C" CHERRYUTIL_DECL_API BOOL		IsWindowsVersionOrGreater(WORD wMajorVersion, WORD wMinorVersion, WORD wServicePackMajor);
-extern "C" CHERRYUTIL_DECL_API DWORD	GetDllVersion(_In_ LPCTSTR lpszDllName, _Out_ DWORD &dwMajorVersion, _Out_ DWORD &dwMinorVersion, _Out_ DWORD &dwBuildNumber);
+/////////////////////////////////////////////////////////////////
+// C/C++ functions
+#ifdef __cplusplus
+extern "C" {
+#endif
+	CHERRYUTIL_DECL_API BOOL	IsWindowsVersionOrGreater(WORD wMajorVersion, WORD wMinorVersion, WORD wServicePackMajor);
+	CHERRYUTIL_DECL_API DWORD	GetDllVersion(_In_ LPCTSTR lpszDllName, _Out_ DWORD &dwMajorVersion, _Out_ DWORD &dwMinorVersion, _Out_ DWORD &dwBuildNumber);
+
+#ifdef __cplusplus
+}
+#endif
+
+/////////////////////////////////////////////////////////////////
+// C++ functions
+CHERRYUTIL_DECL_API CString	GetCurrentPath();
