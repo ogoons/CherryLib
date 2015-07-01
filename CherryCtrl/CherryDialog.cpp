@@ -41,6 +41,7 @@ BEGIN_MESSAGE_MAP(CCherryDialog, CDialogEx)
 	ON_WM_NCLBUTTONUP()
 	ON_WM_NCMOUSEHOVER()
 	ON_WM_NCMOUSELEAVE()
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 // CCherryDialog 메시지 처리기입니다.
@@ -243,4 +244,12 @@ CHERRY_RET CCherryDialog::SetSystemButtonImage(LPCTSTR lpszMinButtonImagePath, L
 	}
 
 	return cherryRet;
+}
+
+
+void CCherryDialog::OnSize(UINT nType, int cx, int cy)
+{
+	CDialogEx::OnSize(nType, cx, cy);
+
+	Invalidate(FALSE);
 }

@@ -67,10 +67,10 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 	afx_msg void OnPaint();
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-
+	
 	virtual void OnDrawSystemButton(CCherryMemDC *pDC);
-
 
 	afx_msg BOOL OnNcActivate(BOOL bActive);
 	afx_msg LRESULT OnNcHitTest(CPoint point);
