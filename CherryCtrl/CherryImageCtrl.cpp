@@ -83,6 +83,8 @@ CHERRY_RET CCherryImageCtrl::SetImage(LPCTSTR lpszImagePath, int nWidth, int nHe
 		return errorRet;
 	}
 
+	Invalidate(FALSE);
+
 	return cherryRet;
 }
 
