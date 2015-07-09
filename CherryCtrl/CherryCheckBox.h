@@ -9,9 +9,9 @@
 
 ///////////////////////////////////////////////////////////////////////////
 ///
-/// \class		CherryCheckBox
+/// \class		CCherryCheckBox
 /// \brief		체크 박스 컨트롤\n
-///				CherryButton을 상속받아 구현되었다.
+///				CCherryButton을 상속받아 구현되었다.
 /// \author		오수철
 /// \date		2013-07-10
 /// \remark		

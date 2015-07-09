@@ -22,6 +22,7 @@ IMPLEMENT_DYNAMIC(CCherryWnd, CWnd)
 CCherryWnd::CCherryWnd()
 {
 	m_pBackMemDC = NULL;
+	m_bShowed = FALSE;
 }
 
 CCherryWnd::~CCherryWnd()
@@ -56,6 +57,13 @@ void CCherryWnd::OnPaint()
 
 	// CherryWnd ¿ë OnPaint()
 	OnDrawCherry(&memDC);
+
+	// OnCreate > OnNcCreate > OnPaint > OnLoad
+	if (FALSE == m_bShowed)
+	{
+		m_bShowed = TRUE;
+		OnLoad();
+	}
 
 	CWnd *pChildWnd = GetWindow(GW_CHILD);
 
@@ -112,4 +120,8 @@ void CCherryWnd::SetBackground(CDC *pDC)
 	m_pBackMemDC = new CCherryMemDC(pDC, clientRect, FALSE);
 	m_pBackMemDC->BitBlt(clientRect.left, clientRect.top, clientRect.Width(), clientRect.Height(),
 		pDC, windowRect.left, windowRect.top, SRCCOPY);
+}
+
+void CCherryWnd::OnLoad()
+{
 }
