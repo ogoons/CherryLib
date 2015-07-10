@@ -7,7 +7,7 @@
 ///
 /// \class		CCherryDialog (Abstract Class)
 /// \brief		Cherry Control이 배치 가능한 Based 다이얼로그,
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-09-05
 /// \remark		
 /// \section	

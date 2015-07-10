@@ -9,7 +9,7 @@
 ///
 /// \class		CCherryImageCtrl
 /// \brief		이미지 컨트롤 클래스
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-07-10
 /// \remark		
 /// \section	

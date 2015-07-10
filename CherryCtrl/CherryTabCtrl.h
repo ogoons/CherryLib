@@ -20,7 +20,7 @@ using namespace std;
 ///
 /// \class		CCherryTabCtrl
 /// \brief		4방향 Tab control
-/// \author		오수철
+/// \author		ogoons
 /// \date		2014-04-10
 /// \remark		
 /// \section	

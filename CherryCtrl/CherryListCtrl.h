@@ -9,7 +9,7 @@
 ///
 /// \class		CCherryListCtrl
 /// \brief		REPORT 형식의 List control
-/// \author		오수철
+/// \author		ogoons
 /// \date		2014-03-20
 /// \remark		
 /// \section	

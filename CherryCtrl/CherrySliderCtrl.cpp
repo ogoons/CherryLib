@@ -213,7 +213,7 @@ CHERRY_RET CCherrySliderCtrl::SetTrackImage(LPCTSTR lpszImagePath)
 
 void CCherrySliderCtrl::OnDrawCherry(CCherryMemDC *pDC)
 {
-	// 2013-07-19 오수철: 
+	// 2013-07-19 ogoons: 
 	// CherryProgressCtrl과 코드 중복이지만 dc를 재활용하기엔 번거로우므로
 	// 그냥 따로 코드를 분리하여 오버라이드 한다.
 	CRect clientRect;

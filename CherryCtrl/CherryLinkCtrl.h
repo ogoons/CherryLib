@@ -7,7 +7,7 @@
 ///
 /// \class		CCherryLinkCtrl
 /// \brief		링크 컨트롤
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-07-10
 /// \remark		
 /// \section	

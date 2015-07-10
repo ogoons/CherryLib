@@ -71,7 +71,7 @@ void CCherryNotificationIcon::Initialize()
 ///////////////////////////////////////////////////////////////////////////
 ///
 /// \brief    Shell32.dll 버전으로 NOTIFYICONDATA 사이즈 가져오는 함수
-/// \author   오수철
+/// \author   ogoons
 /// \date     2013-09-05
 /// \param    
 /// \return   
@@ -186,7 +186,7 @@ CHERRY_RET CCherryNotificationIcon::Destroy()
 ///////////////////////////////////////////////////////////////////////////
 ///
 /// \brief    아이콘 추가
-/// \author   오수철
+/// \author   ogoons
 /// \date     2013-09-13
 /// \param    
 /// \return   
@@ -672,7 +672,7 @@ DWORD CCherryNotificationIcon::SetCallbackMessage(UINT nCallbackMessage)
 ///////////////////////////////////////////////////////////////////////////
 ///
 /// \brief		트레이 아이콘 마우스 메시지 핸들링
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-09-03
 /// \param		
 /// \return		
@@ -771,7 +771,7 @@ LRESULT CCherryNotificationIcon::OnNotificationIcon(WPARAM wParam, LPARAM lParam
 ///////////////////////////////////////////////////////////////////////////
 ///
 /// \brief		Taskbar 생성시 호출됨
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-09-03
 /// \param		
 /// \return		
@@ -857,7 +857,7 @@ CHERRY_RET CCherryNotificationIcon::SetContextMenuDefaultItem(UINT nItem, BOOL b
 ///////////////////////////////////////////////////////////////////////////
 ///
 /// \brief		OS 버전과 관련되는 풍선도움말 호출 함수
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-09-25
 /// \param		nTimeout: WinXP ~ WinVista
 ///				hBalloonIcon: WinVista
@@ -947,7 +947,7 @@ CHERRY_RET CCherryNotificationIcon::ShowBalloon(LPCTSTR lpszText, LPCTSTR lpszTi
 ///////////////////////////////////////////////////////////////////////////
 ///
 /// \brief		OS 버전과 관련없이 사용 가능한 풍선도움말 호출 함수
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-10-16
 /// \param		
 /// \return		

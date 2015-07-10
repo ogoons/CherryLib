@@ -18,7 +18,7 @@ using namespace Gdiplus;
 /// \class		CCherryFont
 /// \brief		CherryX 에서 사용하는 모든 문자열은 이 클래스를 사용하여 표현하도록 한다.\n
 ///				Base 클래스 성격.
-/// \author		오수철
+/// \author		ogoons
 /// \date		2012-11-09
 /// \remark		
 /// \section	

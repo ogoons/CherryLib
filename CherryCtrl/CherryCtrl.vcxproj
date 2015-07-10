@@ -114,6 +114,7 @@
     <ClCompile Include="CherryCtrl.cpp" />
     <ClCompile Include="CherryDialog.cpp" />
     <ClCompile Include="CherryEdit.cpp" />
+    <ClCompile Include="CherryEditBackWnd.cpp" />
     <ClCompile Include="CherryFont.cpp" />
     <ClCompile Include="CherryFontByStatus.cpp" />
     <ClCompile Include="CherryHeaderCtrl.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="CherryComboBox.h" />
     <ClInclude Include="CherryDialog.h" />
     <ClInclude Include="CherryEdit.h" />
+    <ClInclude Include="CherryEditBackWnd.h" />
     <ClInclude Include="CherryException.h" />
     <ClInclude Include="CherryFont.h" />
     <ClInclude Include="CherryFontByStatus.h" />

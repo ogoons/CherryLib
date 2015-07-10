@@ -16,7 +16,7 @@ using namespace Gdiplus;
 /// \brief		일반적인 이미지 버튼을 생성한다. (투명 지원)\n
 ///				버튼의 상태 = Normal, Hover, Down, Disable\n
 ///				1x4 형태의 이미지를 버튼에 할당하여 각 상태를 표현한다.
-/// \author		오수철
+/// \author		ogoons
 /// \date		2012-11-05
 /// \remark		
 /// \section	

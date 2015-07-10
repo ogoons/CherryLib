@@ -16,7 +16,7 @@
 ///
 /// \class		CCherryComboBox
 /// \brief		콤보 박스 클래스
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-07-10
 /// \remark		
 /// \section	

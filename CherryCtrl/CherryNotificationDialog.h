@@ -6,7 +6,7 @@
 ///
 /// \class		CCherryNotificationDialog
 /// \brief		
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-10-04
 /// \remark		OnCreate 부분을 재정의할 필요할 있음
 /// \section	
@@ -71,7 +71,7 @@ protected:
 ///
 /// \class		CCherryNotificationPopup
 /// \brief		
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-10-04
 /// \remark		
 /// \section	

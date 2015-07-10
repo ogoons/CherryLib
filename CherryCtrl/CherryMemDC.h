@@ -7,7 +7,7 @@
 /// \class		CCherryMemDC
 /// \brief		Memory DC 클래스 (Double buffering)\n
 ///				CherryX 에서 사용하는 Memory DC는 이 클래스를 사용한다.
-/// \author		오수철
+/// \author		ogoons
 /// \date		2012-11-09
 /// \remark		
 /// \section	

@@ -9,7 +9,7 @@ using namespace std;
 ///
 /// \class		CCherryRadioButton
 /// \brief		라디오 버튼 클래스
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-07-10
 /// \remark		
 /// \section	

@@ -10,7 +10,7 @@
 ///
 /// \class		CCherrySliderCtrlThumbButton
 /// \brief		슬라이더 컨트롤 Thumb 버튼
-/// \author		오수철
+/// \author		ogoons
 /// \date		2014-01-01
 /// \remark		
 /// \section	
@@ -53,7 +53,7 @@ protected:
 ///
 /// \class		CCherrySliderCtrl
 /// \brief		슬라이더 컨트롤
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-07-10
 /// \remark		
 /// \section	
@@ -75,7 +75,7 @@ public:
 	// 슬라이더 스타일 정의
 	enum STYLE
 	{
-		// 2013-07-17 오수철: 주의!
+		// 2013-07-17 ogoons: 주의!
 		// CherryProgressCtrl과 style 값을 일치시킨다.
 		STYLE_AUTORESIZE = 0x0001,
 

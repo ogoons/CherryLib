@@ -12,7 +12,7 @@
 /// \class		CCherryCheckBox
 /// \brief		체크 박스 컨트롤\n
 ///				CCherryButton을 상속받아 구현되었다.
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-07-10
 /// \remark		
 /// \section	

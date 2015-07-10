@@ -6,7 +6,7 @@
 ///
 /// \class		CCherryToggleButton
 /// \brief		토글 버튼 
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-09-24
 /// \remark		
 /// \section	

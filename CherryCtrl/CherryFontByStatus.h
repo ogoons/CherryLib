@@ -8,7 +8,7 @@
 /// \brief		4가지 상태 Font 관리 클래스\n
 ///				CCherryButton, CCherryCheckBox, CCherryLinkCtrl 등 마우스 메시지를 받아 처리되는\n
 ///				컨트롤들의 문자열 처리를 담당하는 Super 클래스이다.
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-04-06
 /// \remark		
 /// \section	

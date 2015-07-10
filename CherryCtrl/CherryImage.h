@@ -10,7 +10,7 @@ using namespace Gdiplus;
 /// \brief		이미지 관리 클래스\n
 ///				CherryX 에서 사용하는 모든 이미지는 이 클래스를 사용하여 표현하도록 한다.\n
 ///				직접 사용하기 보단 상속하여 사용하는 상위 and 추상 클래스 성격을 갖고있다.
-/// \author		오수철
+/// \author		ogoons
 /// \date		2012-11-09
 /// \remark		
 /// \section	

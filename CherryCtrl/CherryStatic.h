@@ -8,7 +8,7 @@
 ///
 /// \class		CCherryStatic
 /// \brief		윈도우를 가지고 있는 Static 컨트롤
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-09-24
 /// \remark		
 /// \section	

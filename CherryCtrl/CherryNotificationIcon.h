@@ -9,7 +9,7 @@ using namespace std;
 ///
 /// \class    CherryNotificationIcon
 /// \brief    트레이 아이콘 관리
-/// \author   오수철
+/// \author   ogoons
 /// \date     2013-09-05
 /// \remark   
 /// \section  
@@ -130,7 +130,7 @@ protected:
 ///
 /// \class		CCherryNotificationIconFlyout
 /// \brief		트레이 아이콘 쪽에서 날아오는 Window
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-10-04
 /// \remark		
 /// \section	

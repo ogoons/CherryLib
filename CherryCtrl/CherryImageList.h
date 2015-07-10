@@ -10,7 +10,7 @@ using namespace std;
 ///
 /// \class		CCherryImageList
 /// \brief		이미지 리스트 클래스
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-07-10
 /// \remark		
 /// \section	

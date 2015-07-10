@@ -8,7 +8,7 @@
 ///
 /// \class		CCherryAnimateImageCtrl
 /// \brief		에니메이션 이미지 클래스
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-07-10
 /// \remark		
 /// \section	
