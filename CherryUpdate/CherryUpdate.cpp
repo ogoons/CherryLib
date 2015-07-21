@@ -1234,7 +1234,7 @@ void CCherryUpdate::SetPatchCompleteCallback(LPVOID lpCallbackFunc, void *pUserD
 ///////////////////////////////////////////////////////////////////////////
 ///
 /// \brief		폴더 삭제 (하위 폴더 및 파일 삭제)
-/// \author		오수철
+/// \author		ogoons
 /// \date		2014-02-10
 /// \param		
 /// \return		

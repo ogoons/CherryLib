@@ -236,13 +236,13 @@ void CCherrySliderCtrl::OnDrawCherry(CCherryMemDC *pDC)
 		// 배경 그리기
 		if (m_images[DRAW_TYPE_BACKGROUND].GetBitmapLastStatus() == Ok)
 		{
-			// Source 크기보다 Client가 작거나 같은 경우는 Client 크기로 출력한다.
-			if ((int)m_images[DRAW_TYPE_BACKGROUND].GetWidth() >= clientRect.Width() &&
-				(int)m_images[DRAW_TYPE_BACKGROUND].GetHeight() >= clientRect.Height())
-				m_images[DRAW_TYPE_BACKGROUND].DrawImage(&graphics, clientRect);
-			// Source 보다 큰 경우 3x3 확대하여 출력한다.
-			else
+			if ((UINT)clientRect.Width() > m_images[DRAW_TYPE_BACKGROUND].GetWidth() && 
+				(UINT)clientRect.Height() > m_images[DRAW_TYPE_BACKGROUND].GetHeight())
+				// Source 보다 큰 경우 3x3 확대하여 출력한다.
 				m_images[DRAW_TYPE_BACKGROUND].DrawStretchImage3x3(&graphics, clientRect);
+			else
+				// Source 크기보다 Client가 작거나 같은 경우는 Client 크기로 출력한다.
+				m_images[DRAW_TYPE_BACKGROUND].DrawImage(&graphics, clientRect);
 		}
 
 		// 진행 상태바 그리기
@@ -291,14 +291,14 @@ void CCherrySliderCtrl::OnDrawCherry(CCherryMemDC *pDC)
 			}
 
 			CCherryImage fillImage(m_images[DRAW_TYPE_FILL].GetBitmap(), nSourceLeft, nSourceTop, nSourceWidth, nSourceHeight, TRUE);
-
-			// Source 크기보다 Client가 작거나 같은 경우는 Client 크기로 출력한다.
-			if ((int)m_images[DRAW_TYPE_FILL].GetWidth() >= clientRect.Width() &&
-				(int)m_images[DRAW_TYPE_FILL].GetHeight() >= clientRect.Height())
-				fillImage.DrawImage(&graphics, fillRect);
-			// Source 보다 큰 경우 3x3 확대하여 출력한다.
-			else
+			
+			if ((UINT)clientRect.Width() > m_images[DRAW_TYPE_FILL].GetWidth() &&
+				(UINT)clientRect.Height() > m_images[DRAW_TYPE_FILL].GetHeight())
+				// Source 보다 큰 경우 3x3 확대하여 출력한다.
 				fillImage.DrawStretchImage3x3(&graphics, fillRect);
+			else
+				// Source 크기보다 Client가 작거나 같은 경우는 Client 크기로 출력한다.
+				fillImage.DrawImage(&graphics, fillRect);
 		}
 	}
 	// 1x1 스타일의 이미지라면

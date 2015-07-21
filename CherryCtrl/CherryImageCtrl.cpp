@@ -72,7 +72,7 @@ CHERRY_RET CCherryImageCtrl::SetImage(LPCTSTR lpszImagePath, int nWidth, int nHe
 
 		GetWindowRect(&windowRect);
 		GetParent()->ScreenToClient(&windowRect);
-
+		
 		windowRect.right = windowRect.left + nWidth;
 		windowRect.bottom = windowRect.top + nHeight;
 
@@ -90,11 +90,18 @@ CHERRY_RET CCherryImageCtrl::SetImage(LPCTSTR lpszImagePath, int nWidth, int nHe
 
 void CCherryImageCtrl::OnDrawCherry(CCherryMemDC *pDC)
 {
+	if (FALSE == m_image.IsLoadedImage())
+		return;
+
 	CRect clientRect;
 	GetClientRect(&clientRect);
 
 	Graphics graphics(pDC->GetSafeHdc());
 
-	if (m_image.IsLoadedImage())
+	if ((UINT)clientRect.Width() > m_image.GetWidth() &&
+		(UINT)clientRect.Height() > m_image.GetHeight())
+		m_image.DrawStretchImage3x3(&graphics, clientRect);
+	else
 		m_image.DrawImage(&graphics, clientRect);
+
 }

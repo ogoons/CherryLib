@@ -7,7 +7,7 @@
 ///
 /// \class		CCherryException
 /// \brief		예외 enum을 나열한 wrapper 클래스
-/// \author		오수철
+/// \author		ogoons
 /// \date		2013-09-24
 /// \remark		
 /// \section	

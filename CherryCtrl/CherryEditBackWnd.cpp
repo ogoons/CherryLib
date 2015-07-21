@@ -57,13 +57,15 @@ CHERRY_RET CCherryEditBackWnd::SetImage(LPCTSTR lpszImagePath)
 
 void CCherryEditBackWnd::OnDrawCherry(CCherryMemDC *pDC)
 {
+	if (FALSE == m_backImage.IsLoadedImage())
+		return;
+
 	CRect clientRect;
 	GetClientRect(&clientRect);
 
 	Graphics graphics(pDC->GetSafeHdc());
 
-	if (m_backImage.IsLoadedImage())
-		m_backImage.DrawImage(&graphics, clientRect);
+	m_backImage.DrawImage(&graphics, clientRect);
 }
 
 //HBRUSH CCherryEditBackWnd::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)

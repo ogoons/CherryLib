@@ -162,15 +162,10 @@ void CCherryCheckBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 
 	if (pCurrentImage->GetBitmapLastStatus() == Ok)
 	{
-		// Source 크기보다 Client가 작거나 같은 경우는 Client 크기로 출력한다.
-		if ((int)pCurrentImage->GetWidth() >= clientRect.Width() && // 여기만 or 연산
-			(int)pCurrentImage->GetHeight() >= clientRect.Height())
+		if ((UINT)clientRect.Width() > pCurrentImage->GetWidth() &&
+			(UINT)clientRect.Height() > pCurrentImage->GetHeight())
 		{
-			pCurrentImage->DrawImage(&graphics, clientRect);
-		}
-		// 원본 이미지 보다 큰 경우 3x3 확대하여 출력한다.
-		else
-		{
+			// 원본 이미지 보다 큰 경우 3x3 확대하여 출력한다.
 			int nTop = 0;
 			int nWidth = 0, nHeight = 0;
 
@@ -190,6 +185,11 @@ void CCherryCheckBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 			}
 
 			pCurrentImage->DrawStretchImage3x3(&graphics, 0, nTop, nWidth, nHeight);
+		}
+		else
+		{
+			// Source 크기보다 Client가 작거나 같은 경우는 Client 크기로 출력한다.
+			pCurrentImage->DrawImage(&graphics, clientRect);
 		}
 	}
 

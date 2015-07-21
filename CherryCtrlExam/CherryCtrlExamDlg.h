@@ -70,7 +70,7 @@ protected:
 
 	CCherryComboBox	m_comboBox;
 
-	//CCherryImageCtrl m_imageCtrl;
+	CCherryImageCtrl m_imageCtrl;
 	
 	CCherryAnimateImageCtrl m_animateImageCtrl;
 

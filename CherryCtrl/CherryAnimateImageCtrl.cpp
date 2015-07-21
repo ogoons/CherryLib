@@ -29,13 +29,15 @@ END_MESSAGE_MAP()
 
 void CCherryAnimateImageCtrl::OnDrawCherry(CCherryMemDC *pDC)
 {
+	if (m_imageList.GetCount() == 0)
+		return;
+
 	CRect clientRect;
 	GetClientRect(&clientRect);
 
 	Graphics graphics(pDC->GetSafeHdc());
 
-	if (m_imageList.GetCount() > 0)
-		m_imageList[m_nImage]->DrawImage(&graphics, clientRect);
+	m_imageList[m_nImage]->DrawImage(&graphics, clientRect);
 }
 
 CHERRY_RET CCherryAnimateImageCtrl::Create(

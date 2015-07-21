@@ -21,7 +21,7 @@ class AFX_EXT_CLASS CCherryEdit : public CEdit, public CCherryFont
 // Constructors
 public:
 	CCherryEdit();
-	CHERRY_RET Create(LPCTSTR lpszBackImagePath, COLORREF backColor, DWORD dwStyle, const RECT &rect, CWnd* pParentWnd, UINT nID);
+	CHERRY_RET Create(LPCTSTR lpszBackImagePath, COLORREF backColor, DWORD dwStyle, const RECT &rect, int nBorderMargin, CWnd* pParentWnd, UINT nID);
 	
 
 // Attributes
@@ -42,6 +42,9 @@ public:
 	void SetFontSize(float fFontSize);
 	void SetFontColor(Color fontColor);
 	void SetFontStyle(DWORD dwFontStyle);
+
+	BOOL SetBorderMargin(int nMargin);
+	BOOL SetBorderMargin(int nLeft, int nTop, int nRight, int nBottom);
 
 // Overridables
 protected:

@@ -130,7 +130,7 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 	//
 	DWORD ret = m_defaultSizeImage.LoadImage(_T("11.png"));
 
-	//m_imageCtrl.Create(NULL, WS_CHILD | WS_VISIBLE, _T("24.png"), CRect(200, 200, 250, 250), this, 1008);	
+	m_imageCtrl.Create(_T("off.png"), WS_CHILD | WS_VISIBLE, CRect(600, 600, 0, 0), this, 1300);
 
 	CCherryImageList images;
 	images.Add(_T("on.png"), TRUE);
@@ -138,9 +138,9 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 
 	m_animateImageCtrl.Create(images, 50, 0, WS_CHILD | WS_VISIBLE, CRect(200, 200, 0, 0), this, 1008);	
 
-	m_edit.Create(_T("edit_bg.png"), RGB(255, 255, 255), WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_AUTOHSCROLL, CRect(75, 150, 0, 0), this, 1009);
+	m_edit.Create(_T("edit_bg.png"), RGB(255, 255, 255), WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_AUTOHSCROLL, CRect(75, 150, 0, 0), 0, this, 1009);
 	m_edit.SetFontName(_T("¸¼Àº °íµñ"));
-	m_edit.SetFontSize(DEFAULT_FONT_SIZE);
+	m_edit.SetFontSize(20);
 	m_edit.SetFontStyle(CCherryFont::STYLE_BOLD);
 	m_edit.SetFontColor(Color(255, 0, 0));
 
@@ -333,7 +333,9 @@ void CCherryCtrlExamDlg::OnDrawCherry(CCherryMemDC *pDC)
 
 void CCherryCtrlExamDlg::OnBnClickedButton1()
 {
+	m_imageCtrl.SetImage(_T("on.png"), 0, 0);
 
+	return;
 	//m_tabCtrl.DeleteTabPage(0);
 	//return;
 	//m_notifications.StartAnimation(1000);
@@ -446,6 +448,7 @@ void CCherryCtrlExamDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CCherryDialog::OnSize(nType, cx, cy);
 
+	/*
 	if (m_tabCtrl.GetSafeHwnd())
 	{
 		CRect rect;
@@ -454,4 +457,5 @@ void CCherryCtrlExamDlg::OnSize(UINT nType, int cx, int cy)
 
 		m_tabCtrl.MoveWindow(rect.left, rect.top, cx - 800, cy - 500);
 	}
+	*/
 }
