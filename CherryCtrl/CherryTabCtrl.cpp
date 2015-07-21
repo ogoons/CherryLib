@@ -49,7 +49,7 @@ CHERRY_RET CCherryTabCtrl::Create(LPCTSTR lpszTabImagePath, DWORD dwCherryStyle,
 		if (!CCherryWnd::Create(NULL, NULL, dwStyle, rect, pParentWnd, nID))
 			throw CCherryException::ERROR_TABCTRL_CREATE_FAIL;
 
-		if (!m_tabBackWnd.Create(NULL, NULL, WS_VISIBLE | WS_CHILD, rect, this, nID + 1))
+		if (!m_tabCtrlBackWnd.Create(NULL, NULL, WS_VISIBLE | WS_CHILD, rect, this, nID + 1))
 			throw CCherryException::ERROR_TABCTRL_CREATE_FAIL;
 		
 		ModifyCherryStyle(0, dwCherryStyle);
@@ -98,7 +98,7 @@ CHERRY_RET CCherryTabCtrl::AddPage(CCherryWnd *pWnd)
 			m_pHeadTab, 
 			WS_CHILD | WS_VISIBLE, 
 			CRect(), 
-			&m_tabBackWnd,
+			&m_tabCtrlBackWnd,
 			++m_nCtrlIDCount)) != CCherryException::ERROR_CHERRY_SUCCESS) // 탭 제거 시 컨트롤 아이디 생성에 대한 예외처리 필요
 			throw cherryRet;
 
@@ -140,8 +140,8 @@ CHERRY_RET CCherryTabCtrl::AddPage(CCherryWnd *pWnd)
 			}
 
 			// 탭 배경 페이지 이동
-			if (m_tabBackWnd.GetSafeHwnd())
-				m_tabBackWnd.MoveWindow(tabBackWndRect);
+			if (m_tabCtrlBackWnd.GetSafeHwnd())
+				m_tabCtrlBackWnd.MoveWindow(tabBackWndRect);
 
 			// 첫 번째 페이지 기본으로 보임
 			if (!pWnd->IsWindowVisible())
@@ -169,7 +169,7 @@ CHERRY_RET CCherryTabCtrl::AddPage(CCherryWnd *pWnd)
 void CCherryTabCtrl::ResizeWindow()
 {
 	CRect tabBackWndRect;
-	m_tabBackWnd.GetClientRect(tabBackWndRect);
+	m_tabCtrlBackWnd.GetClientRect(tabBackWndRect);
 
 	DWORD dwCount = (DWORD)m_tabVector.size();
 
@@ -224,7 +224,7 @@ void CCherryTabCtrl::ResizeWindow()
 		((CCherryRadioButton *)*it)->MoveWindow(nLeft, nTop, nWidth - nWidthGap, nHeight - nHeightGap);
 	}
 
-	//if (m_tabBackWnd.GetSafeHwnd() && m_pHeadTab)
+	//if (m_tabCtrlBackWnd.GetSafeHwnd() && m_pHeadTab)
 	{
 		CRect clientRect;
 		GetClientRect(clientRect);
@@ -344,7 +344,7 @@ void CCherryTabCtrl::OnSize(UINT nType, int cx, int cy)
 {
 	CCherryWnd::OnSize(nType, cx, cy);
 
-	if (m_tabBackWnd.GetSafeHwnd())
+	if (m_tabCtrlBackWnd.GetSafeHwnd())
 		ResizeWindow();
 }
 

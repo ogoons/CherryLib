@@ -40,11 +40,21 @@ CHERRY_RET CCherryCheckBox::Create(LPCTSTR lpszCaption, LPCTSTR lpszImagePath, D
 		// CherryCheckBox 전용 스타일 bit 플래그
 		ModifyCherryStyle(0, dwCherryStyle);
 
-		// 기본 수직 정렬
-		GetNormalFont()->SetFontStyle(CCherryFont::STYLE_VCENTER);
-		GetHoverFont()->SetFontStyle(CCherryFont::STYLE_VCENTER);
-		GetDownFont()->SetFontStyle(CCherryFont::STYLE_VCENTER);
-		GetDisableFont()->SetFontStyle(CCherryFont::STYLE_VCENTER);
+		if (dwCherryStyle & STYLE_BUTTONTYPE)
+		{
+			GetNormalFont()->SetFontStyle(CCherryFont::STYLE_CENTER | CCherryFont::STYLE_VCENTER);
+			GetHoverFont()->SetFontStyle(CCherryFont::STYLE_CENTER | CCherryFont::STYLE_VCENTER);
+			GetDownFont()->SetFontStyle(CCherryFont::STYLE_CENTER | CCherryFont::STYLE_VCENTER);
+			GetDisableFont()->SetFontStyle(CCherryFont::STYLE_CENTER | CCherryFont::STYLE_VCENTER);
+		}
+		else
+		{
+			// 기본 수직 정렬
+			GetNormalFont()->SetFontStyle(CCherryFont::STYLE_VCENTER);
+			GetHoverFont()->SetFontStyle(CCherryFont::STYLE_VCENTER);
+			GetDownFont()->SetFontStyle(CCherryFont::STYLE_VCENTER);
+			GetDisableFont()->SetFontStyle(CCherryFont::STYLE_VCENTER);
+		}
 
 		// 기본 비활성화 텍스트 속성
 		COLORREF disableColor = GetSysColor(COLOR_GRAYTEXT);
@@ -162,51 +172,53 @@ void CCherryCheckBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 
 	if (pCurrentImage->GetBitmapLastStatus() == Ok)
 	{
-		if ((UINT)clientRect.Width() > pCurrentImage->GetWidth() &&
+		if ((UINT)clientRect.Width() > pCurrentImage->GetWidth() ||
 			(UINT)clientRect.Height() > pCurrentImage->GetHeight())
 		{
-			// 원본 이미지 보다 큰 경우 3x3 확대하여 출력한다.
+			// 원본 이미지 보다 Client 영역이 큰 경우 3x3 확대하여 출력한다.
 			int nTop = 0;
 			int nWidth = 0, nHeight = 0;
-
-			if (clientRect.Height() > static_cast<int>(pCurrentImage->GetHeight()))
-				nTop = (clientRect.Height() - pCurrentImage->GetHeight()) / 2;
 
 			// 체크 박스 스타일에 따라 이미지 크기를 결정한다.
 			if (GetCherryStyle() & STYLE_BUTTONTYPE)
 			{
 				nWidth = clientRect.Width();
 				nHeight = clientRect.Height();
+
+				pCurrentImage->DrawStretchImage3x3(&graphics, 0, nTop, nWidth, nHeight);
 			}
 			else
 			{
+				if (clientRect.Height() > static_cast<int>(pCurrentImage->GetHeight()))
+					nTop = (clientRect.Height() - pCurrentImage->GetHeight()) / 2;
+
 				nWidth = pCurrentImage->GetWidth();
 				nHeight = pCurrentImage->GetHeight();
-			}
 
-			pCurrentImage->DrawStretchImage3x3(&graphics, 0, nTop, nWidth, nHeight);
+				pCurrentImage->DrawImage(&graphics, 0, nTop, nWidth, nHeight);
+			}
 		}
 		else
 		{
-			// Source 크기보다 Client가 작거나 같은 경우는 Client 크기로 출력한다.
+			// Source 이미지 크기보다 Client가 작거나 같은 경우는 Client 크기로 출력한다.
 			pCurrentImage->DrawImage(&graphics, clientRect);
 		}
 	}
 
 	CString strText;
 	GetWindowText(strText);
+
 	if (!strText.IsEmpty())
 	{
 		CRect textRect(clientRect);
 
-		// 체크 박스 스타일에 따라 이미지 크기를 결정한다.
+		// 체크 박스 스타일에 따라 폰트 위치를 결정한다.
 		if (!(GetCherryStyle() & STYLE_BUTTONTYPE))
 		{
 			// 이미지 오른쪽에 텍스트 표시
 			int nCheckBoxWidth = m_images[STATUS_NORMAL].GetWidth();
 
 			textRect.left += nCheckBoxWidth;
-			//textRect.right -= nCheckBoxWidth;
 		}
 
 		strText.Replace(_T("&"), _T(""));

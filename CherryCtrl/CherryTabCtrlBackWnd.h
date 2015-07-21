@@ -1,11 +1,11 @@
 #pragma once
 #include "CherryWnd.h"
 
-class CCherryTabBackWnd : public CCherryWnd
+class CCherryTabCtrlBackWnd : public CCherryWnd
 {
 // Constuctors
 public:
-	CCherryTabBackWnd();
+	CCherryTabCtrlBackWnd();
 
 // Overridables
 protected:
@@ -14,7 +14,7 @@ protected:
 	
 // Implementation
 public:
-	virtual ~CCherryTabBackWnd();
+	virtual ~CCherryTabCtrlBackWnd();
 
 protected:
 	LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);

@@ -35,11 +35,21 @@ CHERRY_RET CCherryRadioButton::Create(LPCTSTR lpszCaption, LPCTSTR lpszImagePath
 		// CherryCheckBox 전용 스타일 bit 플래그
 		ModifyCherryStyle(0, dwCherryStyle);
 
-		// 기본 수직 정렬
-		GetNormalFont()->SetFontStyle(CCherryFont::STYLE_VCENTER);
-		GetHoverFont()->SetFontStyle(CCherryFont::STYLE_VCENTER);
-		GetDownFont()->SetFontStyle(CCherryFont::STYLE_VCENTER);
-		GetDisableFont()->SetFontStyle(CCherryFont::STYLE_VCENTER);
+		if (dwCherryStyle & STYLE_BUTTONTYPE)
+		{
+			GetNormalFont()->SetFontStyle(CCherryFont::STYLE_CENTER | CCherryFont::STYLE_VCENTER);
+			GetHoverFont()->SetFontStyle(CCherryFont::STYLE_CENTER | CCherryFont::STYLE_VCENTER);
+			GetDownFont()->SetFontStyle(CCherryFont::STYLE_CENTER | CCherryFont::STYLE_VCENTER);
+			GetDisableFont()->SetFontStyle(CCherryFont::STYLE_CENTER | CCherryFont::STYLE_VCENTER);
+		}
+		else
+		{
+			// 기본 수직 정렬
+			GetNormalFont()->SetFontStyle(CCherryFont::STYLE_VCENTER);
+			GetHoverFont()->SetFontStyle(CCherryFont::STYLE_VCENTER);
+			GetDownFont()->SetFontStyle(CCherryFont::STYLE_VCENTER);
+			GetDisableFont()->SetFontStyle(CCherryFont::STYLE_VCENTER);
+		}
 
 		// 기본 비활성화 텍스트 속성
 		COLORREF disableColor = GetSysColor(COLOR_GRAYTEXT);

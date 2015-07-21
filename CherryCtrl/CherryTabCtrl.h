@@ -3,7 +3,7 @@
 #include "CherryWnd.h"
 #include "CherryRadioButton.h"
 #include "CherryDialog.h"
-#include "CherryTabBackWnd.h"
+#include "CherryTabCtrlBackWnd.h"
 
 #include <vector>
 
@@ -55,7 +55,7 @@ protected:
 	DWORD								m_dwCherryStyle;
 
 	CCherryRadioButton					*m_pHeadTab;
-	CCherryTabBackWnd					m_tabBackWnd;
+	CCherryTabCtrlBackWnd				m_tabCtrlBackWnd;
 
 	vector<CCherryRadioButton *>		m_tabVector;
 	vector<CCherryWnd *>				m_pageVector;

@@ -111,10 +111,10 @@
     <ClCompile Include="CherryMemDC.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="CherryTabBackWnd.cpp">
+    <ClCompile Include="CherryEditBackWnd.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="CherryEditBackWnd.cpp">
+    <ClCompile Include="CherryTabCtrlBackWnd.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -209,10 +209,10 @@
     <ClInclude Include="CherryMemDC.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="CherryTabBackWnd.h">
+    <ClInclude Include="CherryEditBackWnd.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="CherryEditBackWnd.h">
+    <ClInclude Include="CherryTabCtrlBackWnd.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

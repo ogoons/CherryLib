@@ -1,20 +1,20 @@
 #include "stdafx.h"
-#include "CherryTabBackWnd.h"
+#include "CherryTabCtrlBackWnd.h"
 #include "CherryTabCtrl.h"
 
-CCherryTabBackWnd::CCherryTabBackWnd()
+CCherryTabCtrlBackWnd::CCherryTabCtrlBackWnd()
 {
 }
 
-CCherryTabBackWnd::~CCherryTabBackWnd()
+CCherryTabCtrlBackWnd::~CCherryTabCtrlBackWnd()
 {
 }
 
-void CCherryTabBackWnd::OnDrawCherry(CCherryMemDC *pDC)
+void CCherryTabCtrlBackWnd::OnDrawCherry(CCherryMemDC *pDC)
 {
 }
 
-LRESULT CCherryTabBackWnd::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CCherryTabCtrlBackWnd::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
 	//CCherryTabCtrl *pTabCtrl = (CCherryTabCtrl *)GetParent();
 	if (WM_COMMAND == message && BN_CLICKED == HIWORD(wParam))
