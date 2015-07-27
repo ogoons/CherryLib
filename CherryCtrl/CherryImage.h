@@ -66,6 +66,7 @@ public:
 	CHERRY_RET		LoadImage(Bitmap *pBitmap, BOOL bUseCachedImage = FALSE);
 	CHERRY_RET		LoadImage(Bitmap *pBitmap, int nLeft, int nTop, int nWidth, int nHeight, BOOL bUseCachedImage);
 	CHERRY_RET		LoadImage(Bitmap *pBitmap, Rect rect, BOOL bUseCachedImage = FALSE);
+	CHERRY_RET		LoadImageFromResourceID(LPCTSTR lpszResourceType, UINT nResourceID, BOOL bUseCachedImage = FALSE);
 
 	// 멤버로 등록된 이미지 그리기
 	CHERRY_RET		DrawImage(Graphics *pGraphics, int nLeft, int nTop, UINT nAlphaBlendRatio = 100);

@@ -162,6 +162,56 @@ CHERRY_RET CCherryImage::LoadImage(Bitmap *pBitmap, Rect rect, BOOL bUseCachedIm
 	return LoadImage(pBitmap, rect.GetLeft(), rect.GetTop(), rect.Width, rect.Height, bUseCachedImage);
 }
 
+CHERRY_RET CCherryImage::LoadImageFromResourceID(LPCTSTR lpszResourceType, UINT nResourceID, BOOL bUseCachedImage)
+{
+	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
+	
+	HGLOBAL hBuffer = NULL;
+
+	try
+	{
+		RemoveImage();
+		RemoveCachedImage();
+
+		HMODULE hModule = AfxGetInstanceHandle();
+		HRSRC hRsrc = FindResource(hModule, MAKEINTRESOURCE(nResourceID), lpszResourceType);
+		HGLOBAL hGlobal = LoadResource(hModule, hRsrc);
+		PVOID pResourceData = LockResource(hGlobal);
+		DWORD dwSize = SizeofResource(hModule, hRsrc);
+
+		hBuffer = GlobalAlloc(GMEM_MOVEABLE, dwSize);
+		LPVOID lpBuffer = GlobalLock(hBuffer);
+		CopyMemory(lpBuffer, pResourceData, dwSize);
+		GlobalUnlock(hBuffer);
+
+		IStream *pStream = NULL;
+		HRESULT hResult = CreateStreamOnHGlobal(hBuffer, TRUE, &pStream);
+
+		if (FAILED(hResult))
+			throw CCherryException::ERROR_IMAGE_LOAD_FAIL;
+
+		m_pBitmap = Bitmap::FromStream(pStream);
+
+		if (Ok != m_pBitmap->GetLastStatus())
+		{
+			RemoveImage();
+
+			throw CCherryException::ERROR_IMAGE_LOAD_FAIL;
+		}
+
+		m_bUseCachedImage = bUseCachedImage;
+	}
+	catch (const CHERRY_RET &errorRet)
+	{
+		cherryRet = errorRet;
+	}
+
+	if (hBuffer)
+		GlobalFree(hBuffer);
+
+	return cherryRet;
+}
+
 BOOL CCherryImage::IsLoadedImage() const
 {
 	if (NULL == m_pBitmap)

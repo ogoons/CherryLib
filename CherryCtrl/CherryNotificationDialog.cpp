@@ -209,7 +209,7 @@ void CCherryNotificationDialog::OnTimer(UINT_PTR nIDEvent)
 void CCherryNotificationDialog::PostNcDestroy()
 {
 	// 자식 클래스
-	//delete this;
+	delete this;
 
 	CCherryDialog::PostNcDestroy();
 }
