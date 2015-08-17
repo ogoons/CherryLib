@@ -12,6 +12,7 @@ CCherryTabCtrlBackWnd::~CCherryTabCtrlBackWnd()
 
 void CCherryTabCtrlBackWnd::OnDrawCherry(CCherryMemDC *pDC)
 {
+
 }
 
 LRESULT CCherryTabCtrlBackWnd::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)

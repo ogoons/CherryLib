@@ -67,7 +67,7 @@ CHERRY_RET CCherryRadioButton::Create(LPCTSTR lpszCaption, LPCTSTR lpszImagePath
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;

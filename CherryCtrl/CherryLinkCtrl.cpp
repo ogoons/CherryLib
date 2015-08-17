@@ -65,7 +65,7 @@ CHERRY_RET CCherryLinkCtrl::Create(LPCTSTR lpszText,
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;

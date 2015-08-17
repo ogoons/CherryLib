@@ -138,7 +138,7 @@ CHERRY_RET CCherrySliderCtrl::Create(LPCTSTR lpszThumbImagePath, LPCTSTR lpszTra
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -205,7 +205,7 @@ CHERRY_RET CCherrySliderCtrl::SetTrackImage(LPCTSTR lpszImagePath)
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;

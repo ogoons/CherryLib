@@ -64,7 +64,7 @@ CHERRY_RET CCherryCheckBox::Create(LPCTSTR lpszCaption, LPCTSTR lpszImagePath, D
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return SetImage(lpszImagePath);
@@ -134,7 +134,7 @@ CHERRY_RET CCherryCheckBox::SetImage(LPCTSTR lpszImagePath)
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;

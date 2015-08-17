@@ -32,7 +32,7 @@ DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 
 		GdiplusStartupInput gdiPlusStartupInput;
 
-		if (GdiplusStartup(&g_lGDIPlusToken, &gdiPlusStartupInput, NULL) != Ok)
+		if (Ok != GdiplusStartup(&g_lGDIPlusToken, &gdiPlusStartupInput, NULL))
 		{
 			TRACE(_T("[CherryCtrl.dll] Start GDI+ failure."));
 			return 0;

@@ -70,7 +70,7 @@ CHERRY_RET CCherryListCtrl::Create(
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -102,7 +102,7 @@ CHERRY_RET CCherryListCtrl::SetItemHeight(UINT nHeight)
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -124,7 +124,7 @@ CHERRY_RET CCherryListCtrl::SetImage(LPCTSTR lpszHeaderImagePath, LPCTSTR lpszIt
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -162,7 +162,7 @@ CHERRY_RET CCherryListCtrl::SetItemImage(LPCTSTR lpszImagePath)
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;

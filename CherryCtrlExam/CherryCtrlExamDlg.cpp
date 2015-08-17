@@ -215,9 +215,7 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 	//m_tabCtrl.SetTabButtonGap(20);s
 
 	//m_tabCtrl.GetTabButton(2)->SetNormalFontColor(Color(255, 255, 0, 0));
-
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                                                                                                                                
 	return TRUE;
 }
 
@@ -315,6 +313,7 @@ void CCherryCtrlExamDlg::OnDrawCherry(CCherryMemDC *pDC)
 
 	m_defaultSizeImage.DrawImage(&grs, clientRect);
 	m_font.DrawText(&grs, _T("CCherryFont 테스트 입니다."), CRect(10, 10, 100, 20));
+	//m_resImage.DrawStretchImage3x3(&grs, 10, 10, 600, 600);
 }
 
 // 사용자가 최소화된 창을 끄는 동안에 커서가 표시되도록 시스템에서

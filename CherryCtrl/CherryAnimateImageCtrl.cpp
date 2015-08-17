@@ -61,7 +61,7 @@ CHERRY_RET CCherryAnimateImageCtrl::Create(
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -116,7 +116,7 @@ CHERRY_RET CCherryAnimateImageCtrl::ShowImage(INT_PTR nImage)
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;

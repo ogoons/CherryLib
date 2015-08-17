@@ -98,7 +98,6 @@ protected:
 	CTestWnd m_wnd4;
 	CTestWnd m_wnd5;
 
-
 // Operations
 public:
 	

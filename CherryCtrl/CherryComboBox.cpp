@@ -82,7 +82,7 @@ CHERRY_RET CCherryComboBox::Create(LPCTSTR lpszImagePath, DWORD dwCherryStyle, D
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -152,7 +152,7 @@ CHERRY_RET CCherryComboBox::SetImage(LPCTSTR lpszImagePath)
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;

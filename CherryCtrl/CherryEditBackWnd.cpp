@@ -44,7 +44,7 @@ CHERRY_RET CCherryEditBackWnd::Create(LPCTSTR lpszBackImagePath, DWORD dwStyle, 
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;

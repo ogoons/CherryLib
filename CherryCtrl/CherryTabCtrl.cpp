@@ -60,7 +60,7 @@ CHERRY_RET CCherryTabCtrl::Create(LPCTSTR lpszTabImagePath, DWORD dwCherryStyle,
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -160,7 +160,7 @@ CHERRY_RET CCherryTabCtrl::AddPage(CCherryWnd *pWnd)
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -402,7 +402,7 @@ DWORD CCherryTabCtrl::DeleteTabPage(DWORD dwIndex)
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -440,7 +440,7 @@ DWORD CCherryTabCtrl::DeleteTabPageAll()
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -508,7 +508,7 @@ BOOL CCherryTabCtrl::PreTranslateMessage(MSG* pMsg)
 			ASSERT(0);
 			break;
 		}
-
+#ifdef _DEBUG
 		// First rect
 		if (TRUE == firstRect.PtInRect(clientPoint))
 		{
@@ -519,6 +519,7 @@ BOOL CCherryTabCtrl::PreTranslateMessage(MSG* pMsg)
 		{
 			AfxMessageBox(_T("second"));
 		}
+#endif
 	}
 
 	return CCherryWnd::PreTranslateMessage(pMsg);

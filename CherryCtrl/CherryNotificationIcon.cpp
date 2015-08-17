@@ -154,7 +154,7 @@ CHERRY_RET CCherryNotificationIcon::Create(HICON hIcon, LPCTSTR lpszToolTip, UIN
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -177,7 +177,7 @@ CHERRY_RET CCherryNotificationIcon::Destroy()
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -232,7 +232,7 @@ CHERRY_RET CCherryNotificationIcon::AddIcon()
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -283,7 +283,7 @@ CHERRY_RET CCherryNotificationIcon::SetIcon(HICON hIcon)
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -308,7 +308,7 @@ CHERRY_RET CCherryNotificationIcon::SetIcon(LPCTSTR lpszIconPath)
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -335,7 +335,7 @@ CHERRY_RET CCherryNotificationIcon::SetIconFromList(UINT nPos)
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -363,7 +363,7 @@ CHERRY_RET CCherryNotificationIcon::RemoveIcon()
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -399,7 +399,7 @@ CHERRY_RET CCherryNotificationIcon::ShowIcon()
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -428,7 +428,7 @@ CHERRY_RET CCherryNotificationIcon::HideIcon()
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -461,7 +461,7 @@ CHERRY_RET CCherryNotificationIcon::SetFocus()
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -481,7 +481,7 @@ CHERRY_RET CCherryNotificationIcon::StartAnimation(UINT nElapse)
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -503,7 +503,7 @@ CHERRY_RET CCherryNotificationIcon::StepAnimation()
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -523,7 +523,7 @@ CHERRY_RET CCherryNotificationIcon::PauseAnimation()
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -548,7 +548,7 @@ CHERRY_RET CCherryNotificationIcon::StopAnimation()
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -587,7 +587,7 @@ CHERRY_RET CCherryNotificationIcon::SetIconList(UINT nFirstIconID, UINT nLastIco
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -629,7 +629,7 @@ CHERRY_RET CCherryNotificationIcon::SetToolTipText(LPCTSTR lpszToolTip)
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -663,7 +663,7 @@ DWORD CCherryNotificationIcon::SetCallbackMessage(UINT nCallbackMessage)
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -809,7 +809,7 @@ CHERRY_RET CCherryNotificationIcon::SetContextMenu(UINT nContextMenuID)
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -848,7 +848,7 @@ CHERRY_RET CCherryNotificationIcon::SetContextMenuDefaultItem(UINT nItem, BOOL b
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -938,7 +938,7 @@ CHERRY_RET CCherryNotificationIcon::ShowBalloon(LPCTSTR lpszText, LPCTSTR lpszTi
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -1008,7 +1008,7 @@ CHERRY_RET CCherryNotificationIconFlyout::Create(CCherryNotificationIcon *pNotif
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;

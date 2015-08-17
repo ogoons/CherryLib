@@ -165,7 +165,7 @@ CHERRY_RET CCherryHeaderCtrl::SetImage(LPCTSTR lpszImagePath)
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;

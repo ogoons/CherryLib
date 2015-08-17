@@ -68,7 +68,7 @@ CHERRY_RET CCherryButton::Create(LPCTSTR lpszCaption, LPCTSTR lpszImagePath, DWO
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -140,7 +140,7 @@ CHERRY_RET CCherryButton::SetImage(LPCTSTR lpszImagePath)
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;

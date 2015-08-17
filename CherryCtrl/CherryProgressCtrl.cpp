@@ -142,7 +142,7 @@ CHERRY_RET CCherryProgressCtrl::SetMaxPos(int nMaxPos)
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -182,7 +182,7 @@ CHERRY_RET CCherryProgressCtrl::Create(
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -291,7 +291,7 @@ CHERRY_RET CCherryProgressCtrl::SetImage(LPCTSTR lpszImagePath, int nWidth, int 
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;

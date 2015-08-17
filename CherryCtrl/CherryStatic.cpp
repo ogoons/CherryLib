@@ -38,7 +38,7 @@ CHERRY_RET CCherryStatic::Create(LPCTSTR lpszText, DWORD dwCherryStyle, DWORD dw
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;

@@ -7,11 +7,14 @@ class CCherryTabCtrlBackWnd : public CCherryWnd
 public:
 	CCherryTabCtrlBackWnd();
 
-// Overridables
+// Attributes
 protected:
+	//Color	m_borderColor;
+	//UINT	m_nBorderWidth;
+
+// Overridables:
 	virtual void OnDrawCherry(CCherryMemDC *pDC);
 
-	
 // Implementation
 public:
 	virtual ~CCherryTabCtrlBackWnd();

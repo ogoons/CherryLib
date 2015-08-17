@@ -86,7 +86,7 @@ CHERRY_RET CCherryNotificationDialog::Create(DWORD dwStyle, UINT nWidth, UINT nH
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;

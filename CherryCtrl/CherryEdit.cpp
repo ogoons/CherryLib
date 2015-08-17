@@ -77,7 +77,7 @@ CHERRY_RET CCherryEdit::Create(LPCTSTR lpszBackImagePath, COLORREF backColor, DW
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;

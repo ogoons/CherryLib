@@ -46,7 +46,7 @@ CHERRY_RET CCherryImageCtrl::Create(LPCTSTR lpszImagePath, DWORD dwStyle, const 
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	return cherryRet;
@@ -80,7 +80,7 @@ CHERRY_RET CCherryImageCtrl::SetImage(LPCTSTR lpszImagePath, int nWidth, int nHe
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
-		return errorRet;
+		cherryRet = errorRet;
 	}
 
 	Invalidate(FALSE);
