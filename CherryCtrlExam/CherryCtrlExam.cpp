@@ -7,7 +7,11 @@
 #include "CherryCtrlExamDlg.h"
 
 #include "CherryUtil.h"
+#ifdef _DEBUG
+#pragma comment(lib, "CherryUtilD.lib")
+#else
 #pragma comment(lib, "CherryUtil.lib")
+#endif
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

@@ -2,7 +2,11 @@
 #include "CherryNotificationDialog.h"
 
 #include "CherryUtil.h"
+#ifdef _DEBUG
+#pragma comment(lib, "CherryUtilD.lib")
+#else
 #pragma comment(lib, "CherryUtil.lib")
+#endif
 
 #define ID_TIMER_FADING		100
 #define ID_TIMER_DURATION	101

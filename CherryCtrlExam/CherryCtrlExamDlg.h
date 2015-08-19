@@ -28,7 +28,11 @@
 #include "NotificationDialog.h"
 #include "TestWnd.h"
 
+#ifdef _DEBUG
+#pragma comment(lib, "CherryCtrlD.lib")
+#else
 #pragma comment(lib, "CherryCtrl.lib")
+#endif
 
 // CCherryCtrlExamDlg 대화 상자
 class CCherryCtrlExamDlg : public CCherryDialog

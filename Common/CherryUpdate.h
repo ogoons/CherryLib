@@ -17,7 +17,11 @@
 using namespace std;
 
 #include "tinyxml2.h"
+#ifdef _DEBUG
+#pragma comment(lib, "TinyXML2D.lib")
+#else
 #pragma comment(lib, "TinyXML2.lib")
+#endif
 using namespace tinyxml2;
 
 ///////////////////////////////////////////////////////////////////////////

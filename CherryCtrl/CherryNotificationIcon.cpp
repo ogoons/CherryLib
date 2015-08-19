@@ -5,7 +5,11 @@
 #include "CherryNotificationIcon.h"
 
 #include "CherryUtil.h"
+#ifdef _DEBUG
+#pragma comment(lib, "CherryUtilD.lib")
+#else
 #pragma comment(lib, "CherryUtil.lib")
+#endif
 
 #include "Rpc.h"	// for GUID
 #pragma comment(lib, "Rpcrt4.lib")

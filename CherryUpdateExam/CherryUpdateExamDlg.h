@@ -4,9 +4,13 @@
 
 #pragma once
 
-#pragma comment(lib, "CherryUpdate.lib")
-
 #include "CherryUpdate.h"
+#ifdef _DEBUG
+#pragma comment(lib, "CherryUpdateD.lib")
+#else
+#pragma comment(lib, "CherryUpdate.lib")
+#endif
+
 // CCherryUpdateExamDlg 대화 상자
 class CCherryUpdateExamDlg : public CDialogEx
 {
