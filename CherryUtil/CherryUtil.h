@@ -55,7 +55,6 @@ public:
 #ifdef __cplusplus
 extern "C" {
 #endif
-	CHERRYUTIL_DECL_API BOOL	IsWindowsVersionOrGreater(WORD wMajorVersion, WORD wMinorVersion, WORD wServicePackMajor);
 	CHERRYUTIL_DECL_API DWORD	GetDllVersion(_In_ LPCTSTR lpszDllName, _Out_ DWORD &dwMajorVersion, _Out_ DWORD &dwMinorVersion, _Out_ DWORD &dwBuildNumber);
 
 #ifdef __cplusplus
@@ -64,4 +63,17 @@ extern "C" {
 
 /////////////////////////////////////////////////////////////////
 // C++ functions
+
+// Get special path functions
 CHERRYUTIL_DECL_API CString	GetCurrentPath();
+
+
+// WinInet functions
+CHERRYUTIL_DECL_API BOOL	SendHttpRequest(_In_ LPCTSTR lpszURL, _In_ BOOL bPost, _In_ LPCTSTR lpszPostData, _Out_ CString &strResponse);
+CHERRYUTIL_DECL_API BOOL	DownloadFile(_In_ LPCTSTR lpszURL, _In_ LPCTSTR lpszReceivePath);
+
+
+CHERRYUTIL_DECL_API CString		ConvertANSIoUnicode(LPCSTR lpszANSI);
+CHERRYUTIL_DECL_API CStringA	ConvertUnicodeToANSI(LPCWSTR lpszUnicode);
+CHERRYUTIL_DECL_API CString		ConvertUTF8ToUnicode(LPCWSTR lpszUTF8);
+CHERRYUTIL_DECL_API CStringA	ConvertUTF8ToANSI(LPCSTR lpszUTF8);

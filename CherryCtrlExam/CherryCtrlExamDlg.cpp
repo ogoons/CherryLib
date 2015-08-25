@@ -11,8 +11,13 @@
 
 #include "CherryTabCtrl.h"
 
+#include "CherryUtil.h"
 
-
+#ifdef _DEBUG
+#pragma comment(lib, "CherryUtilD.lib")
+#else
+#pragma comment(lib, "CherryUtil.lib")
+#endif
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -162,6 +167,7 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 	m_notifications.SetContextMenuDefaultItem(ID_TRAY_02);
 	m_notifications.StartAnimation(200);
 
+
 	//CNotificationDialog *pNotificationDialog = new CNotificationDialog();
 	//pNotificationDialog->Create(NULL, CRect(0, 0, 200, 300), this, 0, 3);
 
@@ -225,38 +231,6 @@ BOOL CCherryCtrlExamDlg::OnInitDialog()
 
 	SetIcon(m_hIcon, TRUE);			// 큰 아이콘을 설정합니다.
 	SetIcon(m_hIcon, FALSE);		// 작은 아이콘을 설정합니다.
-
-	//DWORD dwTest;
-
-	//dwTest = 0x0001 | 0x0002
-	//dwTest &= ~0x0002;
-
-	//dwTest &= ~0x0080;	
-
-	//if(dwTest & 0x0001)
-	//	AfxMessageBox(_T("0x0001 존재함"));
-
-	//if(dwTest & 0x0002)
-	//	AfxMessageBox(_T("0x0002 존재함"));
-
-	//if(dwTest & 0X0080)
-	//	AfxMessageBox(_T("0X0080 존재함"));
-
-	//int a = 10;
-	//
-	//CString ss = _T("");
-
-	//CString str = StringFormat(_T("num:%s"), a);	
-
-	//AfxMessageBox(str);
-
-	//int a = 10;
-
-	//CString str2;
-
-	//str2.Format(_T("num %d")); 
-
-	//AfxMessageBox(str2);
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -332,73 +306,15 @@ void CCherryCtrlExamDlg::OnDrawCherry(CCherryMemDC *pDC)
 
 void CCherryCtrlExamDlg::OnBnClickedButton1()
 {
-	m_imageCtrl.SetImage(_T("on.png"), 0, 0);
-
-	return;
-	//m_tabCtrl.DeleteTabPage(0);
-	//return;
-	//m_notifications.StartAnimation(1000);
-
-	//m_checkBox.SetCheck(BST_CHECKED);
-
-	TRACE("%d\n", m_checkBox.GetCheck());
-
-	//m_animateImageCtrl.StartAnimate(500, 2);
-
-	m_nCnt = 0;
-	SetTimer(1, 1, NULL);
-
-	//m_notifications.ShowBalloon(_T("테스트내용"), _T("테스트제목"), NIIF_WARNING | NIIF_LARGE_ICON);
-	CFlyoutDlg *pDlg = new CFlyoutDlg();
-	pDlg->Create(&m_notifications, 300, 100);
-	//m_notifications.SetFlyoutWindowAlpha(200);
-
-	//m_defaultSizeButton.EnableWindow(FALSE);
-	//m_linkCtrl.EnableWindow(FALSE);
-
-	//m_notiDlg.Create(NULL, 600, 250, this, 0, 3);
+	m_notifications.ShowBalloon(_T("내용"), _T("제목"), NIIF_WARNING);
 }
 
 void CCherryCtrlExamDlg::OnBnClickedButton2()
 {
-	/*
-	CTestWnd *pWnd = new CTestWnd(RGB(255, 0, 0));
-	pWnd->Create(NULL, _T("babo5"), WS_CHILD | WS_VISIBLE, CRect(), &m_tabCtrl, 10111);
-
-
-	m_tabCtrl.AddPage(pWnd);
-	return;
-
-	*/
-
-	//m_comboBox.SetCurSel(0);
-	//CNotificationDialog dlg;
-	//m_notiDlg.Create(NULL, 300, 250, this, 0, 3);
-
-	//
 	CNotificationDialog *pNotificationDialog = new CNotificationDialog();
 	pNotificationDialog->Create(NULL, 200, 300, this, 0, 3);
 
-	//m_notificationPopup.Create(pNotificationDialog, 400, 300);
-	//m_notificationPopup.PopupNotificationDialog();
 }
-
-
-//BOOL CCherryCtrlExamDlg::OnNcActivate(BOOL bActive)
-//{
-//	//Invalidate();
-//
-//	return CCherryDialog::OnNcActivate(bActive);
-//}
-//
-//void CCherryCtrlExamDlg::OnSize(UINT nType, int cx, int cy)
-//{
-//	CCherryDialog::OnSize(nType, cx, cy);
-//
-//	
-//
-//	//Invalidate();
-//}
 
 void CCherryCtrlExamDlg::OnTimer(UINT_PTR nIDEvent)
 {
@@ -428,33 +344,15 @@ void CCherryCtrlExamDlg::OnTimer(UINT_PTR nIDEvent)
 
 void CCherryCtrlExamDlg::OnSliderThumbPositionChanged()
 {
-	//TRACE("wParam %d\n", wParam);
-	//TRACE("lParam %d\n", lParam);
 	TRACE("SliderCtrl changed %d\n", m_sliderCtrl.GetPos());
 }
 
 void CCherryCtrlExamDlg::OnTabPageChanged(/*WPARAM wParam, LPARAM lParam*/)
 {
 	TRACE("TabCtrl changed %d\n", m_tabCtrl.GetCurPage());
-
-
-	//return 0;
 }
-
-
 
 void CCherryCtrlExamDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CCherryDialog::OnSize(nType, cx, cy);
-
-	/*
-	if (m_tabCtrl.GetSafeHwnd())
-	{
-		CRect rect;
-		m_tabCtrl.GetWindowRect(rect);
-		ScreenToClient(rect);
-
-		m_tabCtrl.MoveWindow(rect.left, rect.top, cx - 800, cy - 500);
-	}
-	*/
 }

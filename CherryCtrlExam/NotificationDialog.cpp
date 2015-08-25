@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdAfx.h"
 #include "NotificationDialog.h"
 
 IMPLEMENT_DYNAMIC(CNotificationDialog, CCherryNotificationDialog)

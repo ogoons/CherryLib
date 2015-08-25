@@ -249,7 +249,7 @@ void CCherryListCtrl::OnNMCustomdraw(NMHDR *pNMHDR, LRESULT *pResult)
 			CCherryMemDC memDC(pDC, itemRect);
 			Graphics graphics(memDC.GetSafeHdc());
 
-			LVITEM lvItem = { 0 };
+			LVITEM lvItem = { 0, };
 			lvItem.mask = LVIF_STATE;
 			lvItem.iItem = nItem; // 아이템 인덱스
 			lvItem.stateMask = LVIS_SELECTED;
@@ -267,7 +267,7 @@ void CCherryListCtrl::OnNMCustomdraw(NMHDR *pNMHDR, LRESULT *pResult)
 				pCurItemImage->DrawStretchImage3x3(&graphics, itemRect);
 
 			// 텍스트 뿌리기
-			TCHAR szItemText[256] = { 0 };
+			TCHAR szItemText[256] = { 0, };
 			CRect headerRect;
 			CRect subItemRect;
 			for (int i = 0; i < GetHeaderCtrl()->GetItemCount(); i++)

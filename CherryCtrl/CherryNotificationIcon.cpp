@@ -11,8 +11,10 @@
 #pragma comment(lib, "CherryUtil.lib")
 #endif
 
-#include "Rpc.h"	// for GUID
-#pragma comment(lib, "Rpcrt4.lib")
+#include "rpc.h"	// for GUID
+#pragma comment(lib, "rpcrt4.lib")
+
+#include "versionhelpers.h"
 
 // CCherryNotificationIcon
 
@@ -889,35 +891,35 @@ CHERRY_RET CCherryNotificationIcon::ShowBalloon(LPCTSTR lpszText, LPCTSTR lpszTi
 		// OS 버전 별 옵션 예외처리 (MSDN: http://msdn.microsoft.com/en-us/library/windows/desktop/bb773352(v=vs.85).aspx)
 		if (dwIcon & NIIF_USER)
 		{
-			// Win XP SP2 이상
-			if (IsWindowsVersionOrGreater(HIBYTE(_WIN32_WINNT_WINXP), LOBYTE(_WIN32_WINNT_WINXP), 2))
+			// Win XP SP2보다 하위 버전이면
+			if (false == IsWindowsXPSP2OrGreater())
 				throw CCherryException::ERROR_NOTIFICATIONICON_BALLOON_OPTION_DO_NOT_SUPPORTED_OS;
 		}
 
 		if (dwIcon & NIIF_NOSOUND)
 		{
-			// Win XP 하위
-			if (!IsWindowsVersionOrGreater(HIBYTE(_WIN32_WINNT_WINXP), LOBYTE(_WIN32_WINNT_WINXP), 0))
+			// Win XP 보다 하위 버전이면
+			if (false == IsWindowsXPOrGreater())
 				throw CCherryException::ERROR_NOTIFICATIONICON_BALLOON_OPTION_DO_NOT_SUPPORTED_OS;
 		}
 
 		if (dwIcon & NIIF_LARGE_ICON)
 		{
-			// Win Vista 하위
-			if (!IsWindowsVersionOrGreater(HIBYTE(_WIN32_WINNT_VISTA), LOBYTE(_WIN32_WINNT_VISTA), 0))
+			// Win Vista 보다 하위 버전이면
+			if (false == IsWindowsVistaOrGreater())
 				throw CCherryException::ERROR_NOTIFICATIONICON_BALLOON_OPTION_DO_NOT_SUPPORTED_OS;
 		}
 
 		if (dwIcon & NIIF_RESPECT_QUIET_TIME)
 		{
-			// Win 7 하위
-			if (!IsWindowsVersionOrGreater(HIBYTE(_WIN32_WINNT_WIN7), LOBYTE(_WIN32_WINNT_WIN7), 0))
+			// Win 7 보다 하위 버전이면
+			if (false == IsWindows7OrGreater())
 				throw CCherryException::ERROR_NOTIFICATIONICON_BALLOON_OPTION_DO_NOT_SUPPORTED_OS;
 		}
 
 		m_notifyIconData.uFlags = NIF_INFO;
 
-		if (IsWindowsVersionOrGreater(HIBYTE(_WIN32_WINNT_WIN7), LOBYTE(_WIN32_WINNT_WIN7), 0))
+		if (true == IsWindows7OrGreater())
 			m_notifyIconData.uFlags |= NIF_GUID;
 
 		_tcsncpy_s(m_notifyIconData.szInfo, lpszText, _countof(m_notifyIconData.szInfo));
@@ -929,13 +931,13 @@ CHERRY_RET CCherryNotificationIcon::ShowBalloon(LPCTSTR lpszText, LPCTSTR lpszTi
 
 		m_notifyIconData.dwInfoFlags = dwIcon;
 
-		if (IsWindowsVersionOrGreater(HIBYTE(_WIN32_WINNT_WINXP), LOBYTE(_WIN32_WINNT_WINXP), 0))
+		if (true == IsWindowsXPOrGreater())
 			m_notifyIconData.uTimeout = nTimeout;	// Win2k, WinXP에서만 사용가능
 
-		if (IsWindowsVersionOrGreater(HIBYTE(_WIN32_WINNT_VISTA), LOBYTE(_WIN32_WINNT_VISTA), 0))
-			m_notifyIconData.hBalloonIcon;
+		if (true == IsWindowsVistaOrGreater())
+			m_notifyIconData.hBalloonIcon;	// Vista 이상에서는 hBalloonIcon 멤버로 아이콘 사용
 
-		if (!Shell_NotifyIcon(NIM_MODIFY, &m_notifyIconData))
+		if (FALSE == Shell_NotifyIcon(NIM_MODIFY, &m_notifyIconData))
 			cherryRet = CCherryException::ERROR_CHERRY_FAILURE;
 
 		m_notifyIconData.szInfo[0] = _T('\0');

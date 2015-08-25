@@ -4,9 +4,11 @@
 #include "stdafx.h"
 #include "CherryUpdate.h"
 #include <string>
-#include "Winver.h"
-#pragma comment(lib, "Version.lib")
-#include "Shlwapi.h"
+
+#include "winver.h"
+#pragma comment(lib, "version.lib")
+
+#include "shlwapi.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -42,7 +44,7 @@ void CCherryUpdate::Initialize()
 	m_pPatchCompleteUserData = NULL;
 }
 
-BOOL CCherryUpdate::Open(LPCTSTR lpszAgent, LPCTSTR lpszClientVersion, LPCTSTR lpszRootUrl, LPCTSTR lpszUpdateProfileXml, LPCTSTR lpszPatchTargetPath, BOOL bUseUtf8)
+BOOL CCherryUpdate::Open(LPCTSTR lpszAgent, LPCTSTR lpszClientVersion, LPCTSTR lpszRootURL, LPCTSTR lpszUpdateProfileXML, LPCTSTR lpszPatchTargetPath, BOOL bUseUTF8)
 {
 	// TODO.... 예외 처리 추가 필요
 #ifdef USE_MFC_CLASS
@@ -51,22 +53,20 @@ BOOL CCherryUpdate::Open(LPCTSTR lpszAgent, LPCTSTR lpszClientVersion, LPCTSTR l
 	if (FALSE == IsOpen())
 		return FALSE;
 #else
-	m_hSession = InternetOpen(lpszAgent, INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
+	m_hSession = InternetOpen(lpszAgent, INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
 
-	DWORD dwError = GetLastError();
-
-	if (ERROR_SUCCESS != dwError)
+	if (NULL == m_hSession)
 		return FALSE;
 #endif
 	if (NULL == lpszAgent ||
-		NULL == lpszRootUrl ||
+		NULL == lpszRootURL ||
 		NULL == lpszClientVersion ||
-		NULL == lpszUpdateProfileXml ||
+		NULL == lpszUpdateProfileXML ||
 		NULL == lpszPatchTargetPath)
 		return FALSE;
 
 	// xml 파일 확장자 검사
-	CString strXmlExt = PathFindExtension(lpszUpdateProfileXml);
+	CString strXmlExt = PathFindExtension(lpszUpdateProfileXML);
 	if (0 != strXmlExt.CompareNoCase(_T(".xml")))
 		return FALSE;
 
@@ -74,7 +74,7 @@ BOOL CCherryUpdate::Open(LPCTSTR lpszAgent, LPCTSTR lpszClientVersion, LPCTSTR l
 	m_strClientVersion = lpszClientVersion;
 	m_strPatchTargetPath = lpszPatchTargetPath;
 
-	if (FALSE == OpenUpdateProfile(lpszRootUrl, lpszUpdateProfileXml, bUseUtf8))
+	if (FALSE == OpenUpdateProfile(lpszRootURL, lpszUpdateProfileXML, bUseUTF8))
 	{
 		Close();
 
@@ -84,14 +84,14 @@ BOOL CCherryUpdate::Open(LPCTSTR lpszAgent, LPCTSTR lpszClientVersion, LPCTSTR l
 	return TRUE;
 }
 
-void CCherryUpdate::ParseFileNode(BOOL bPackageNode, XMLNode *pFileListNode, LPCTSTR lpszRootUrl, BOOL bUseUtf8)
+void CCherryUpdate::ParseFileNode(BOOL bPackageNode, XMLNode *pFileListNode, LPCTSTR lpszRootURL, BOOL bUseUTF8)
 {
 	if (!pFileListNode)
 		throw NULL;
 
 	XMLNode *pFileListChildNode = pFileListNode->FirstChild();
 	
-	CString strRootUrl(lpszRootUrl);
+	CString strRootUrl(lpszRootURL);
 	CString strSubUrl = CA2W(pFileListNode->ToElement()->Attribute("Root")); // sub root path 로드
 	
 	// 오른쪽에서부터 모든 '/' 삭제
@@ -128,7 +128,7 @@ void CCherryUpdate::ParseFileNode(BOOL bPackageNode, XMLNode *pFileListNode, LPC
 	// Root 끝에 UrlCombine 사용을 위한 '/' 추가
 	m_updateProfile.strRootUrl += _T('/');
 
-	UINT nCodePage = bUseUtf8 ? CP_UTF8 : CP_ACP;
+	UINT nCodePage = bUseUTF8 ? CP_UTF8 : CP_ACP;
 
 #ifdef INCLUDE_FILE_SIZE_INFO
 	FILE_ATTR fileAttr;
@@ -176,7 +176,7 @@ void CCherryUpdate::ParseFileNode(BOOL bPackageNode, XMLNode *pFileListNode, LPC
 				break;
 
 			// 현재 서버에 실제로 존재하는 파일들의 총 사이즈 가져오기
-			TCHAR szContentInfo[32] = { 0 };
+			TCHAR szContentInfo[32] = { 0, };
 			DWORD dwBufLen = sizeof(szContentInfo);
 
 			HttpQueryInfo(hURL, HTTP_QUERY_CONTENT_LENGTH, (LPVOID)&szContentInfo, &dwBufLen, 0);
@@ -189,7 +189,7 @@ void CCherryUpdate::ParseFileNode(BOOL bPackageNode, XMLNode *pFileListNode, LPC
 	while (pFileListChildNode = pFileListChildNode->NextSibling());
 }
 
-CHERRY_RET CCherryUpdate::OpenUpdateProfile(LPCTSTR lpszRootUrl, LPCTSTR lpszUpdateProfileXml, BOOL bUseUtf8)
+CHERRY_RET CCherryUpdate::OpenUpdateProfile(LPCTSTR lpszRootURL, LPCTSTR lpszUpdateProfileXML, BOOL bUseUTF8)
 {
 	CHERRY_RET cherryRet = CHERRY_RET::ERROR_CHERRY_SUCCESS;
 
@@ -204,7 +204,7 @@ CHERRY_RET CCherryUpdate::OpenUpdateProfile(LPCTSTR lpszRootUrl, LPCTSTR lpszUpd
 	}
 
 	// 오른쪽 '/' 모두 제거 후
-	CString strRootUrl(lpszRootUrl);
+	CString strRootUrl(lpszRootURL);
 	while (_T('/') == strRootUrl.Right(1))
 		strRootUrl = strRootUrl.Left(strRootUrl.GetLength() - 1);
 
@@ -212,16 +212,19 @@ CHERRY_RET CCherryUpdate::OpenUpdateProfile(LPCTSTR lpszRootUrl, LPCTSTR lpszUpd
 	strRootUrl += _T('/');
 
 	CString strUpdateProfileXmlUrl;
-	DWORD dwLength = strRootUrl.GetLength() + _tcslen(lpszUpdateProfileXml) + 1;
-	UrlCombine(strRootUrl, lpszUpdateProfileXml, strUpdateProfileXmlUrl.GetBuffer(dwLength), &dwLength, 0);
+	DWORD dwLength = strRootUrl.GetLength() + _tcslen(lpszUpdateProfileXML) + 1;
+	UrlCombine(strRootUrl, lpszUpdateProfileXML, strUpdateProfileXmlUrl.GetBuffer(dwLength), &dwLength, 0);
 	strUpdateProfileXmlUrl.ReleaseBuffer();
 
 	CString strHttpResponse;
-	if (FALSE == ReceiveHttpResponse(strUpdateProfileXmlUrl, strHttpResponse, bUseUtf8))
+	if (FALSE == SendHttpRequest(strUpdateProfileXmlUrl, FALSE, NULL, strHttpResponse))
 		return CHERRY_RET::ERROR_UPDATE_RECEIVE_PROFILE_FAIL;
 
 	if (TRUE == strHttpResponse.IsEmpty())
 		return CHERRY_RET::ERROR_UPDATE_NO_CONTEXT_PROFILE;
+
+	if (TRUE == bUseUTF8)
+		strHttpResponse = ConvertUTF8ToUnicode(strHttpResponse);
 
 	// xml 파싱 시작
 	// 패키지 업데이트 내역이 있다면 패키지를 우선적으로 업데이트 한다.
@@ -288,7 +291,7 @@ CHERRY_RET CCherryUpdate::OpenUpdateProfile(LPCTSTR lpszRootUrl, LPCTSTR lpszUpd
 			m_updateProfile.bPackageUpdate = TRUE;
 
 			// 패키지 노드를 태운다.
-			ParseFileNode(TRUE, pPackageNode, lpszRootUrl, bUseUtf8); 
+			ParseFileNode(TRUE, pPackageNode, lpszRootURL, bUseUTF8); 
 
 			// 패키지 execute를 위한 path를 가져온다.
 			CString strRunPackageFilePath(GetIncomingPath());
@@ -309,7 +312,7 @@ CHERRY_RET CCherryUpdate::OpenUpdateProfile(LPCTSTR lpszRootUrl, LPCTSTR lpszUpd
 			m_updateProfile.bPackageUpdate = FALSE;
 
 			// 파셜 노드를 태운다.
-			ParseFileNode(FALSE, pPartialNode, lpszRootUrl, bUseUtf8);
+			ParseFileNode(FALSE, pPartialNode, lpszRootURL, bUseUTF8);
 		}
 		// 2. 둘다 아니면
 		else
@@ -380,13 +383,13 @@ BOOL CCherryUpdate::StopUpdate()
 /// \date		2013-05-08
 /// \param		pszURL		: 웹페이지 URL
 ///				strResult	: 텍스트 형식의 웹페이지 요청에 대한 응답
-///				bUseUtf8	: TRUE = UTF8, FALSE = ANSI
+///				bUseUTF8	: TRUE = UTF8, FALSE = ANSI
 /// \return		
 /// \remark		
 /// \section	
 ///
 ///////////////////////////////////////////////////////////////////////////
-BOOL CCherryUpdate::ReceiveHttpResponse(_In_ LPCTSTR lpszUrl, _Out_ CString &strResponse, _In_ BOOL bUseUtf8)
+BOOL CCherryUpdate::ReceiveHttpResponse(_In_ LPCTSTR lpszURL, _Out_ CString &strResponse, _In_ BOOL bUseUTF8)
 {
 	BOOL bRet = TRUE;
 
@@ -394,7 +397,7 @@ BOOL CCherryUpdate::ReceiveHttpResponse(_In_ LPCTSTR lpszUrl, _Out_ CString &str
 
 	try
 	{
-		pData = (CHttpFile *)CInternetSession::OpenURL(lpszUrl, 1, INTERNET_FLAG_RELOAD | INTERNET_FLAG_TRANSFER_ASCII);
+		pData = (CHttpFile *)CInternetSession::OpenURL(lpszURL, 1, INTERNET_FLAG_RELOAD | INTERNET_FLAG_TRANSFER_ASCII);
 
 		if (NULL == pData)
 			throw NULL;
@@ -406,7 +409,7 @@ BOOL CCherryUpdate::ReceiveHttpResponse(_In_ LPCTSTR lpszUrl, _Out_ CString &str
 			throw NULL;
 
 		TCHAR *pszBuf = NULL;
-		TCHAR szBuf[1024] = { 0 };
+		TCHAR szBuf[1024] = { 0, };
 		std::string strBuf;
 
 		do
@@ -419,12 +422,12 @@ BOOL CCherryUpdate::ReceiveHttpResponse(_In_ LPCTSTR lpszUrl, _Out_ CString &str
 		USES_CONVERSION;
 
 		strResponse.Empty();
-		strResponse = CA2W(strBuf.c_str(), bUseUtf8 ? CP_UTF8 : CP_ACP); // 웹페이지는 charset=utf-8이므로 unicode로 변경
+		strResponse = CA2W(strBuf.c_str(), bUseUTF8 ? CP_UTF8 : CP_ACP); // 웹페이지는 charset=utf-8이므로 unicode로 변경
 	}
 	catch (CInternetException *e)
 	{
 		// error
-		TCHAR szErr[1024] = { 0 };
+		TCHAR szErr[1024] = { 0, };
 		e->GetErrorMessage(szErr, 1023);
 
 		strResult = szErr;
@@ -459,7 +462,7 @@ BOOL CCherryUpdate::ReceiveHttpResponse(_In_ LPCTSTR lpszUrl, _Out_ CString &str
 /// \section	
 ///
 ///////////////////////////////////////////////////////////////////////////
-BOOL CCherryUpdate::ReceiveInternetFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszReceivePath, _Out_ CString &strReceivedFullPath)
+BOOL CCherryUpdate::DownloadFile(_In_ LPCTSTR lpszURL, _In_ LPCTSTR lpszReceivePath, _Out_ CString &strReceivedFullPath)
 {
 	if (FALSE == IsOpen())
 		return FALSE;
@@ -472,7 +475,7 @@ BOOL CCherryUpdate::ReceiveInternetFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszR
 
 	try
 	{
-		pData = (CHttpFile *)CInternetSession::OpenURL(lpszUrl, 1, INTERNET_FLAG_RELOAD | INTERNET_FLAG_TRANSFER_BINARY, NULL, 0);
+		pData = (CHttpFile *)CInternetSession::OpenURL(lpszURL, 1, INTERNET_FLAG_RELOAD | INTERNET_FLAG_TRANSFER_BINARY, NULL, 0);
 
 		if (NULL == pData)
 			throw NULL;
@@ -484,20 +487,20 @@ BOOL CCherryUpdate::ReceiveInternetFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszR
 			throw NULL;
 
 		CString strReceivePath(lpszReceivePath);
-		PathAppend(strReceivePath.GetBuffer(MAX_PATH), PathFindFileName(lpszUrl));
+		PathAppend(strReceivePath.GetBuffer(MAX_PATH), PathFindFileName(lpszURL));
 		strReceivePath.ReleaseBuffer();
 		strReceivedFullPath = strReceivePath;
 
 		if (FALSE == file.Open(szReceivePath, CFile::modeCreate | CFile::modeWrite, &fileException))
 		{
 			// error
-			TCHAR szErr[1024] = { 0 };
+			TCHAR szErr[1024] = { ,0 };
 			fileException.GetErrorMessage(szErr, 1023);
 
 			return FALSE;
 		}
 
-		BYTE byBuf[1024] = { 0 };
+		BYTE byBuf[1024] = { 0, };
 		DWORD dwReadSize = 0;
 
 		do
@@ -524,7 +527,7 @@ BOOL CCherryUpdate::ReceiveInternetFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszR
 	catch (CInternetException *e)
 	{
 		// error
-		TCHAR szErr[1024] = { 0 };
+		TCHAR szErr[1024] = { 0, };
 		e->GetErrorMessage(szErr, 1023);
 
 		bRet = FALSE;
@@ -546,60 +549,97 @@ BOOL CCherryUpdate::ReceiveInternetFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszR
 	return bRet;
 }
 #else
-
 ///////////////////////////////////////////////////////////////////////////
 ///
-/// \brief		HTTP Post 방식 웹페이지 응답 요청 함수
+/// \brief		HTTP 웹페이지 요청 함수
 /// \author		ogoons
-/// \date		2013-05-08
+/// \date		2015-08-24
 /// \param		pszURL		: 웹페이지 URL
-///				strResult	: 텍스트 형식의 웹페이지 요청에 대한 응답
-///				bUseUtf8	: TRUE = UTF8, FALSE = ANSI
-/// \return		
+///				bPost		: GET, POST 방식 여부
+///				lpszPostData: bPost == TRUE 인 경우 전송할 POST data
+///				strResponse	: 텍스트 형식의 웹페이지 요청에 대한 text 응답
+/// \return		성공 여부
 /// \remark		
 /// \section	
 ///
 ///////////////////////////////////////////////////////////////////////////
-BOOL CCherryUpdate::ReceiveHttpResponse(_In_ LPCTSTR lpszUrl, _Out_ CString &strResponse, _In_ BOOL bUseUtf8)
+BOOL CCherryUpdate::SendHttpRequest(_In_ LPCTSTR lpszURL, _In_ BOOL bPost, _In_ LPCTSTR lpszPostData, _Out_ CString &strResponse)
 {
+	DWORD dwServiceType = AFX_INET_SERVICE_HTTP;
+	CString strServer;
+	CString strObject;
+	INTERNET_PORT port = INTERNET_INVALID_PORT_NUMBER;
+
+	if (FALSE == AfxParseURL(lpszURL, dwServiceType, strServer, strObject, port))
+		return FALSE;
+
+	if (TRUE == strServer.IsEmpty())
+		return FALSE;
+
+
+	if (INTERNET_INVALID_PORT_NUMBER == port)
+	{
+		switch (dwServiceType)
+		{
+		case AFX_INET_SERVICE_HTTP:
+			port = INTERNET_DEFAULT_HTTP_PORT;
+			break;
+		case AFX_INET_SERVICE_HTTPS:
+			port = INTERNET_DEFAULT_HTTPS_PORT;
+			break;
+		default:
+			return FALSE; // Empty port
+		}
+	}
+
 	if (FALSE == IsOpen())
 		return FALSE;
 
-	HINTERNET hURL = InternetOpenUrl(m_hSession, lpszUrl, NULL, 0, INTERNET_FLAG_KEEP_CONNECTION, 0);
+	HINTERNET hConnect = InternetConnect(m_hSession, strServer, port, NULL, NULL, INTERNET_SERVICE_HTTP, 0, 0);
 
-	if (NULL == hURL)
+	if (NULL == hConnect)
 		return FALSE;
 
-	BYTE *pData = NULL;
-	std::string strBuf;
-	DWORD dwReadSize = 0;
-	DWORD dwBytesRead = 0;
-	DWORD dwReadTotalSize = 0;
+	DWORD dwContext = 0;
 
-	while (TRUE)
+	if (AFX_INET_SERVICE_HTTPS == dwServiceType)
+		dwContext = INTERNET_FLAG_SECURE;
+
+	const TCHAR *pszAccept[] = { _T("*/*"), NULL };
+
+	HINTERNET hRequest = HttpOpenRequest(hConnect, TRUE == bPost ? _T("POST") : _T("GET"), strObject, NULL, NULL, pszAccept, dwContext, 0);
+
+	if (NULL == hRequest)
 	{
-		InternetQueryDataAvailable(hURL, &dwReadSize, 0, 0);
+		InternetCloseHandle(hConnect);
 
-		if (0 == dwReadSize)
-			break;
-
-		pData = new BYTE[dwReadSize + 1]; // +1 == null terminate space
-		ZeroMemory(pData, dwReadSize + 1);
-
-		InternetReadFile(hURL, pData, dwReadSize, &dwBytesRead);
-
-		dwReadTotalSize += dwBytesRead;
-		strBuf.append((const char *)pData);
-
-		delete []pData;
+		return FALSE;
 	}
 
-	USES_CONVERSION;
+	const TCHAR *pszHeaders = _T("Content-Type: application/x-www-form-urlencoded");
 
-	strResponse.Empty();
-	strResponse = CA2W(strBuf.c_str(), bUseUtf8 ? CP_UTF8 : CP_ACP);
+	if (FALSE == HttpSendRequest(hRequest, pszHeaders, _tcslen(pszHeaders), TRUE == bPost ? (LPVOID)lpszPostData : NULL, TRUE == bPost ? _tcslen(lpszPostData) : 0))
+	{
+		InternetCloseHandle(hRequest);
+		InternetCloseHandle(hConnect);
 
-	InternetCloseHandle(hURL);
+		return FALSE;
+	}
+
+	DWORD dwReadSize = 1;
+	DWORD dwBytesRead = 0;
+
+	while (TRUE == InternetQueryDataAvailable(hRequest, &dwReadSize, 0, 0) && 0 < dwReadSize)
+	{
+		TCHAR *pszData = new TCHAR[dwReadSize + 1];
+		ZeroMemory(pszData, dwReadSize + 1);
+
+		InternetReadFile(hRequest, pszData, dwReadSize, &dwBytesRead);
+
+		// 누적 복사
+		strResponse += pszData;
+		delete[]pszData;
+	}
 
 	return TRUE;
 }
@@ -615,79 +655,58 @@ BOOL CCherryUpdate::ReceiveHttpResponse(_In_ LPCTSTR lpszUrl, _Out_ CString &str
 /// \section	
 ///
 ///////////////////////////////////////////////////////////////////////////
-BOOL CCherryUpdate::ReceiveInternetFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszReceivePath, _Out_ CString &strReceivedFullPath)
+BOOL CCherryUpdate::DownloadFile(_In_ LPCTSTR lpszURL, _In_ LPCTSTR lpszReceivePath, _Out_ CString &strReceivedFullPath)
 {
-	BOOL bRet = TRUE;
-
 	if (FALSE == IsOpen())
 		return FALSE;
 
-	HINTERNET hURL = InternetOpenUrl(m_hSession, lpszUrl, NULL, 0, INTERNET_FLAG_KEEP_CONNECTION, 0);
+	HINTERNET hURL = InternetOpenUrl(m_hSession, lpszURL, NULL, 0, INTERNET_FLAG_KEEP_CONNECTION, 0);
 
 	if (NULL == hURL)
 		return FALSE;
 
-	CFile file;
-	CFileException e;
-	BYTE *pData = NULL;
+	CString strReceivePath(lpszReceivePath);
+	CString strFileName(PathFindFileName(lpszURL));
+	PathAppend(strReceivePath.GetBuffer(strReceivePath.GetLength() + strFileName.GetLength() + 1), strFileName);
+	strReceivePath.ReleaseBuffer();
+	strReceivedFullPath = strReceivePath;
 
-	try
+	HANDLE hFile = CreateFile(strReceivePath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	if (NULL == hFile)
 	{
-		// URL 파일 존재 여부, 파일 사이즈 가져오기
-		TCHAR szContentInfo[32] = { 0 };
-		DWORD dwBufLen = sizeof(szContentInfo);
+		InternetCloseHandle(hURL);
 
-		if (FALSE == HttpQueryInfo(hURL, HTTP_QUERY_CONTENT_LENGTH, (LPVOID)&szContentInfo, &dwBufLen, 0))
-			throw NULL;
+		return FALSE;
+	}
 
-		CString strReceivePath(lpszReceivePath);
-		CString strFileName(PathFindFileName(lpszUrl));
-		PathAppend(strReceivePath.GetBuffer(strReceivePath.GetLength() + strFileName.GetLength() + 1), strFileName);
-		strReceivePath.ReleaseBuffer();
-		strReceivedFullPath = strReceivePath;
+	DWORD dwReadSize = 1;
+	DWORD dwBytesRead = 0;
+	DWORD dwWritten = 0;
 
-		if (FALSE == file.Open(strReceivePath, CFile::modeCreate | CFile::modeWrite, &e))
-			throw NULL;
+	while (TRUE == InternetQueryDataAvailable(hURL, &dwReadSize, 0, 0) && 0 < dwReadSize)
+	{
+		BYTE *pData = new BYTE[dwReadSize];
+		ZeroMemory(pData, dwReadSize);
 
-		DWORD dwTotalSize = (DWORD)_ttol(szContentInfo);
-		BYTE *pData = (BYTE *)GlobalAlloc(GPTR, dwTotalSize); // return pointer
-		BYTE *pDataPos = pData;
-		DWORD dwReadSize = 0;
-		DWORD dwBytesRead = 0;
+		InternetReadFile(hURL, pData, dwReadSize, &dwBytesRead);
+		WriteFile(hFile, pData, dwBytesRead, &dwWritten, NULL);
 
-		while (TRUE)
+		if (TRUE == m_bStarted)
 		{
-			InternetQueryDataAvailable(hURL, &dwReadSize, 0, 0);
+			m_llReceivedSize += static_cast<ULONGLONG>(dwBytesRead);
 
-			if (0 == dwReadSize)
-				break;
-
-			InternetReadFile(hURL, pDataPos, dwReadSize, &dwBytesRead);
-
-			pDataPos += dwBytesRead; // Move to read pointer
-
-			if (TRUE == m_bStarted)
-			{
-				m_llReceivedSize += static_cast<ULONGLONG>(dwBytesRead);
-
-				if (NULL != m_pReceivingStatusCallback)
-					m_pReceivingStatusCallback(m_llReceivedSize, m_updateProfile.llFileTotalSize, m_pReceivingStatusUserData);
-			}
+			if (NULL != m_pReceivingStatusCallback)
+				m_pReceivingStatusCallback(m_llReceivedSize, m_updateProfile.llFileTotalSize, m_pReceivingStatusUserData);
 		}
 
-		file.Write(pData, dwTotalSize);
-		file.Close();
-
-		GlobalFree(pData);
-	}
-	catch (...)
-	{
-		bRet = FALSE;
+		delete []pData;
 	}
 
+	CloseHandle(hFile);
 	InternetCloseHandle(hURL);
 
-	return bRet;
+	return TRUE;
 }
 #endif
 
@@ -807,7 +826,7 @@ UINT CCherryUpdate::UpdateProcessThread(LPVOID lpParam)
 			if (FALSE == PathFileExists(strTargetPath)) // 디렉토리 존재 여부
 				pThis->CreateDirectoryAndParent((LPTSTR)(LPCTSTR)strTargetPath); // 디렉토리 생성
 
-			if (TRUE == pThis->ReceiveInternetFile(strSourceFileUrl, strTargetPath, strReceivedFullPath))
+			if (TRUE == pThis->DownloadFile(strSourceFileUrl, strTargetPath, strReceivedFullPath))
 			{
 #ifdef INCLUDE_FILE_SIZE_INFO
 				LONGLONG llReceivedFileSize = 0;
@@ -999,7 +1018,7 @@ CString CCherryUpdate::GetIncomingPath()
 	if (TRUE == m_strAgent.IsEmpty())
 		return NULL;
 
-	//TCHAR szPath[MAX_PATH] = { 0 };
+	//TCHAR szPath[MAX_PATH] = { 0, };
 	//SHGetSpecialFolderPath(NULL, szPath, CSIDL_PROGRAM_FILES_COMMONX86, FALSE);
 
 	CString strPath;
@@ -1062,7 +1081,7 @@ BOOL CCherryUpdate::GetFileSize(_In_ LPCTSTR lpszFilePath, _Out_ LONGLONG &llFil
 
 	HANDLE hFile = CreateFile(lpszFilePath, GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL);
 
-	LARGE_INTEGER largeInt = { 0 };
+	LARGE_INTEGER largeInt = { 0, };
 
 	if (TRUE == GetFileSizeEx(hFile, &largeInt))
 	{
@@ -1184,7 +1203,7 @@ BOOL CCherryUpdate::IsStarted() const
 
 void CCherryUpdate::CreateDirectoryAndParent(LPTSTR lpszPath)
 {
-	TCHAR szDirName[MAX_PATH] = { 0 };	// 생성할 디렉초리 이름
+	TCHAR szDirName[MAX_PATH] = { 0, };	// 생성할 디렉초리 이름
 	TCHAR *pszPath = lpszPath;			// 인자로 받은 디렉토리
 	TCHAR *pszDirName = szDirName;
 
@@ -1321,4 +1340,30 @@ BOOL CCherryUpdate::ShellExecuteWithWaitProcess(_In_ LPCTSTR lpszPath, _In_ LPCT
 	}
 
 	return TRUE;
+}
+
+CString CCherryUpdate::ConvertUTF8ToUnicode(_In_ LPCWSTR lpszUTF8)
+{
+	if (NULL == lpszUTF8)
+		return NULL;
+
+	int nLen = MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)lpszUTF8, -1, NULL, 0);
+
+	WCHAR *pszBuf = new WCHAR[nLen + 1];
+	ZeroMemory(pszBuf, nLen + 1);
+
+	// UTF8 -> Unicode
+	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)lpszUTF8, -1, pszBuf, nLen);
+
+	CString strRet;
+
+	if (NULL != pszBuf)
+	{
+		strRet = pszBuf;
+
+		delete[]pszBuf;
+		pszBuf = NULL;
+	}
+
+	return strRet;
 }

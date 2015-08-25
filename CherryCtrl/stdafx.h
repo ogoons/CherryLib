@@ -37,10 +37,10 @@
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
 // Using GDI+
-#include <GdiPlus.h>
-#pragma comment(lib, "GdiPlus.lib")
+#include <gdiplus.h>
+#pragma comment(lib, "gdiplus.lib")
 
-#include "Shlwapi.h"
+#include "shlwapi.h"
 
 #include <afxcontrolbars.h>
 #include <afx.h>

@@ -8,6 +8,8 @@
 #pragma comment(lib, "CherryUtil.lib")
 #endif
 
+#include "versionhelpers.h"
+
 #define ID_TIMER_FADING		100
 #define ID_TIMER_DURATION	101
 #define SCROLLBAR_WIDTH		18

@@ -86,8 +86,8 @@ void CCherryHeaderCtrl::OnNMCustomdraw(NMHDR *pNMHDR, LRESULT *pResult)
 			if (m_headerImage.IsLoadedImage())
 				m_headerImage.DrawStretchImage3x3(&graphics, itemRect);
 
-			TCHAR szHeaderText[256] = { 0 };
-			HDITEM hdItem = { 0 };
+			TCHAR szHeaderText[256] = { 0, };
+			HDITEM hdItem = { 0, };
 			hdItem.mask = HDI_TEXT;
 			hdItem.pszText = szHeaderText;
 			hdItem.cchTextMax = _countof(szHeaderText);
