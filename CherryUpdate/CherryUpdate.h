@@ -131,7 +131,7 @@ public:
 	BOOL		StartUpdate();																									// 업데이트 시작
 	BOOL		StopUpdate();																									// 업데이트 중단
 
-	BOOL		DownloadFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszDownloadPath, _Out_ CString &strReceivedFullPath);			// 파일 다운로드
+	BOOL		DownloadFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszDownloadPath, _Out_ CString &strDownloadedFullPath);		// 파일 다운로드
 	BOOL		SendHttpRequest(_In_ LPCTSTR lpszUrl, _In_ BOOL bPost, _In_ LPCTSTR lpszPostData, _Out_ CString &strResponse);	// 서버에 웹페이지 요청 보내기
 
 	ULONGLONG	GetTotalReceiveFileSize();																						// 받을 파일의 총 사이즈 가져오기 (Open이 성공했을 때 가능)

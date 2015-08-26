@@ -248,12 +248,12 @@ CHERRYUTIL_DECL_API BOOL DownloadFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszDow
 	if (NULL == hUrl)
 		return FALSE;
 
-	CString strReceivePath(lpszDownloadPath);
+	CString strDownloadPath(lpszDownloadPath);
 	CString strFileName(PathFindFileName(lpszUrl));
-	PathAppend(strReceivePath.GetBuffer(strReceivePath.GetLength() + strFileName.GetLength() + 1), strFileName);
-	strReceivePath.ReleaseBuffer();
+	PathAppend(strDownloadPath.GetBuffer(strDownloadPath.GetLength() + strFileName.GetLength() + 1), strFileName);
+	strDownloadPath.ReleaseBuffer();
 
-	HANDLE hFile = CreateFile(strReceivePath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hFile = CreateFile(strDownloadPath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (NULL == hFile)
 		return FALSE;

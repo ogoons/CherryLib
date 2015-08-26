@@ -462,7 +462,7 @@ BOOL CCherryUpdate::ReceiveHttpResponse(_In_ LPCTSTR lpszUrl, _Out_ CString &str
 /// \section	
 ///
 ///////////////////////////////////////////////////////////////////////////
-BOOL CCherryUpdate::DownloadFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszDownloadPath, _Out_ CString &strReceivedFullPath)
+BOOL CCherryUpdate::DownloadFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszDownloadPath, _Out_ CString &strDownloadedFullPath)
 {
 	if (FALSE == IsOpen())
 		return FALSE;
@@ -486,10 +486,10 @@ BOOL CCherryUpdate::DownloadFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszDownload
 		if (HTTP_STATUS_OK != dwStatus)
 			throw NULL;
 
-		CString strReceivePath(lpszDownloadPath);
-		PathAppend(strReceivePath.GetBuffer(MAX_PATH), PathFindFileName(lpszUrl));
-		strReceivePath.ReleaseBuffer();
-		strReceivedFullPath = strReceivePath;
+		CString strDownloadPath(lpszDownloadPath);
+		PathAppend(strDownloadPath.GetBuffer(MAX_PATH), PathFindFileName(lpszUrl));
+		strDownloadPath.ReleaseBuffer();
+		strDownloadedFullPath = strDownloadPath;
 
 		if (FALSE == file.Open(szReceivePath, CFile::modeCreate | CFile::modeWrite, &fileException))
 		{
@@ -655,7 +655,7 @@ BOOL CCherryUpdate::SendHttpRequest(_In_ LPCTSTR lpszUrl, _In_ BOOL bPost, _In_ 
 /// \section	
 ///
 ///////////////////////////////////////////////////////////////////////////
-BOOL CCherryUpdate::DownloadFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszDownloadPath, _Out_ CString &strReceivedFullPath)
+BOOL CCherryUpdate::DownloadFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszDownloadPath, _Out_ CString &strDownloadedFullPath)
 {
 	if (FALSE == IsOpen())
 		return FALSE;
@@ -665,13 +665,13 @@ BOOL CCherryUpdate::DownloadFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszDownload
 	if (NULL == hUrl)
 		return FALSE;
 
-	CString strReceivePath(lpszDownloadPath);
+	CString strDownloadPath(lpszDownloadPath);
 	CString strFileName(PathFindFileName(lpszUrl));
-	PathAppend(strReceivePath.GetBuffer(strReceivePath.GetLength() + strFileName.GetLength() + 1), strFileName);
-	strReceivePath.ReleaseBuffer();
-	strReceivedFullPath = strReceivePath;
+	PathAppend(strDownloadPath.GetBuffer(strDownloadPath.GetLength() + strFileName.GetLength() + 1), strFileName);
+	strDownloadPath.ReleaseBuffer();
+	strDownloadedFullPath = strDownloadPath;
 
-	HANDLE hFile = CreateFile(strReceivePath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hFile = CreateFile(strDownloadPath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (NULL == hFile)
 	{
@@ -788,7 +788,7 @@ UINT CCherryUpdate::UpdateProcessThread(LPVOID lpParam)
 #endif
 		CString strTargetPath;
 		CString strSubPath;
-		CString strReceivedFullPath;
+		CString strDownloadedFullPath;
 		vector<CString> receivedFiles;
 
 #ifdef INCLUDE_FILE_SIZE_INFO
@@ -826,12 +826,12 @@ UINT CCherryUpdate::UpdateProcessThread(LPVOID lpParam)
 			if (FALSE == PathFileExists(strTargetPath)) // 디렉토리 존재 여부
 				pThis->CreateDirectoryAndParent((LPTSTR)(LPCTSTR)strTargetPath); // 디렉토리 생성
 
-			if (TRUE == pThis->DownloadFile(strSourceFileUrl, strTargetPath, strReceivedFullPath))
+			if (TRUE == pThis->DownloadFile(strSourceFileUrl, strTargetPath, strDownloadedFullPath))
 			{
 #ifdef INCLUDE_FILE_SIZE_INFO
 				LONGLONG llReceivedFileSize = 0;
 
-				if (TRUE == pThis->GetFileSize(strReceivedFullPath, llReceivedFileSize))
+				if (TRUE == pThis->GetFileSize(strDownloadedFullPath, llReceivedFileSize))
 				{
 					if (llFileSize != llReceivedFileSize) // 파일 사이즈가 일치 하지 않으면 다운로드 실패 처리
 					{
@@ -847,7 +847,7 @@ UINT CCherryUpdate::UpdateProcessThread(LPVOID lpParam)
 					break;
 				}
 #endif
-				receivedFiles.push_back(strReceivedFullPath);
+				receivedFiles.push_back(strDownloadedFullPath);
 			}
 			else
 			{
