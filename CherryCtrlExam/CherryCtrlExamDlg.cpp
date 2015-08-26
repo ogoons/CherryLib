@@ -32,6 +32,8 @@ CCherryCtrlExamDlg::CCherryCtrlExamDlg(CWnd* pParent /*=NULL*/)
 	: CCherryDialog(CCherryCtrlExamDlg::IDD, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+
+	m_nCnt = 0;
 }
 
 CCherryCtrlExamDlg::~CCherryCtrlExamDlg()
@@ -306,14 +308,13 @@ void CCherryCtrlExamDlg::OnDrawCherry(CCherryMemDC *pDC)
 
 void CCherryCtrlExamDlg::OnBnClickedButton1()
 {
-	m_notifications.ShowBalloon(_T("내용"), _T("제목"), NIIF_WARNING);
+	SetTimer(1, 1, NULL);
 }
 
 void CCherryCtrlExamDlg::OnBnClickedButton2()
 {
 	CNotificationDialog *pNotificationDialog = new CNotificationDialog();
 	pNotificationDialog->Create(NULL, 200, 300, this, 0, 3);
-
 }
 
 void CCherryCtrlExamDlg::OnTimer(UINT_PTR nIDEvent)

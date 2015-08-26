@@ -396,7 +396,7 @@ void CCherryListCtrl::SetCherryFont(LPCTSTR lpszFontName, float fFontSize, Color
 
 BOOL CCherryListCtrl::SetCherryFont(CCherryFont *pCherryFont)
 {
-	if (pCherryFont == NULL)
+	if (NULL == pCherryFont)
 		return FALSE;
 
 	SetCherryFont(pCherryFont->GetFontName(), pCherryFont->GetFontSize(), pCherryFont->GetFontColor(), pCherryFont->GetFontStyle());
@@ -416,7 +416,7 @@ void CCherryListCtrl::SetNormalFont(LPCTSTR lpszFontName, float fFontSize, Color
 
 BOOL CCherryListCtrl::SetNormalFont(CCherryFont *pNormalFont)
 {
-	if (pNormalFont == NULL)
+	if (NULL == pNormalFont)
 		return FALSE;
 
 	SetNormalFont(pNormalFont->GetFontName(), pNormalFont->GetFontSize(), pNormalFont->GetFontColor(), pNormalFont->GetFontStyle());
@@ -457,7 +457,7 @@ void CCherryListCtrl::SetSelectedFont(LPCTSTR lpszFontName, float fFontSize, Col
 
 BOOL CCherryListCtrl::SetSelectedFont(CCherryFont *pSelectedFont)
 {
-	if (pSelectedFont == NULL)
+	if (NULL == pSelectedFont)
 		return FALSE;
 
 	SetSelectedFont(pSelectedFont->GetFontName(), pSelectedFont->GetFontSize(), pSelectedFont->GetFontColor(), pSelectedFont->GetFontStyle());
@@ -494,7 +494,7 @@ void CCherryListCtrl::SetDisableFont(LPCTSTR lpszFontName, float fFontSize, Colo
 
 BOOL CCherryListCtrl::SetDisableFont(CCherryFont *pDisableFont)
 {
-	if (pDisableFont == NULL)
+	if (NULL == pDisableFont)
 		return FALSE;
 
 	SetDisableFont(pDisableFont->GetFontName(), pDisableFont->GetFontSize(), pDisableFont->GetFontColor(), pDisableFont->GetFontStyle());

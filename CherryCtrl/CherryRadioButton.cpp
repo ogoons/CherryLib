@@ -174,7 +174,7 @@ void CCherryRadioButton::OnDestroy()
 	}
 
 	// destroy 되는 자신이 그룹장인 경우 (그룹장 위임하기)
-	if (m_pHeadRadioButton == NULL)
+	if (NULL == m_pHeadRadioButton)
 	{
 		for (vector<CCherryRadioButton *>::iterator it = pRadioVector->begin(); it != pRadioVector->end(); ++it)
 		{

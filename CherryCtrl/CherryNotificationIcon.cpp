@@ -931,8 +931,8 @@ CHERRY_RET CCherryNotificationIcon::ShowBalloon(LPCTSTR lpszText, LPCTSTR lpszTi
 
 		m_notifyIconData.dwInfoFlags = dwIcon;
 
-		if (true == IsWindowsXPOrGreater())
-			m_notifyIconData.uTimeout = nTimeout;	// Win2k, WinXP에서만 사용가능
+		if (true == IsWindowsVersionOrGreater(HIBYTE(_WIN32_WINNT_WIN2K), LOBYTE(_WIN32_WINNT_WIN2K), 0))
+			m_notifyIconData.uTimeout = nTimeout;	// Win2k 이상에서 사용 가능
 
 		if (true == IsWindowsVistaOrGreater())
 			m_notifyIconData.hBalloonIcon;	// Vista 이상에서는 hBalloonIcon 멤버로 아이콘 사용
@@ -1007,7 +1007,7 @@ CHERRY_RET CCherryNotificationIconFlyout::Create(CCherryNotificationIcon *pNotif
 		const DWORD dwStyle = WS_POPUP | WS_THICKFRAME | WS_VISIBLE;
 
 		// adjust the window size to take the frame into account
-		::AdjustWindowRectEx(&flyoutRect, dwStyle, FALSE, WS_EX_TOOLWINDOW);
+		AdjustWindowRectEx(&flyoutRect, dwStyle, FALSE, WS_EX_TOOLWINDOW);
 
 		if (!CCherryDialog::CreateEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, AfxRegisterWndClass(0), NULL, dwStyle, flyoutRect, this, 0))
 			throw CCherryException::ERROR_NOTIFICATIONICON_FLYOUT_CREATE_FAIL;
@@ -1123,7 +1123,7 @@ void CCherryNotificationIconFlyout::OnKillFocus(CWnd* pNewWnd)
 
 	CWnd *pChildWnd = GetWindow(GW_CHILD);
 
-	while (pChildWnd)
+	while (NULL != pChildWnd)
 	{
 		if (pChildWnd == pNewWnd)
 			return;

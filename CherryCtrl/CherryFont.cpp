@@ -38,7 +38,7 @@ void CCherryFont::SetCherryFont(LPCTSTR lpszFontName, float fFontSize, Color fon
 
 BOOL CCherryFont::SetCherryFont(CCherryFont *pCherryFont)
 {
-	if (pCherryFont == NULL)
+	if (NULL == pCherryFont)
 		return FALSE;
 
 	SetCherryFont(pCherryFont->GetFontName(), pCherryFont->GetFontSize(), pCherryFont->GetFontColor(), pCherryFont->GetFontStyle());

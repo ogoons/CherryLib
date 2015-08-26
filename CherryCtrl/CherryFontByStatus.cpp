@@ -76,7 +76,7 @@ void CCherryFontByStatus::SetCherryFont(LPCTSTR lpszFontName, float fFontSize, C
 
 BOOL CCherryFontByStatus::SetCherryFont(CCherryFont *pCherryFont)
 {
-	if (pCherryFont == NULL)
+	if (NULL == pCherryFont)
 		return FALSE;
 
 	SetCherryFont(pCherryFont->GetFontName(), pCherryFont->GetFontSize(), pCherryFont->GetFontColor(), pCherryFont->GetFontStyle());
@@ -96,7 +96,7 @@ void CCherryFontByStatus::SetNormalFont(LPCTSTR lpszFontName, float fFontSize, C
 
 BOOL CCherryFontByStatus::SetNormalFont(CCherryFont *pNormalFont)
 {
-	if (pNormalFont == NULL)
+	if (NULL == pNormalFont)
 		return FALSE;
 
 	SetNormalFont(pNormalFont->GetFontName(), pNormalFont->GetFontSize(), pNormalFont->GetFontColor(), pNormalFont->GetFontStyle());
@@ -137,7 +137,7 @@ void CCherryFontByStatus::SetHoverFont(LPCTSTR lpszFontName, float fFontSize, Co
 
 BOOL CCherryFontByStatus::SetHoverFont(CCherryFont *pHoverFont)
 {
-	if (pHoverFont == NULL)
+	if (NULL == pHoverFont)
 		return FALSE;
 
 	SetHoverFont(pHoverFont->GetFontName(), pHoverFont->GetFontSize(), pHoverFont->GetFontColor(), pHoverFont->GetFontStyle());
@@ -174,7 +174,7 @@ void CCherryFontByStatus::SetDownFont(LPCTSTR lpszFontName, float fFontSize, Col
 
 BOOL CCherryFontByStatus::SetDownFont(CCherryFont *pDownFont)
 {
-	if (pDownFont == NULL)
+	if (NULL == pDownFont)
 		return FALSE;
 
 	SetDownFont(pDownFont->GetFontName(), pDownFont->GetFontSize(), pDownFont->GetFontColor(), pDownFont->GetFontStyle());
@@ -211,7 +211,7 @@ void CCherryFontByStatus::SetDisableFont(LPCTSTR lpszFontName, float fFontSize, 
 
 BOOL CCherryFontByStatus::SetDisableFont(CCherryFont *pDisableFont)
 {
-	if (pDisableFont == NULL)
+	if (NULL == pDisableFont)
 		return FALSE;
 
 	SetDisableFont(pDisableFont->GetFontName(), pDisableFont->GetFontSize(), pDisableFont->GetFontColor(), pDisableFont->GetFontStyle());

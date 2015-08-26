@@ -35,45 +35,35 @@ public:
 };
 #endif
 
-/*
-판단 가능한 Windows 버전
-
-- Windows XP
-- Windows XP SP1
-- Windows XP SP2
-- Windows XP SP3
-- Windows Vista SP1
-- Windows Vista SP2
-- Windows 7
-- Windows 7 SP1
-- Windows 8
-- Windows 8.1
-*/
-
 /////////////////////////////////////////////////////////////////
 // C/C++ functions
 #ifdef __cplusplus
-extern "C" {
+extern "C" 
+{
 #endif
 	CHERRYUTIL_DECL_API DWORD	GetDllVersion(_In_ LPCTSTR lpszDllName, _Out_ DWORD &dwMajorVersion, _Out_ DWORD &dwMinorVersion, _Out_ DWORD &dwBuildNumber);
-
 #ifdef __cplusplus
 }
 #endif
 
 /////////////////////////////////////////////////////////////////
-// C++ functions
+// C++ only functions
 
 // Get special path functions
 CHERRYUTIL_DECL_API CString	GetCurrentPath();
 
-
 // WinInet functions
-CHERRYUTIL_DECL_API BOOL	SendHttpRequest(_In_ LPCTSTR lpszURL, _In_ BOOL bPost, _In_ LPCTSTR lpszPostData, _Out_ CString &strResponse);
-CHERRYUTIL_DECL_API BOOL	DownloadFile(_In_ LPCTSTR lpszURL, _In_ LPCTSTR lpszReceivePath);
+CHERRYUTIL_DECL_API BOOL	SendHttpRequest(_In_ LPCTSTR lpszUrl, _In_ BOOL bPost, _In_ LPCTSTR lpszPostData, _Out_ CString &strResponse);
+CHERRYUTIL_DECL_API BOOL	DownloadFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszDownloadPath);
 
+CHERRYUTIL_DECL_API CString		ConvertAnsiToUnicode(_In_ LPCSTR lpszAnsi);
+CHERRYUTIL_DECL_API CStringA	ConvertUnicodeToAnsi(_In_ LPCWSTR lpszUnicode);
+CHERRYUTIL_DECL_API CString		ConvertUtf8ToUnicode(_In_ LPCWSTR lpszUtf8);
+CHERRYUTIL_DECL_API CStringA	ConvertUtf8ToAnsi(_In_ LPCSTR lpszUtf8);
 
-CHERRYUTIL_DECL_API CString		ConvertANSIoUnicode(LPCSTR lpszANSI);
-CHERRYUTIL_DECL_API CStringA	ConvertUnicodeToANSI(LPCWSTR lpszUnicode);
-CHERRYUTIL_DECL_API CString		ConvertUTF8ToUnicode(LPCWSTR lpszUTF8);
-CHERRYUTIL_DECL_API CStringA	ConvertUTF8ToANSI(LPCSTR lpszUTF8);
+CHERRYUTIL_DECL_API BOOL	GetFileSize(_In_ LPCTSTR lpszFilePath, _Out_ LONGLONG &llFileSize);
+CHERRYUTIL_DECL_API BOOL	ExecuteProcess(_In_ LPCTSTR lpszPath, _In_ LPCTSTR lpszParam, _In_ BOOL bWaitProcess);
+CHERRYUTIL_DECL_API int		CompareVersion(LPCTSTR lpszCurrentVersion, LPCTSTR lpszNewVersion);
+
+CHERRYUTIL_DECL_API void	CreateDirectoryAndParent(LPTSTR lpszPath);				// 디렉토리 생성(path 중 상위 디렉토리가 없다면 전부 생성)
+CHERRYUTIL_DECL_API BOOL	DeleteDirectoryAndChild(LPCTSTR lpszPath);				// 디렉토리 삭제(하위 디렉토리, 파일 모두 삭제)

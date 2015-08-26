@@ -20,7 +20,7 @@ class AFX_EXT_CLASS CCherryListCtrl : public CListCtrl
 {
 	DECLARE_DYNAMIC(CCherryListCtrl)
 
-	enum ITEM_STATUSs
+	enum ITEM_STATUS
 	{
 		ITEM_STATUS_NORMAL,
 		ITEM_STATUS_SELECTED,

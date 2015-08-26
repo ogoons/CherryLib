@@ -8,6 +8,9 @@
 #include "wininet.h"
 #pragma comment(lib, "wininet.lib")
 
+#include "winver.h"
+#pragma comment(lib, "version.lib")
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -121,7 +124,7 @@ extern "C" CHERRYUTIL_DECL_API DWORD GetDllVersion(_In_ LPCTSTR lpszDllName, _Ou
 
 ///////////////////////////////////////////////////////////////////////////
 ///
-/// \brief		현재 프로세스의 디렉토리 경로를 반환
+/// \brief		현재 프로세스의 실행 파일 위치를 반환
 /// \author		ogoons
 /// \date		2015-01-20
 /// \param		
@@ -144,14 +147,14 @@ CHERRYUTIL_DECL_API CString GetCurrentPath()
 
 
 
-CHERRYUTIL_DECL_API BOOL SendHttpRequest(_In_ LPCTSTR lpszURL, _In_ BOOL bPost, _In_ LPCTSTR lpszPostData, _Out_ CString &strResponse)
+CHERRYUTIL_DECL_API BOOL SendHttpRequest(_In_ LPCTSTR lpszUrl, _In_ BOOL bPost, _In_ LPCTSTR lpszPostData, _Out_ CString &strResponse)
 {
 	DWORD dwServiceType = AFX_INET_SERVICE_HTTP;
 	CString strServer;
 	CString strObject;
 	INTERNET_PORT port = INTERNET_INVALID_PORT_NUMBER;
 
-	if (FALSE == AfxParseURL(lpszURL, dwServiceType, strServer, strObject, port))
+	if (FALSE == AfxParseURL(lpszUrl, dwServiceType, strServer, strObject, port))
 		return FALSE;
 
 	if (TRUE == strServer.IsEmpty())
@@ -233,20 +236,20 @@ CHERRYUTIL_DECL_API BOOL SendHttpRequest(_In_ LPCTSTR lpszURL, _In_ BOOL bPost, 
 	return TRUE;
 }
 
-CHERRYUTIL_DECL_API BOOL DownloadFile(_In_ LPCTSTR lpszURL, _In_ LPCTSTR lpszReceivePath)
+CHERRYUTIL_DECL_API BOOL DownloadFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszDownloadPath)
 {
 	HINTERNET hSession = InternetOpen(NULL, INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
 
 	if (NULL == hSession)
 		return FALSE;
 
-	HINTERNET hURL = InternetOpenUrl(hSession, lpszURL, NULL, 0, INTERNET_FLAG_KEEP_CONNECTION, 0);
+	HINTERNET hUrl = InternetOpenUrl(hSession, lpszUrl, NULL, 0, INTERNET_FLAG_KEEP_CONNECTION, 0);
 
-	if (NULL == hURL)
+	if (NULL == hUrl)
 		return FALSE;
 
-	CString strReceivePath(lpszReceivePath);
-	CString strFileName(PathFindFileName(lpszURL));
+	CString strReceivePath(lpszDownloadPath);
+	CString strFileName(PathFindFileName(lpszUrl));
 	PathAppend(strReceivePath.GetBuffer(strReceivePath.GetLength() + strFileName.GetLength() + 1), strFileName);
 	strReceivePath.ReleaseBuffer();
 
@@ -259,33 +262,33 @@ CHERRYUTIL_DECL_API BOOL DownloadFile(_In_ LPCTSTR lpszURL, _In_ LPCTSTR lpszRec
 	DWORD dwBytesRead = 0;
 	DWORD dwWritten = 0;
 
-	while (TRUE == InternetQueryDataAvailable(hURL, &dwReadSize, 0, 0) && 0 < dwReadSize)
+	while (TRUE == InternetQueryDataAvailable(hUrl, &dwReadSize, 0, 0) && 0 < dwReadSize)
 	{
 		BYTE *pData = new BYTE[dwReadSize];
 		ZeroMemory(pData, dwReadSize);
 
-		InternetReadFile(hURL, pData, dwReadSize, &dwBytesRead);
+		InternetReadFile(hUrl, pData, dwReadSize, &dwBytesRead);
 		WriteFile(hFile, pData, dwBytesRead, &dwWritten, NULL);
 
 		delete []pData;
 	}
 
 	CloseHandle(hFile);
-	InternetCloseHandle(hURL);
+	InternetCloseHandle(hUrl);
 
 	return TRUE;
 }
 
-CHERRYUTIL_DECL_API CString	ConvertANSIoUnicode(LPCSTR lpszANSI)
+CHERRYUTIL_DECL_API CString	ConvertAnsiToUnicode(LPCSTR lpszAnsi)
 {
-	if (NULL == lpszANSI)
+	if (NULL == lpszAnsi)
 		return NULL;
 
-	int nLen = strlen(lpszANSI) * sizeof(TCHAR);
+	int nLen = strlen(lpszAnsi) * sizeof(TCHAR);
 	TCHAR *pszBuf = new TCHAR[nLen + 1];
 	ZeroMemory(pszBuf, nLen + 1);
 
-	MultiByteToWideChar(CP_ACP, 0, lpszANSI, -1, pszBuf, nLen);
+	MultiByteToWideChar(CP_ACP, 0, lpszAnsi, -1, pszBuf, nLen);
 	
 	CString strRet;
 
@@ -300,7 +303,7 @@ CHERRYUTIL_DECL_API CString	ConvertANSIoUnicode(LPCSTR lpszANSI)
 	return strRet;
 }
 
-CHERRYUTIL_DECL_API CStringA ConvertUnicodeToANSI(LPCWSTR lpszUnicode)
+CHERRYUTIL_DECL_API CStringA ConvertUnicodeToAnsi(LPCWSTR lpszUnicode)
 {
 	if (NULL == lpszUnicode)
 		return NULL;
@@ -324,18 +327,18 @@ CHERRYUTIL_DECL_API CStringA ConvertUnicodeToANSI(LPCWSTR lpszUnicode)
 	return strRet;
 }
 
-CHERRYUTIL_DECL_API CString ConvertUTF8ToUnicode(_In_ LPCWSTR lpszUTF8)
+CHERRYUTIL_DECL_API CString ConvertUtf8ToUnicode(_In_ LPCWSTR lpszUtf8)
 {
-	if (NULL == lpszUTF8)
+	if (NULL == lpszUtf8)
 		return NULL;
 
-	int nLen = MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)lpszUTF8, -1, NULL, 0);
+	int nLen = MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)lpszUtf8, -1, NULL, 0);
 
 	WCHAR *pszBuf = new WCHAR[nLen + 1];
 	ZeroMemory(pszBuf, nLen + 1);
 
 	// UTF8 -> Unicode
-	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)lpszUTF8, -1, pszBuf, nLen);
+	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)lpszUtf8, -1, pszBuf, nLen);
 
 	CString strRet;
 
@@ -350,16 +353,16 @@ CHERRYUTIL_DECL_API CString ConvertUTF8ToUnicode(_In_ LPCWSTR lpszUTF8)
 	return strRet;
 }
 
-CHERRYUTIL_DECL_API CStringA ConvertUTF8ToANSI(_In_ LPCSTR lpszUTF8)
+CHERRYUTIL_DECL_API CStringA ConvertUtf8ToAnsi(_In_ LPCSTR lpszUtf8)
 {
 	// Calculate UTF-8 text length
-	int nUnicodeLen = MultiByteToWideChar(CP_UTF8, 0, lpszUTF8, -1, NULL, 0);
+	int nUnicodeLen = MultiByteToWideChar(CP_UTF8, 0, lpszUtf8, -1, NULL, 0);
 
 	WCHAR *pszUnicodeBuf = new WCHAR[nUnicodeLen];
 	ZeroMemory(pszUnicodeBuf, nUnicodeLen);
 
 	// UTF8 -> Unicode
-	int nANSILen = MultiByteToWideChar(CP_UTF8, 0, lpszUTF8, -1, pszUnicodeBuf, nUnicodeLen);
+	int nAnsiLen = MultiByteToWideChar(CP_UTF8, 0, lpszUtf8, -1, pszUnicodeBuf, nUnicodeLen);
 
 	if (NULL != pszUnicodeBuf)
 	{
@@ -367,21 +370,299 @@ CHERRYUTIL_DECL_API CStringA ConvertUTF8ToANSI(_In_ LPCSTR lpszUTF8)
 		pszUnicodeBuf = NULL;
 	}
 
-	CHAR *pszANSIBuf = new CHAR[nANSILen + 1];
-	ZeroMemory(pszANSIBuf, nANSILen + 1);
+	CHAR *pszAnsiBuf = new CHAR[nAnsiLen + 1];
+	ZeroMemory(pszAnsiBuf, nAnsiLen + 1);
 
 	// Unicode -> ANSI
-	WideCharToMultiByte(CP_ACP, 0, pszUnicodeBuf, -1, pszANSIBuf, nANSILen, NULL, NULL);
+	WideCharToMultiByte(CP_ACP, 0, pszUnicodeBuf, -1, pszAnsiBuf, nAnsiLen, NULL, NULL);
 
 	CStringA strRet;
 
-	if (NULL != pszANSIBuf)
+	if (NULL != pszAnsiBuf)
 	{
-		strRet = pszANSIBuf;
+		strRet = pszAnsiBuf;
 
-		delete []pszANSIBuf;
-		pszANSIBuf = NULL;
+		delete []pszAnsiBuf;
+		pszAnsiBuf = NULL;
 	}
 
 	return strRet;
+}
+
+///////////////////////////////////////////////////////////////////////////
+///
+/// \brief		파일 사이즈 반환
+/// \author		ogoons
+/// \date		2015-08-26
+/// \param		
+/// \return		BOOL
+/// \remark		
+/// \section	
+///
+///////////////////////////////////////////////////////////////////////////
+CHERRYUTIL_DECL_API BOOL GetFileSize(_In_ LPCTSTR lpszFilePath, _Out_ LONGLONG &llFileSize)
+{
+	BOOL bRet = TRUE;
+
+	HANDLE hFile = CreateFile(lpszFilePath, GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL);
+
+	LARGE_INTEGER largeInt = { 0, };
+
+	if (TRUE == GetFileSizeEx(hFile, &largeInt))
+	{
+		llFileSize = largeInt.QuadPart;
+	}
+	else
+	{
+		llFileSize = 0;
+		bRet = FALSE;
+	}
+
+	CloseHandle(hFile);
+
+	return bRet;
+}
+
+///////////////////////////////////////////////////////////////////////////
+///
+/// \brief		파일 버전 반환
+/// \author		ogoons
+/// \date		2015-08-26
+/// \param		
+/// \return		BOOL
+/// \remark		
+/// \section	
+///
+///////////////////////////////////////////////////////////////////////////
+CHERRYUTIL_DECL_API BOOL GetFileVersion(_In_ LPCTSTR lpszFilePath, _Out_ CString &strVersion)
+{
+	BOOL bRet = TRUE;
+
+	DWORD dwHandle;
+	DWORD dwVersionInfoSize = GetFileVersionInfoSize(lpszFilePath, &dwHandle);
+
+	if (0 == dwVersionInfoSize)
+		return FALSE;
+
+	HANDLE hBuf = GlobalAlloc(GMEM_MOVEABLE, dwVersionInfoSize);
+	LPVOID lpBuf = GlobalLock(hBuf);
+
+	try
+	{
+		if (FALSE == GetFileVersionInfo(lpszFilePath, dwHandle, dwVersionInfoSize, lpBuf))
+			throw FALSE;
+
+		VS_FIXEDFILEINFO *pBuf = NULL;
+		UINT nDataSize = 0;
+
+		if (FALSE == VerQueryValue(lpBuf, _T("\\"), (void **)&pBuf, &nDataSize))
+			throw FALSE;
+
+		if (NULL == pBuf)
+			throw FALSE;
+
+		strVersion.Format(_T("%d.%d.%d.%d"), (pBuf->dwFileVersionMS / 65536),
+			(pBuf->dwFileVersionMS % 65536), (pBuf->dwFileVersionLS / 65536),
+			(pBuf->dwFileVersionLS % 65536));
+
+	}
+	catch (BOOL &bErrorRet)
+	{
+		bRet = bErrorRet;
+	}
+
+	GlobalUnlock(lpBuf);
+	GlobalFree(hBuf);
+
+	return bRet;
+}
+
+///////////////////////////////////////////////////////////////////////////
+///
+/// \brief		프로세스 실행
+/// \author		ogoons
+/// \date		2015-08-26
+/// \param		
+/// \return		BOOL
+/// \remark		
+/// \section	
+///
+///////////////////////////////////////////////////////////////////////////
+CHERRYUTIL_DECL_API BOOL ExecuteProcess(_In_ LPCTSTR lpszPath, _In_ LPCTSTR lpszParam, _In_ BOOL bWaitProcess)
+{
+	SHELLEXECUTEINFO shellExecInfo;
+	ZeroMemory(&shellExecInfo, sizeof(shellExecInfo));
+
+	shellExecInfo.cbSize = sizeof(shellExecInfo);
+	shellExecInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+	shellExecInfo.hwnd = NULL;
+	shellExecInfo.lpVerb = _T("open");
+	shellExecInfo.lpParameters = lpszParam;
+	shellExecInfo.nShow = SW_SHOWNORMAL;
+	shellExecInfo.lpFile = lpszPath;
+
+	// 패키지 실행
+	if (FALSE == ShellExecuteEx(&shellExecInfo))
+		return FALSE;
+
+	if (TRUE == bWaitProcess)
+	{
+		DWORD dwRet = WaitForSingleObject(shellExecInfo.hProcess, INFINITE);
+
+		switch (dwRet)
+		{
+		case WAIT_OBJECT_0:
+			break;
+
+		case WAIT_FAILED:
+			return FALSE;
+		}
+	}
+
+	return TRUE;
+}
+
+///////////////////////////////////////////////////////////////////////////
+///
+/// \brief		버전 비교 함수
+/// \author		ogoons
+/// \date		2014-04-27
+///
+/// \param		lpszCurrentVersion : 현재 버전
+///				lpszNewVersion : 새 버전
+///
+/// \return		-1 : 현 버전이 상위 버전.
+///				 0 : 두 버전은 동일 버전.
+///				 1 : 새 버전이 상위 버전.
+///
+/// \remark		ex. int nRet = CompareVersion(_T("1.0.0.1"), _T("1.0.0.2"));
+///					printf(_T("Result: %d"), nRet);
+///					.
+///					.
+///					.
+///					Result: 1
+///				
+/// \section	
+///
+///////////////////////////////////////////////////////////////////////////
+CHERRYUTIL_DECL_API int CompareVersion(LPCTSTR lpszCurrentVersion, LPCTSTR lpszNewVersion)
+{
+	int nRet = 0; // is equals
+
+	CString strCurVerBuf(lpszCurrentVersion);
+	CString strNewVerBuf(lpszNewVersion);
+	int nCurVerPos = 0;
+	int nNewVerPos = 0;
+
+	do
+	{
+		UINT nCurVerNum = (UINT)_ttoi(strCurVerBuf.Tokenize(_T("."), nCurVerPos));
+		UINT nNewVerNum = (UINT)_ttoi(strNewVerBuf.Tokenize(_T("."), nNewVerPos));
+		
+		if (nNewVerNum > nCurVerNum)
+		{
+			nRet = 1;
+
+			break;
+		}
+		else if (nNewVerNum < nCurVerNum)
+		{
+			nRet = -1;
+
+			break;
+		}
+	} 
+	while (-1 < nCurVerPos || -1 < nNewVerPos);
+
+	return nRet;
+}
+
+///////////////////////////////////////////////////////////////////////////
+///
+/// \brief		디렉토리 생성 (상위 디렉토리 동시 생성)
+/// \author		ogoons
+/// \date		2014-02-10
+/// \param		
+/// \return		
+/// \remark		
+/// \section	
+///
+///////////////////////////////////////////////////////////////////////////
+CHERRYUTIL_DECL_API void CreateDirectoryAndParent(LPTSTR lpszPath)
+{
+	TCHAR szDirName[MAX_PATH] = { 0, };	// 생성할 디렉초리 이름
+	TCHAR *pszPath = lpszPath;			// 인자로 받은 디렉토리
+	TCHAR *pszDirName = szDirName;
+
+	while (NULL != *pszPath)
+	{
+		if ((_T('\\') == *pszPath) || (_T('/') == *pszPath))   // 루트디렉토리 혹은 Sub디렉토리
+		{
+			if (_T(':') != *(pszPath - 1))
+			{
+				CreateDirectory(szDirName, NULL);
+			}
+		}
+
+		*pszDirName++ = *pszPath++;
+		*pszDirName = _T('\0');
+	}
+
+	CreateDirectory(szDirName, NULL);
+}
+
+///////////////////////////////////////////////////////////////////////////
+///
+/// \brief		폴더 삭제 (하위 폴더 및 파일 삭제)
+/// \author		ogoons
+/// \date		2014-02-10
+/// \param		
+/// \return		
+/// \remark		
+/// \section	
+///
+///////////////////////////////////////////////////////////////////////////
+CHERRYUTIL_DECL_API BOOL DeleteDirectoryAndChild(LPCTSTR lpszPath)
+{
+	if (NULL == lpszPath)
+		return FALSE;
+
+	CString strNextDirPath;
+	CString strRootUrl;
+	CFileFind fileFind;
+
+	BOOL bRet = fileFind.FindFile(lpszPath);
+
+	if (FALSE == bRet)
+		return bRet;
+
+	while (bRet)
+	{
+		bRet = fileFind.FindNextFile();
+
+		if (TRUE == fileFind.IsDots())
+			continue;
+
+		if (TRUE == fileFind.IsDirectory())
+		{
+			strNextDirPath = fileFind.GetFilePath() + _T("\\*.*");
+			DeleteDirectoryAndChild(strNextDirPath);	// 재귀호출
+		}
+		else
+		{
+			CString strFilePath(fileFind.GetFilePath());
+
+			// Remove readonly attributes
+			DWORD dwAttr = GetFileAttributes(strFilePath);
+			if (FILE_ATTRIBUTE_READONLY & dwAttr)
+				SetFileAttributes(strFilePath, dwAttr & ~FILE_ATTRIBUTE_READONLY);
+
+			DeleteFile(strFilePath);
+		}
+	}
+
+	strRootUrl = fileFind.GetRoot();
+	fileFind.Close();
+
+	return RemoveDirectory(strRootUrl);
 }

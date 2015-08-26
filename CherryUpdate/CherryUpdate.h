@@ -54,10 +54,10 @@ public:
 	BOOL Open(
 		LPCTSTR lpszAgent,
 		LPCTSTR lpszClientVersion,
-		LPCTSTR lpszRootURL,
-		LPCTSTR lpszUpdateProfileXML,
+		LPCTSTR lpszRootUrl,
+		LPCTSTR lpszUpdateProfileXml,
 		LPCTSTR lpszPatchTargetPath,
-		BOOL bUseUTF8 = TRUE);							// 업데이트에 필요한 정보를 모두 메모리에 로드하고 업데이트 준비 시작
+		BOOL bUseUtf8 = TRUE);							// 업데이트에 필요한 정보를 모두 메모리에 로드하고 업데이트 준비 시작
 
 // Attributes
 protected:
@@ -113,12 +113,12 @@ protected:
 	ULONGLONG	m_llReceivedSize; // 현재까지 다운로드 받은 사이즈 기록
 
 	// Callback
-	void (*m_pReceivingStatusCallback)(ULONGLONG, ULONGLONG, void *);
-	void (*m_pReceiveCompleteCallback)(BOOL, BOOL, void *);
+	void (*m_pDownloadStatusCallback)(ULONGLONG, ULONGLONG, void *);
+	void (*m_pDownloadCompleteCallback)(BOOL, BOOL, void *);
 	void (*m_pPatchCompleteCallback)(BOOL, BOOL, void *);
 
-	void *m_pReceivingStatusUserData;
-	void *m_pReceiveCompleteUserData;
+	void *m_pDownloadStatusUserData;
+	void *m_pDownloadCompleteUserData;
 	void *m_pPatchCompleteUserData;
 
 // Operations
@@ -126,35 +126,32 @@ public:
 	BOOL		IsOpen() const;																									// Internet session이 정상 open되어서 업데이트가 가능한 상태인지
 	BOOL		IsStarted() const;																								// 업데이트 시작 여부
 	BOOL		CheckNewVersion(LPCTSTR lpszCurrentVersion);																	// 새 버전 존재 여부
-	CHERRY_RET	OpenUpdateProfile(LPCTSTR lpszRootURL, LPCTSTR lpszUpdateProfileXML, BOOL bUseUTF8 = TRUE);						// 업데이트 정보 파일 열기(다운로드, 파싱, 메모리 로드)
+	CHERRY_RET	OpenUpdateProfile(LPCTSTR lpszRootUrl, LPCTSTR lpszUpdateProfileXml, BOOL bUseUtf8 = TRUE);						// 업데이트 정보 파일 열기(다운로드, 파싱, 메모리 로드)
 
 	BOOL		StartUpdate();																									// 업데이트 시작
 	BOOL		StopUpdate();																									// 업데이트 중단
 
-	BOOL		DownloadFile(_In_ LPCTSTR lpszURL, _In_ LPCTSTR lpszReceivePath, _Out_ CString &strReceivedFullPath);			// 파일 다운로드
-	BOOL		SendHttpRequest(_In_ LPCTSTR lpszURL, _In_ BOOL bPost, _In_ LPCTSTR lpszPostData, _Out_ CString &strResponse);	// 서버에 웹페이지 요청 보내기
+	BOOL		DownloadFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszDownloadPath, _Out_ CString &strReceivedFullPath);			// 파일 다운로드
+	BOOL		SendHttpRequest(_In_ LPCTSTR lpszUrl, _In_ BOOL bPost, _In_ LPCTSTR lpszPostData, _Out_ CString &strResponse);	// 서버에 웹페이지 요청 보내기
 
 	ULONGLONG	GetTotalReceiveFileSize();																						// 받을 파일의 총 사이즈 가져오기 (Open이 성공했을 때 가능)
 	void		EnableRunPackage(BOOL bRun = TRUE);																				// 패키지 업데이트 시 패키지 파일의 실행/비실행 여부
 
 	// Set callback
-	void		SetReceivingStatusCallback(LPVOID lpCallbackFunc, void *pUserData);												// 다운로드 진행 상태 변화 시 호출
-	void		SetReceiveCompleteCallback(LPVOID lpCallbackFunc, void *pUserData);												// 다운로드 완료 시 호출
+	void		SetDownloadStatusCallback(LPVOID lpCallbackFunc, void *pUserData);												// 다운로드 진행 상태 변화 시 호출
+	void		SetDownloadCompleteCallback(LPVOID lpCallbackFunc, void *pUserData);											// 다운로드 완료 시 호출
 	void		SetPatchCompleteCallback(LPVOID lpCallbackFunc, void *pUserData);												// 다운로드 된 파일을 해당 디렉토리로 복사 완료 시 호출
 
 	// Utilities
 	static BOOL		IsInternetConnected();																						// 인터넷 연결 여부
 	static BOOL		GetFileVersion(_In_ LPCTSTR lpszFilePath, _Out_ CString &strVersion);										// 파일의 버전 가져오기		
 	static BOOL		GetFileSize(_In_ LPCTSTR lpszFilePath, _Out_ LONGLONG &llFileSize);											// 파일의 사이즈 가져오기
-	static BOOL		ShellExecuteWithWaitProcess(
-						_In_ LPCTSTR lpszPath, 
-						_In_ LPCTSTR lpszParam = NULL, 
-						_In_ BOOL bWaitProcess = FALSE);																		// 파일 실행
+	static BOOL		ExecuteProcess(_In_ LPCTSTR lpszPath, _In_ LPCTSTR lpszParam = NULL, _In_ BOOL bWaitProcess = FALSE);		// 프로세스 실행															// 파일 실행
 	static int		CompareVersion(LPCTSTR lpszCurrentVersion, LPCTSTR lpszNewVersion);											// 버전 비교
 	static void		CreateDirectoryAndParent(LPTSTR lpszPath);																	// 디렉토리 생성(path 중 상위 디렉토리가 없다면 전부 생성)
 	static BOOL		DeleteDirectoryAndChild(LPCTSTR lpszPath);																	// 디렉토리 삭제(하위 디렉토리, 파일 모두 삭제)
-	void			URLEncode(char *output, char *input);																		// 현재 사용 안 함
-	static CString	ConvertUTF8ToUnicode(_In_ LPCWSTR lpszUTF8);																// UTF-8 -> Unicode(UTF-8 LE)
+	static CString	ConvertUtf8ToUnicode(_In_ LPCWSTR lpszUtf8);																// UTF-8 -> Unicode(UTF-8 LE)
+	void			UrlEncode(char *output, char *input);																		// 현재 사용 안 함
 
 #ifdef USE_MFC_CLASS
 	virtual void	Close();
@@ -166,7 +163,7 @@ protected:
 	void			Initialize();																								// 초기화
 	CString			GetIncomingPath();																							// 다운로드된 파일이 임시 저장될 디렉토리 경로 가져오기
 
-	void			ParseFileNode(BOOL bPackageNode, XMLNode *pFileListNode, LPCTSTR lpszRootURL, BOOL bUseUTF8);				// 파일 리스트 노드를 파싱하여 가져온다. (내부에서만 사용)
+	void			ParseFileNode(BOOL bPackageNode, XMLNode *pFileListNode, LPCTSTR lpszRootUrl, BOOL bUseUtf8);				// 파일 리스트 노드를 파싱하여 가져온다. (내부에서만 사용)
 
 	// Thread
 	static UINT		UpdateProcessThread(LPVOID lpParam);																		// 파일 다운로드에서 복사까지의 모든 업데이트 진행 시퀀스 (Worker thread)

@@ -39,7 +39,7 @@ void CCherryMemDC::Initialize(CDC *pDC, const CRect *pRect, BOOL bDrawOut)
 	{
 		CreateCompatibleDC(pDC);
 
-		if (pRect == NULL)
+		if (NULL == pRect)
 			pDC->GetClipBox(&m_rect);
 		else
 			m_rect = *pRect;

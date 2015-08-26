@@ -272,7 +272,7 @@ CHERRY_RET CCherryImage::DrawImage(Graphics *pGraphics, int nLeft, int nTop, UIN
 			if (Ok != UpdateCachedImage(pGraphics, CRect(nLeft, nTop, nLeft + m_pBitmap->GetWidth(), nTop + m_pBitmap->GetHeight()), nAlphaBlendRatio))
 				throw CCherryException::ERROR_IMAGE_UPDATE_CACHED_IMAGE_FAIL;
 
-			if (m_pCachedBitmap == NULL)
+			if (NULL == m_pCachedBitmap)
 				throw CCherryException::ERROR_IMAGE_CACHED_IMAGE_NOT_LOADED;
 
 			if (Ok != pGraphics->DrawCachedBitmap(m_pCachedBitmap, nLeft, nTop))
@@ -314,7 +314,7 @@ CHERRY_RET CCherryImage::DrawImage(Graphics *pGraphics, int nLeft, int nTop, int
 			if (Ok != UpdateCachedImage(pGraphics, CRect(nLeft, nTop, nRight, nBottom), nAlphaBlendRatio))
 				throw CCherryException::ERROR_IMAGE_UPDATE_CACHED_IMAGE_FAIL;
 
-			if (m_pCachedBitmap == NULL)
+			if (NULL == m_pCachedBitmap)
 				throw CCherryException::ERROR_IMAGE_CACHED_IMAGE_NOT_LOADED;
 
 			if (Ok != pGraphics->DrawCachedBitmap(m_pCachedBitmap, nLeft, nTop))
@@ -356,7 +356,7 @@ CHERRY_RET CCherryImage::DrawImage(Graphics *pGraphics, CRect rect, UINT nAlphaB
 			if (Ok != UpdateCachedImage(pGraphics, rect, nAlphaBlendRatio))
 				throw CCherryException::ERROR_IMAGE_UPDATE_CACHED_IMAGE_FAIL;
 
-			if (m_pCachedBitmap == NULL)
+			if (NULL == m_pCachedBitmap)
 				throw CCherryException::ERROR_IMAGE_CACHED_IMAGE_NOT_LOADED;
 
 			if (Ok != pGraphics->DrawCachedBitmap(m_pCachedBitmap, rect.left, rect.top))
@@ -504,7 +504,7 @@ CHERRY_RET CCherryImage::DrawStretchImage3x3(Graphics *pGraphics, int nLeft, int
 			if (Ok != UpdateCachedImage(pGraphics, CRect(nLeft, nTop, nRight, nBottom), nAlphaBlendRatio, TRUE))
 				throw CCherryException::ERROR_IMAGE_UPDATE_CACHED_IMAGE_FAIL;
 
-			if (m_pCachedBitmap == NULL)
+			if (NULL == m_pCachedBitmap)
 				throw CCherryException::ERROR_IMAGE_CACHED_IMAGE_NOT_LOADED;
 
 			if (Ok != pGraphics->DrawCachedBitmap(m_pCachedBitmap, nLeft, nTop))
