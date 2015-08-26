@@ -73,7 +73,7 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 
 	m_toggleButton.Create(NULL, _T("wimax_on_off.png"), CCherryToggleButton::STYLE_AUTORESIZE | CCherryToggleButton::STYLE_AUTOTOGGLEBUTTON, WS_CHILD | WS_VISIBLE, CRect(250, 150, 0, 0), this, 500);
 
-	m_radioButton1.Create(_T("라디오 버튼 1"), _T("check.png"), CCherryRadioButton::STYLE_BUTTONTYPE, NULL, WS_CHILD | WS_VISIBLE, CRect(300, 150, 500, 200), this, 501);
+	m_radioButton1.Create(_T("라디오 버튼 1"), _T("check.png"), CCherryRadioButton::STYLE_AUTORESIZE | CCherryRadioButton::STYLE_AUTOCHECKBOX, NULL, WS_CHILD | WS_VISIBLE, CRect(300, 150, 500, 200), this, 501);
 	m_radioButton2.Create(_T("라디오 버튼 2"), _T("check.png"), CCherryRadioButton::STYLE_AUTORESIZE | CCherryRadioButton::STYLE_AUTOCHECKBOX, &m_radioButton1, WS_CHILD | WS_VISIBLE, CRect(300, 180, 0, 0), this, 502);
 	m_radioButton3.Create(_T("라디오 버튼 3"), _T("check.png"), CCherryRadioButton::STYLE_AUTORESIZE | CCherryRadioButton::STYLE_AUTOCHECKBOX, &m_radioButton1, WS_CHILD | WS_VISIBLE, CRect(300, 210, 0, 0), this, 503);
 	m_radioButton2.SetCheck(CCherryRadioButton::STATUS_CHECKED);
