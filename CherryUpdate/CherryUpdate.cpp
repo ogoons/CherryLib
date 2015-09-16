@@ -700,7 +700,7 @@ BOOL CCherryUpdate::DownloadFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszDownload
 				m_pDownloadStatusCallback(m_llReceivedSize, m_updateProfile.llFileTotalSize, m_pDownloadStatusUserData);
 		}
 
-		delete []pData;
+		delete[] pData;
 	}
 
 	CloseHandle(hFile);

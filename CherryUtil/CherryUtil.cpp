@@ -230,7 +230,7 @@ CHERRYUTIL_DECL_API BOOL SendHttpRequest(_In_ LPCTSTR lpszUrl, _In_ BOOL bPost, 
 
 		// 누적 복사
 		strResponse += pszData;
-		delete[]pszData;
+		delete[] pszData;
 	}
 
 	return TRUE;
@@ -270,7 +270,7 @@ CHERRYUTIL_DECL_API BOOL DownloadFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszDow
 		InternetReadFile(hUrl, pData, dwReadSize, &dwBytesRead);
 		WriteFile(hFile, pData, dwBytesRead, &dwWritten, NULL);
 
-		delete []pData;
+		delete[] pData;
 	}
 
 	CloseHandle(hFile);
@@ -296,7 +296,7 @@ CHERRYUTIL_DECL_API CString	ConvertAnsiToUnicode(LPCSTR lpszAnsi)
 	{
 		strRet = pszBuf;
 
-		delete []pszBuf;
+		delete[] pszBuf;
 		pszBuf = NULL;
 	}
 
@@ -320,7 +320,7 @@ CHERRYUTIL_DECL_API CStringA ConvertUnicodeToAnsi(LPCWSTR lpszUnicode)
 	{
 		strRet = pszBuf;
 
-		delete[]pszBuf;
+		delete[] pszBuf;
 		pszBuf = NULL;
 	}
 
@@ -346,7 +346,7 @@ CHERRYUTIL_DECL_API CString ConvertUtf8ToUnicode(_In_ LPCWSTR lpszUtf8)
 	{
 		strRet = pszBuf;
 		
-		delete []pszBuf;
+		delete[] pszBuf;
 		pszBuf = NULL;
 	}
 
@@ -366,7 +366,7 @@ CHERRYUTIL_DECL_API CStringA ConvertUtf8ToAnsi(_In_ LPCSTR lpszUtf8)
 
 	if (NULL != pszUnicodeBuf)
 	{
-		delete []pszUnicodeBuf;
+		delete[] pszUnicodeBuf;
 		pszUnicodeBuf = NULL;
 	}
 
@@ -382,7 +382,7 @@ CHERRYUTIL_DECL_API CStringA ConvertUtf8ToAnsi(_In_ LPCSTR lpszUtf8)
 	{
 		strRet = pszAnsiBuf;
 
-		delete []pszAnsiBuf;
+		delete[] pszAnsiBuf;
 		pszAnsiBuf = NULL;
 	}
 
