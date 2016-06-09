@@ -100,6 +100,68 @@ CHERRY_RET CCherryImage::LoadImage(LPCTSTR lpszImagePath, BOOL bUseCachedImage)
 	return cherryRet;
 }
 
+CHERRY_RET CCherryImage::LoadImage(CCherryImage *pImage, int nLeft, int nTop, int nWidth, int nHeight, BOOL bUseCachedImage)
+{
+	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
+
+	try
+	{
+		RemoveImage();
+		RemoveCachedImage();
+
+		// 깊은 복사
+		m_pBitmap = pImage->GetBitmap()->Clone(nLeft, nTop, nWidth, nHeight, PixelFormatDontCare);
+
+		if (Ok != m_pBitmap->GetLastStatus())
+		{
+			RemoveImage();
+
+			throw CCherryException::ERROR_IMAGE_LOAD_FAIL;
+		}
+
+		m_bUseCachedImage = bUseCachedImage;
+	}
+	catch (const CHERRY_RET &errorRet)
+	{
+		cherryRet = errorRet;
+	}
+
+	return cherryRet;
+}
+
+CHERRY_RET CCherryImage::LoadImage(CCherryImage *pImage, Rect rect, BOOL bUseCachedImage)
+{
+	return LoadImage(pImage, rect.GetLeft(), rect.GetTop(), rect.Width, rect.Height, bUseCachedImage);
+}
+
+CHERRY_RET CCherryImage::LoadImage(CCherryImage *pImage, BOOL bUseCachedImage)
+{
+	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
+
+	try
+	{
+		RemoveImage();
+		RemoveCachedImage();
+
+		m_pBitmap = pImage->GetBitmap()->Clone(0, 0, pImage->GetWidth(), pImage->GetHeight(), PixelFormatDontCare);
+
+		if (Ok != m_pBitmap->GetLastStatus())
+		{
+			RemoveImage();
+
+			throw CCherryException::ERROR_IMAGE_LOAD_FAIL;
+		}
+
+		m_bUseCachedImage = bUseCachedImage;
+	}
+	catch (const CHERRY_RET &errorRet)
+	{
+		cherryRet = errorRet;
+	}
+
+	return cherryRet;
+}
+
 CHERRY_RET CCherryImage::LoadImage(Bitmap *pBitmap, BOOL bUseCachedImage)
 {
 	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
@@ -403,6 +465,28 @@ BOOL CCherryImage::DrawRatioImage(Graphics *pGraphics, CPoint point, UINT nRatio
 }
 */
 
+//Status CCherryImage::ExtractImage3x3(
+//	CCherryImage leftTopImage, CCherryImage midTopImage, CCherryImage rightTopImage, 
+//	CCherryImage leftMidImage, CCherryImage midMidImage, CCherryImage rightMidImage,
+//	CCherryImage leftBottomImage, CCherryImage midBottomImage, CCherryImage rightBottomImage)
+//{
+//	Status statusRet = Ok;
+//
+//	try
+//	{
+//
+//
+//
+//
+//	}
+//	catch (const Status &e)
+//	{
+//		statusRet = e;
+//	}
+//	
+//	return statusRet;
+//}
+
 Status CCherryImage::MakeStretchImage3x3(Graphics *pGraphics, Rect rect, UINT nAlphaBlendRatio)
 {
 	Status statusRet = Ok;
@@ -631,6 +715,224 @@ void CCherryImage::SetDefaultImagePath(LPCTSTR lpszPath)
 {
 	m_strDefaultImagePath = lpszPath;
 }
+
+HRGN CCherryImage::GetHRGN(RGN_TYPE rgnType, short nAlpha) const
+{
+	if (NULL == m_pBitmap)
+		return NULL;
+
+	Rect imageRect(0, 0, m_pBitmap->GetWidth(), m_pBitmap->GetHeight());
+	Region region;
+	region.MakeEmpty();
+	region.Union(imageRect);
+
+	BitmapData *pBitmapData = new BitmapData(); 
+	m_pBitmap->LockBits(&imageRect, ImageLockModeRead, PixelFormat32bppARGB, pBitmapData);
+
+	UINT *pPixel = (UINT *)pBitmapData->Scan0;
+
+	for (UINT i = 0; i < GetHeight(); i++)
+	{
+		for (UINT j = 0; j < GetWidth(); j++)
+		{
+			DWORD dwAlpha = (pPixel[i * pBitmapData->Stride / 4 + j] & 0xff000000) >> 3 * 8;
+			switch (rgnType)
+			{
+			case RGN_TYPE_VISIBLE:			
+				if (0 == dwAlpha)
+					region.Xor(Rect(j, i, 1, 1)); // 투명한 부분 제외
+				break;
+			case RGN_TYPE_INVISIBLE:		
+				if (0 < dwAlpha)
+					region.Xor(Rect(j, i, 1, 1)); // 불투명한 부분 제외
+				break;
+			case RGN_TYPE_VISIBLE_THRESHOLD:	
+				if (nAlpha > (short)dwAlpha)
+					region.Xor(Rect(j, i, 1, 1)); // 사용자가 설정한 Alpha 값보다 투명하면 제외
+				break;
+			case RGN_TYPE_INVISIBLE_THRESHOLD:		
+				if (nAlpha < (short)dwAlpha)
+					region.Xor(Rect(j, i, 1, 1)); // 사용자가 설정한 Alpha 값보다 불투명하면 제외
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	Graphics graphics(m_pBitmap);
+	HRGN hRgn = region.GetHRGN(&graphics); // 추후에 DeleteObject 필요
+
+	m_pBitmap->UnlockBits(pBitmapData);
+	if (NULL != pBitmapData)
+		delete pBitmapData;
+
+	return hRgn;
+}
+
+//HRGN CCherryImage::GetStretchRgn3x3(RGN_TYPE rgnType, CRect newRect, short nAlpha)
+//{
+//	if (NULL == m_pBitmap)
+//		return NULL;
+//
+//	// 3x3 Stretch 이미지
+//	Bitmap *pNewBitmap = new Bitmap(newRect.Width(), newRect.Height(), m_pBitmap->GetPixelFormat());
+//	Graphics graphics(pNewBitmap);
+//	MakeStretchImage3x3(&graphics, Rect(0, 0, newRect.Width(), newRect.Height()));
+//
+//	// Alpha 영역 추리기
+//	Rect imageRect(0, 0, newRect.Width(), newRect.Height());
+//	Region region;
+//	region.MakeEmpty();
+//	region.Union(imageRect);
+//
+//	BitmapData *pBitmapData = new BitmapData();
+//	pNewBitmap->LockBits(&imageRect, ImageLockModeRead, PixelFormat32bppARGB, pBitmapData);
+//
+//	UINT *pPixel = (UINT *)pBitmapData->Scan0;
+//
+//	for (UINT i = 0; i < pNewBitmap->GetHeight(); i++)
+//	{
+//		for (UINT j = 0; j < pNewBitmap->GetWidth(); j++)
+//		{
+//			DWORD dwAlpha = (pPixel[i * pBitmapData->Stride / 4 + j] & 0xff000000) >> 3 * 8;
+//			switch (rgnType)
+//			{
+//			case RGN_TYPE_VISIBLE:			// 투명한 부분 제외
+//				if (0 == dwAlpha)
+//					region.Xor(Rect(j, i, 1, 1));
+//				break;
+//			case RGN_TYPE_INVISIBLE:		// 불투명한 부분 제외
+//				if (0 < dwAlpha)
+//					region.Xor(Rect(j, i, 1, 1));
+//				break;
+//			case RGN_TYPE_VISIBLE_THRESHOLD:
+//				if (nAlpha > (short)dwAlpha)
+//					region.Xor(Rect(j, i, 1, 1)); // 사용자가 설정한 Alpha 값보다 투명하면 제외
+//				break;
+//			case RGN_TYPE_INVISIBLE_THRESHOLD:
+//				if (nAlpha < (short)dwAlpha)
+//					region.Xor(Rect(j, i, 1, 1)); // 사용자가 설정한 Alpha 값보다 불투명하면 제외
+//				break;
+//			default:
+//				break;
+//			}
+//		}
+//	}
+//
+//	HRGN hRgn = region.GetHRGN(&graphics); // 추후에 DeleteObject 필요
+//	pNewBitmap->UnlockBits(pBitmapData);
+//
+//	if (NULL != pBitmapData)
+//	{
+//		delete pBitmapData;
+//		pBitmapData = NULL;
+//	}
+//
+//	if (NULL != pNewBitmap)
+//	{
+//		delete pNewBitmap;
+//		pNewBitmap = NULL;
+//	}
+//
+//	return hRgn;
+//}
+
+Bitmap *CCherryImage::ExtractBitmap(CRect extractRect)
+{
+	if (NULL == m_pBitmap)
+		return NULL;
+
+	return m_pBitmap->Clone(Rect(extractRect.left, extractRect.top, extractRect.Width(), extractRect.Height()), PixelFormat32bppARGB);
+}
+
+CCherryImage *CCherryImage::ExtractImage(CRect extractRect)
+{
+	return new CCherryImage(ExtractBitmap(extractRect));
+}
+
+Bitmap *CCherryImage::ExtractStretchBitmap(CRect stretchRect, CRect extractRect, UINT nAlphaBlendRatio, _Out_ CHERRY_RET &cherryRet)
+{
+	Bitmap *pExtractedBitmap = NULL;
+	Bitmap *pStretchedBitmap = NULL;
+
+	try
+	{
+		if (NULL == m_pBitmap)
+			throw CCherryException::ERROR_IMAGE_FILE_NOT_FOUND;
+
+		pStretchedBitmap = new Bitmap(stretchRect.Width(), stretchRect.Height(), PixelFormat32bppARGB);
+		Graphics stretchedGraphics(pStretchedBitmap);
+
+		// 원본 이미지 보다 작거나 같은 경우 원본 이미지의 크기로 출력한다.
+		if (stretchRect.Width() <= (int)m_pBitmap->GetWidth())
+			stretchRect.right = stretchRect.left + m_pBitmap->GetWidth();
+
+		if (stretchRect.Height() <= (int)m_pBitmap->GetHeight())
+			stretchRect.bottom = stretchRect.top + m_pBitmap->GetHeight();
+
+		if (m_bUseCachedImage)
+		{
+			if (Ok != UpdateCachedImage(&stretchedGraphics, stretchRect, nAlphaBlendRatio, TRUE))
+				throw CCherryException::ERROR_IMAGE_UPDATE_CACHED_IMAGE_FAIL;
+
+			if (NULL == m_pCachedBitmap)
+				throw CCherryException::ERROR_IMAGE_CACHED_IMAGE_NOT_LOADED;
+
+			if (Ok != stretchedGraphics.DrawCachedBitmap(m_pCachedBitmap, stretchRect.left, stretchRect.top))
+				throw CCherryException::ERROR_IMAGE_DRAW_CACHED_IMAGE_FAIL;
+		}
+		else
+		{
+			if (Ok != MakeStretchImage3x3(&stretchedGraphics, Rect(0, 0, stretchRect.Width(), stretchRect.Height()), nAlphaBlendRatio))
+				throw CCherryException::ERROR_IMAGE_MAKE_IMAGE_FAIL;
+		}
+
+		pExtractedBitmap = pStretchedBitmap->Clone((INT)extractRect.left, (INT)extractRect.top, (INT)extractRect.Width(), (INT)extractRect.Height(), PixelFormatDontCare);
+		
+		if (Ok != pStretchedBitmap->GetLastStatus())
+			throw CCherryException::ERROR_IMAGE_EXTRACT_IMAGE_FAIL;
+	}
+	catch (const CHERRY_RET &errorRet)
+	{
+		cherryRet = errorRet;
+	}
+
+	if (NULL != pStretchedBitmap)
+	{
+		delete pStretchedBitmap;
+		pStretchedBitmap = NULL;
+	}
+
+	return pExtractedBitmap;
+}
+
+CCherryImage *CCherryImage::ExtractStretchImage(CRect stretchRect, CRect extractRect, UINT nAlphaBlendRatio, _Out_ CHERRY_RET &cherryRet)
+{
+	CCherryImage *pExtractStretchImage = NULL;
+
+	try
+	{
+		Bitmap *pExtractStretchBitmap = ExtractStretchBitmap(stretchRect, extractRect, nAlphaBlendRatio, cherryRet);
+		if (CCherryException::ERROR_CHERRY_SUCCESS != cherryRet)
+			throw cherryRet;
+
+		pExtractStretchImage = new CCherryImage(pExtractStretchBitmap);
+				
+		if (NULL != pExtractStretchBitmap)
+		{
+			delete pExtractStretchBitmap;
+			pExtractStretchBitmap = NULL;
+		}
+	}
+	catch (const CHERRY_RET &errorRet)
+	{
+		cherryRet = errorRet;
+	}
+
+	return pExtractStretchImage;
+}
+
 
 //CCherryImage &CCherryImage::operator=(Bitmap *pBitmap)
 //{	

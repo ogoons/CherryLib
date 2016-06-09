@@ -58,6 +58,8 @@ END_MESSAGE_MAP()
 
 BOOL CCherryCtrlExamDlg::OnCreateCherry()
 {
+	SetNcImage(_T("main_back.png"));
+
 	//_CrtSetBreakAlloc(357);
 	m_comboBox.Create(_T("combotest.png"), NULL, WS_VISIBLE | WS_CHILD, CRect(150, 250, 500, 500), this, 499);
 	
@@ -287,7 +289,7 @@ void CCherryCtrlExamDlg::OnDrawCherry(CCherryMemDC *pDC)
 	CRect clientRect;
 	GetClientRect(clientRect);
 
-	m_defaultSizeImage.DrawImage(&grs, clientRect);
+	//m_defaultSizeImage.DrawImage(&grs, clientRect);
 	m_font.DrawText(&grs, _T("CCherryFont 테스트 입니다."), CRect(10, 10, 100, 20));
 	//m_resImage.DrawStretchImage3x3(&grs, 10, 10, 600, 600);
 }

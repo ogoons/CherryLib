@@ -21,6 +21,14 @@ class AFX_EXT_CLASS CCherryImage
 {
 // Constructors
 public:
+	enum RGN_TYPE
+	{
+		RGN_TYPE_VISIBLE,				// 보이는(불투명) 영역만 남김
+		RGN_TYPE_INVISIBLE,				// 안보이는(투명) 영역만 남김
+		RGN_TYPE_VISIBLE_THRESHOLD,		// 보이는 영역 임계치 설정
+		RGN_TYPE_INVISIBLE_THRESHOLD,	// 안보이는 영역 임계치 설정
+	};
+
 	CCherryImage();
 	CCherryImage(LPCTSTR lpszImagePath, BOOL bUseCachedImage = FALSE);
 	CCherryImage(Bitmap *pBitmap, BOOL bUseCachedImage = FALSE);
@@ -38,6 +46,9 @@ protected:
 	BOOL			m_bUseCachedImage;
 
 	static CString	m_strDefaultImagePath;
+
+	Bitmap			*m_pNcEdgeBitmap[4];
+
 // Operations
 public:
 	// 이미지가 로드 되었는지
@@ -58,11 +69,17 @@ public:
 	// 마지막 에러 상태 가져옴
 	Status			GetBitmapLastStatus() const;
 
+	// 유형에 따른 HRGN 가져오기
+	HRGN			GetHRGN(RGN_TYPE rgnType, short nAlpha = 255) const;
+
 	// 캐시된 이미지 사용
-	void									UseCachedImage(BOOL bUse = TRUE);
+	void			UseCachedImage(BOOL bUse = TRUE);
 
 	// 이미지 읽어오기
 	CHERRY_RET		LoadImage(LPCTSTR lpszImagePath, BOOL bUseCachedImage = FALSE);
+	CHERRY_RET		LoadImage(CCherryImage *pImage, int nLeft, int nTop, int nWidth, int nHeight, BOOL bUseCachedImage);
+	CHERRY_RET		LoadImage(CCherryImage *pImage, Rect rect, BOOL bUseCachedImage);
+	CHERRY_RET		LoadImage(CCherryImage *pImage, BOOL bUseCachedImage);
 	CHERRY_RET		LoadImage(Bitmap *pBitmap, BOOL bUseCachedImage = FALSE);
 	CHERRY_RET		LoadImage(Bitmap *pBitmap, int nLeft, int nTop, int nWidth, int nHeight, BOOL bUseCachedImage);
 	CHERRY_RET		LoadImage(Bitmap *pBitmap, Rect rect, BOOL bUseCachedImage = FALSE);
@@ -76,25 +93,32 @@ public:
 	//// 확대나 축소된 이미지 그리기(사용 안 함)
 	//BOOL			DrawRatioImage(Graphics *pGraphics, int nLeft, int nTop, UINT nRatio, UINT nAlphaBlendRatio = 100);	
 	//BOOL			DrawRatioImage(Graphics *pGraphics, CPoint point, UINT nRatio, UINT nAlphaBlendRatio = 100);
-	//
 
 	// 3x3 으로 분할하여 확대 그리기(외곽선 깨짐 방지용)
 	CHERRY_RET		DrawStretchImage3x3(Graphics *pGraphics, int nLeft, int nTop, int nRight, int nBottom, UINT nAlphaBlendRatio = 100);
 	CHERRY_RET		DrawStretchImage3x3(Graphics *pGraphics, CRect rect, UINT nAlphaBlendRatio = 100);
+	
+	// 3x3 확대된 이미지에 대한 Region 가져오기(사용 안 함)
+	//HRGN			GetStretchRgn3x3(RGN_TYPE rgnType, CRect rect, short nAlpha = 255);
+
+	Bitmap			*ExtractBitmap(CRect extractRect);
+	CCherryImage	*ExtractImage(CRect extractRect);
+
+	Bitmap			*ExtractStretchBitmap(CRect stretchRect, CRect extractRect, UINT nAlphaBlendRatio, _Out_ CHERRY_RET &cherryRet);
+	CCherryImage	*ExtractStretchImage(CRect stretchRect, CRect extractRect, UINT nAlphaBlendRatio, _Out_ CHERRY_RET &cherryRet);
 
 	// 멤버로 할당된 Bitmap 객체 삭제
-	BOOL									RemoveImage();
+	BOOL			RemoveImage();
 	
 	// 멤버로 할당된 캐시된 Bitmap 객체 삭제
-	BOOL									RemoveCachedImage();
+	BOOL			RemoveCachedImage();
 
 	static void		SetDefaultImagePath(LPCTSTR lpszPath);
-	
 
 protected:
 	// 중복되는 로직을 하나로 묶어서 클래스 내부에서만 사용하는 이미지 Draw 함수
 	Status			MakeImage(Graphics *pGraphics, Rect rect, UINT nAlphaBlendRatio);
-	Status			MakeStretchImage3x3(Graphics *pGraphics, Rect rect, UINT nAlphaBlendRatio);
+	Status			MakeStretchImage3x3(Graphics *pGraphics, Rect rect, UINT nAlphaBlendRatio = 100);
 
 	// 이미지 속성에 투명 효과
 	Status			CaculatedAlphaBlendAttributes(_In_ UINT nAlphaBlendRatio, _Out_ ImageAttributes &imageAttributes);

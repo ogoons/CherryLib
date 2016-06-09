@@ -36,9 +36,28 @@ public:
 
 // Attributes
 protected:
-	// Icon
-	CCherryImage m_iconImage;
+	// Status
+	BOOL m_bNcActive;
 
+	// Icon
+	enum WINDOW_ACTIVATION
+	{
+		WINDOW_ACTIVATION_ACTIVE,
+		WINDOW_ACTIVATION_INACTIVE,
+		WINDOW_ACTIVATION_MAX_COUNT
+	};
+
+	CCherryImage m_iconImage;
+	CCherryImage m_clientImage[WINDOW_ACTIVATION_MAX_COUNT];
+	CCherryImage m_ncImage[WINDOW_ACTIVATION_MAX_COUNT];
+
+	//CCherryImage m_clientImage_;
+	//Bitmap *m_pClientImage;
+
+	// Region
+	HRGN m_hNcRgn;
+	HRGN m_hNcEdgeRgn[4];
+	
 	// System buttons
 	CCherryImage m_sysHelpButtonImage[STATUS_MAX_COUNT];
 	CCherryImage m_sysMinButtonImage[STATUS_MAX_COUNT];
@@ -47,15 +66,26 @@ protected:
 
 // Operations
 public:
-	CHERRY_RET SetSystemButtonImage(LPCTSTR lpszMinButtonImagePath, LPCTSTR lpszMaxButtonImagePath, LPCTSTR lpszCloseButtonImagePath);
+	void SetClientImage(LPCTSTR lpszImagePath); // 구현 필요
+	void SetClientImage(Bitmap clientBitmap);
+	void SetClientImage(CCherryImage clientImage);
+
+	CHERRY_RET SetNcImage(LPCTSTR lpszActiveImagePath, LPCTSTR lpszInactiveImagePath);
+	CHERRY_RET SetNcImage(LPCTSTR lpszActiveInactiveMergedImagePath);
+	CHERRY_RET SetSystemButtonImage(LPCTSTR lpszMinButtonImagePath, LPCTSTR lpszMaxButtonImagePath, LPCTSTR lpszCloseButtonImagePath); // 구현 필요
+
+	// 단색을 위한 함수 구현
+	// NC 이미지에 ALPHA 값 수동 옵션 파라미터 추가
 
 protected:
+	void UpdateNcRegion();
+
 	// 모든 그리기 작업은 여기서 한다. (OnPaint 오버라이드 금지)
 	virtual void OnDrawCherry(CCherryMemDC *pDC) = 0; // 자식 클래스에서 구현하도록 한다.
 
 	// 모든 CherryCtrl 들은 여기서 생성한다.
-	virtual BOOL OnCreateCherry();	
-	
+	virtual BOOL OnCreateCherry();
+
 // Overridables
 	virtual BOOL OnInitDialog();
 
@@ -72,6 +102,7 @@ protected:
 	
 	virtual void OnDrawSystemButton(CCherryMemDC *pDC);
 
+	afx_msg void OnNcPaint();
 	afx_msg BOOL OnNcActivate(BOOL bActive);
 	afx_msg LRESULT OnNcHitTest(CPoint point);
 	afx_msg void OnNcLButtonDown(UINT nHitTest, CPoint point);
