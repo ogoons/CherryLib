@@ -19,7 +19,7 @@ CCherryMemDC::~CCherryMemDC()
 			m_pDC->BitBlt(m_rect.left, m_rect.top, m_rect.Width(), m_rect.Height(), this, m_rect.left, m_rect.top, SRCCOPY);            
 		
 		SelectObject(m_pOldBitmap); 
-		//DeleteDC();
+		//DeleteDC(); // 굳이 delete 하지 않아도 된다.
 	} 
 	else 
 	{           
@@ -52,6 +52,7 @@ void CCherryMemDC::Initialize(CDC *pDC, const CRect *pRect, BOOL bDrawOut)
 
 		// Fill background, 배경을 전달 받은 매개변수 DC 의 배경색으로 채운다.
 		FillSolidRect(m_rect, pDC->GetBkColor());	
+		//FillSolidRect(m_rect, RGB(255, 255, 255));
 	}
 	else
 	{

@@ -437,57 +437,8 @@ CHERRY_RET CCherryImage::DrawImage(Graphics *pGraphics, CRect rect, UINT nAlphaB
 
 	return cherryRet;
 }
-/*
-BOOL CCherryImage::DrawRatioImage(Graphics *pGraphics, int x, int y, UINT nRatio, UINT nAlphaBlendRatio)
-{
-	if (!m_pBitmap)
-		return FALSE;
 
-	UINT nRatioWidth = (m_pBitmap->GetWidth() * nRatio) / 100;
-	UINT nRatioHeight = (m_pBitmap->GetHeight() * nRatio) / 100;
-
-	ImageAttributes *pImageAtt = GetCaculatedAlphaBlendAttributes(nAlphaBlendRatio);
-
-	BOOL bRet = TRUE;
-
-	//if (pGraphics->DrawImage(m_pBitmap, x, y, nPerWidth, nPerHeight) != Ok)
-	if (pGraphics->DrawImage(m_pBitmap, Rect(x, y, nRatioWidth, nRatioHeight), 0, 0, m_pBitmap->GetWidth(), m_pBitmap->GetHeight(), UnitPixel, pImageAtt) != Ok)
-		bRet = FALSE;
-
-	delete pImageAtt;
-
-	return bRet;
-}
-
-BOOL CCherryImage::DrawRatioImage(Graphics *pGraphics, CPoint point, UINT nRatio, UINT nAlphaBlendRatio)
-{
-	return DrawRatioImage(pGraphics, (int)point.x, (int)point.y, nRatio, nAlphaBlendRatio);
-}
-*/
-
-//Status CCherryImage::ExtractImage3x3(
-//	CCherryImage leftTopImage, CCherryImage midTopImage, CCherryImage rightTopImage, 
-//	CCherryImage leftMidImage, CCherryImage midMidImage, CCherryImage rightMidImage,
-//	CCherryImage leftBottomImage, CCherryImage midBottomImage, CCherryImage rightBottomImage)
-//{
-//	Status statusRet = Ok;
-//
-//	try
-//	{
-//
-//
-//
-//
-//	}
-//	catch (const Status &e)
-//	{
-//		statusRet = e;
-//	}
-//	
-//	return statusRet;
-//}
-
-Status CCherryImage::MakeStretchImage3x3(Graphics *pGraphics, Rect rect, UINT nAlphaBlendRatio)
+Status CCherryImage::Make9PatchImage(Graphics *pGraphics, Rect rect, UINT nAlphaBlendRatio)
 {
 	Status statusRet = Ok;
 
@@ -501,8 +452,11 @@ Status CCherryImage::MakeStretchImage3x3(Graphics *pGraphics, Rect rect, UINT nA
 		int nRight = rect.GetRight();
 		int nBottom = rect.GetBottom();
 
-		UINT nOrgWidth = m_pBitmap->GetWidth();
-		UINT nOrgHeight = m_pBitmap->GetHeight();
+		UINT nRawWidth = m_pBitmap->GetWidth();
+		UINT nRawHeight = m_pBitmap->GetHeight();
+
+		UINT nDivWidth = m_pBitmap->GetWidth() / 3;
+		UINT nDivHeight = m_pBitmap->GetHeight() / 3;
 
 		// 투명 이미지를 적용할 변환된 속성 가져오기
 		ImageAttributes imageAttributes;
@@ -511,53 +465,53 @@ Status CCherryImage::MakeStretchImage3x3(Graphics *pGraphics, Rect rect, UINT nA
 		CaculatedAlphaBlendAttributes(nAlphaBlendRatio, imageAttributes);
 
 		// 상단 좌측
-		if (Ok != (statusRet = pGraphics->DrawImage(m_pBitmap, Rect(nLeft, nTop, nOrgWidth / 3, nOrgHeight / 3),
-			0, 0, nOrgWidth / 3, nOrgHeight / 3, UnitPixel, &imageAttributes)))
+		if (Ok != (statusRet = pGraphics->DrawImage(m_pBitmap, Rect(nLeft, nTop, nDivWidth, nDivHeight),
+			0, 0, nDivWidth, nDivHeight, UnitPixel, &imageAttributes)))
 			throw statusRet;
 
 		// 상단 중간
-		if (Ok != (statusRet = pGraphics->DrawImage(m_pBitmap, Rect(nLeft + nOrgWidth / 3, nTop, (nRight - nLeft) - nOrgWidth / 3 * 2, nOrgHeight / 3),
-			nOrgWidth / 3, 0, nOrgWidth - nOrgWidth / 3 * 2, nOrgHeight / 3, UnitPixel, &imageAttributes)))
+		if (Ok != (statusRet = pGraphics->DrawImage(m_pBitmap, Rect(nLeft + nDivWidth, nTop, (nRight - nLeft) - nDivWidth * 2, nDivHeight),
+			nDivWidth, 0, nRawWidth - nDivWidth * 2, nDivHeight, UnitPixel, &imageAttributes)))
 			throw statusRet;
 
 		// 상단 우측
-		if (Ok != (statusRet = pGraphics->DrawImage(m_pBitmap, Rect(nRight - nOrgWidth / 3, nTop, nOrgWidth / 3, nOrgHeight / 3),
-			nOrgWidth - nOrgWidth / 3, 0, nOrgWidth / 3, nOrgHeight / 3, UnitPixel, &imageAttributes)))
+		if (Ok != (statusRet = pGraphics->DrawImage(m_pBitmap, Rect(nRight - nDivWidth, nTop, nDivWidth, nDivHeight),
+			nRawWidth - nDivWidth, 0, nDivWidth, nDivHeight, UnitPixel, &imageAttributes)))
 			throw statusRet;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////
 
 		// 중앙 좌측
-		int nVCenterHeight = nBottom - nTop - nOrgHeight / 3 * 2;
-		if (Ok != (statusRet = pGraphics->DrawImage(m_pBitmap, Rect(nLeft, nTop + nOrgHeight / 3, nOrgWidth / 3, nVCenterHeight),
-			0, nOrgHeight / 3, nOrgWidth / 3, nOrgHeight - nOrgHeight / 3 * 2, UnitPixel, &imageAttributes)))
+		int nVCenterHeight = nBottom - nTop - nDivHeight * 2;
+		if (Ok != (statusRet = pGraphics->DrawImage(m_pBitmap, Rect(nLeft, nTop + nDivHeight, nDivWidth, nVCenterHeight),
+			0, nDivHeight, nDivWidth, nRawHeight - nDivHeight * 2, UnitPixel, &imageAttributes)))
 			throw statusRet;
 
 		// 정중앙
-		if (Ok != (statusRet = pGraphics->DrawImage(m_pBitmap, Rect(nLeft + nOrgWidth / 3, nTop + nOrgHeight / 3, nRight - nOrgWidth / 3 * 2, nVCenterHeight),
-			nOrgWidth / 3, nOrgHeight / 3, nOrgWidth - nOrgWidth / 3 * 2, nOrgHeight - nOrgHeight / 3 * 2, UnitPixel, &imageAttributes)))
+		if (Ok != (statusRet = pGraphics->DrawImage(m_pBitmap, Rect(nLeft + nDivWidth, nTop + nDivHeight, nRight - nDivWidth * 2, nVCenterHeight),
+			nDivWidth, nDivHeight, nRawWidth - nDivWidth * 2, nRawHeight - nDivHeight * 2, UnitPixel, &imageAttributes)))
 			throw statusRet;
 
 		// 중앙 우측
-		if (Ok != (statusRet = pGraphics->DrawImage(m_pBitmap, Rect(nRight - nOrgWidth / 3, nTop + nOrgHeight / 3, nOrgWidth / 3, nVCenterHeight),
-			nOrgWidth - nOrgWidth / 3, nOrgHeight / 3, nOrgWidth / 3, nOrgHeight - nOrgHeight / 3 * 2, UnitPixel, &imageAttributes)))
+		if (Ok != (statusRet = pGraphics->DrawImage(m_pBitmap, Rect(nRight - nDivWidth, nTop + nDivHeight, nDivWidth, nVCenterHeight),
+			nRawWidth - nDivWidth, nDivHeight, nDivWidth, nRawHeight - nDivHeight * 2, UnitPixel, &imageAttributes)))
 			throw statusRet;
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 
 		// 하단 좌측
-		if (Ok != (statusRet = pGraphics->DrawImage(m_pBitmap, Rect(nLeft, nBottom - nOrgHeight / 3, nOrgWidth / 3, nOrgHeight / 3),
-			0, nOrgHeight - nOrgHeight / 3, nOrgWidth / 3, nOrgHeight / 3, UnitPixel, &imageAttributes)))
+		if (Ok != (statusRet = pGraphics->DrawImage(m_pBitmap, Rect(nLeft, nBottom - nDivHeight, nDivWidth, nDivHeight),
+			0, nRawHeight - nDivHeight, nDivWidth, nDivHeight, UnitPixel, &imageAttributes)))
 			throw statusRet;
 
 		// 하단 중앙
-		if (Ok != (statusRet = pGraphics->DrawImage(m_pBitmap, Rect(nLeft + nOrgWidth / 3, nBottom - nOrgHeight / 3, (nRight - nLeft) - nOrgWidth / 3 * 2, nOrgHeight / 3),
-			nOrgWidth / 3, nOrgHeight - nOrgHeight / 3, nOrgWidth - nOrgWidth / 3 * 2, nOrgHeight / 3, UnitPixel, &imageAttributes)))
+		if (Ok != (statusRet = pGraphics->DrawImage(m_pBitmap, Rect(nLeft + nDivWidth, nBottom - nDivHeight, (nRight - nLeft) - nDivWidth * 2, nDivHeight),
+			nDivWidth, nRawHeight - nDivHeight, nRawWidth - nDivWidth * 2, nDivHeight, UnitPixel, &imageAttributes)))
 			throw statusRet;
 
 		// 하단 우측
-		statusRet = pGraphics->DrawImage(m_pBitmap, Rect(nRight - nOrgWidth / 3, nBottom - nOrgHeight / 3, nOrgWidth / 3, nOrgHeight / 3),
-			nOrgWidth - nOrgWidth / 3, nOrgHeight - nOrgHeight / 3, nOrgWidth / 3, nOrgHeight / 3, UnitPixel, &imageAttributes);
+		statusRet = pGraphics->DrawImage(m_pBitmap, Rect(nRight - nDivWidth, nBottom - nDivHeight, nDivWidth, nDivHeight),
+			nRawWidth - nDivWidth, nRawHeight - nDivHeight, nDivWidth, nDivHeight, UnitPixel, &imageAttributes);
 	}
 	catch (const Status &e)
 	{
@@ -567,7 +521,7 @@ Status CCherryImage::MakeStretchImage3x3(Graphics *pGraphics, Rect rect, UINT nA
 	return statusRet;
 }
 
-CHERRY_RET CCherryImage::DrawStretchImage3x3(Graphics *pGraphics, int nLeft, int nTop, int nRight, int nBottom, UINT nAlphaBlendRatio)
+CHERRY_RET CCherryImage::Draw9PatchImage(Graphics *pGraphics, int nLeft, int nTop, int nRight, int nBottom, UINT nAlphaBlendRatio)
 {
 	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
 
@@ -596,7 +550,7 @@ CHERRY_RET CCherryImage::DrawStretchImage3x3(Graphics *pGraphics, int nLeft, int
 		}
 		else
 		{
-			if (Ok != MakeStretchImage3x3(pGraphics, Rect(nLeft, nTop, nRight - nLeft, nBottom - nTop), nAlphaBlendRatio))
+			if (Ok != Make9PatchImage(pGraphics, Rect(nLeft, nTop, nRight - nLeft, nBottom - nTop), nAlphaBlendRatio))
 				throw CCherryException::ERROR_IMAGE_MAKE_IMAGE_FAIL;
 		}
 	}
@@ -608,9 +562,9 @@ CHERRY_RET CCherryImage::DrawStretchImage3x3(Graphics *pGraphics, int nLeft, int
 	return cherryRet;
 }
 
-CHERRY_RET CCherryImage::DrawStretchImage3x3(Graphics *pGraphics, CRect rect, UINT nAlphaBlendRatio)
+CHERRY_RET CCherryImage::Draw9PatchImage(Graphics *pGraphics, CRect rect, UINT nAlphaBlendRatio)
 {
-	return DrawStretchImage3x3(pGraphics, rect.left, rect.top, rect.right, rect.bottom, nAlphaBlendRatio);
+	return Draw9PatchImage(pGraphics, rect.left, rect.top, rect.right, rect.bottom, nAlphaBlendRatio);
 }
 
 UINT CCherryImage::GetWidth() const
@@ -667,7 +621,7 @@ Status CCherryImage::UpdateCachedImage(Graphics *pGraphics, CRect rect, UINT nAl
 
 		if (bUseDrawStretch3x3)
 		{
-			if (Ok != (statusRet = MakeStretchImage3x3(&memGraphics, Rect(0, 0, rect.Width(), rect.Height()), nAlphaBlendRatio)))
+			if (Ok != (statusRet = Make9PatchImage(&memGraphics, Rect(0, 0, rect.Width(), rect.Height()), nAlphaBlendRatio)))
 				return statusRet;
 		}
 		else
@@ -778,7 +732,7 @@ HRGN CCherryImage::GetHRGN(RGN_TYPE rgnType, short nAlpha) const
 //	// 3x3 Stretch 이미지
 //	Bitmap *pNewBitmap = new Bitmap(newRect.Width(), newRect.Height(), m_pBitmap->GetPixelFormat());
 //	Graphics graphics(pNewBitmap);
-//	MakeStretchImage3x3(&graphics, Rect(0, 0, newRect.Width(), newRect.Height()));
+//	Make9PatchImage(&graphics, Rect(0, 0, newRect.Width(), newRect.Height()));
 //
 //	// Alpha 영역 추리기
 //	Rect imageRect(0, 0, newRect.Width(), newRect.Height());
@@ -843,7 +797,7 @@ Bitmap *CCherryImage::ExtractBitmap(CRect extractRect)
 	if (NULL == m_pBitmap)
 		return NULL;
 
-	return m_pBitmap->Clone(Rect(extractRect.left, extractRect.top, extractRect.Width(), extractRect.Height()), PixelFormat32bppARGB);
+	return m_pBitmap->Clone(extractRect.left, extractRect.top, extractRect.Width(), extractRect.Height(), PixelFormatDontCare);
 }
 
 CCherryImage *CCherryImage::ExtractImage(CRect extractRect)
@@ -851,7 +805,7 @@ CCherryImage *CCherryImage::ExtractImage(CRect extractRect)
 	return new CCherryImage(ExtractBitmap(extractRect));
 }
 
-Bitmap *CCherryImage::ExtractStretchBitmap(CRect stretchRect, CRect extractRect, UINT nAlphaBlendRatio, _Out_ CHERRY_RET &cherryRet)
+Bitmap *CCherryImage::Extract9PatchBitmap(CRect stretchRect, CRect extractRect, UINT nAlphaBlendRatio, _Out_ CHERRY_RET &cherryRet)
 {
 	Bitmap *pExtractedBitmap = NULL;
 	Bitmap *pStretchedBitmap = NULL;
@@ -884,7 +838,7 @@ Bitmap *CCherryImage::ExtractStretchBitmap(CRect stretchRect, CRect extractRect,
 		}
 		else
 		{
-			if (Ok != MakeStretchImage3x3(&stretchedGraphics, Rect(0, 0, stretchRect.Width(), stretchRect.Height()), nAlphaBlendRatio))
+			if (Ok != Make9PatchImage(&stretchedGraphics, Rect(0, 0, stretchRect.Width(), stretchRect.Height()), nAlphaBlendRatio))
 				throw CCherryException::ERROR_IMAGE_MAKE_IMAGE_FAIL;
 		}
 
@@ -907,22 +861,22 @@ Bitmap *CCherryImage::ExtractStretchBitmap(CRect stretchRect, CRect extractRect,
 	return pExtractedBitmap;
 }
 
-CCherryImage *CCherryImage::ExtractStretchImage(CRect stretchRect, CRect extractRect, UINT nAlphaBlendRatio, _Out_ CHERRY_RET &cherryRet)
+CCherryImage *CCherryImage::Extract9PatchImage(CRect stretchRect, CRect extractRect, UINT nAlphaBlendRatio, _Out_ CHERRY_RET &cherryRet)
 {
-	CCherryImage *pExtractStretchImage = NULL;
+	CCherryImage *pExtract9PatchImage = NULL;
 
 	try
 	{
-		Bitmap *pExtractStretchBitmap = ExtractStretchBitmap(stretchRect, extractRect, nAlphaBlendRatio, cherryRet);
+		Bitmap *pExtract9PatchBitmap = Extract9PatchBitmap(stretchRect, extractRect, nAlphaBlendRatio, cherryRet);
 		if (CCherryException::ERROR_CHERRY_SUCCESS != cherryRet)
 			throw cherryRet;
 
-		pExtractStretchImage = new CCherryImage(pExtractStretchBitmap);
+		pExtract9PatchImage = new CCherryImage(pExtract9PatchBitmap);
 				
-		if (NULL != pExtractStretchBitmap)
+		if (NULL != pExtract9PatchBitmap)
 		{
-			delete pExtractStretchBitmap;
-			pExtractStretchBitmap = NULL;
+			delete pExtract9PatchBitmap;
+			pExtract9PatchBitmap = NULL;
 		}
 	}
 	catch (const CHERRY_RET &errorRet)
@@ -930,7 +884,7 @@ CCherryImage *CCherryImage::ExtractStretchImage(CRect stretchRect, CRect extract
 		cherryRet = errorRet;
 	}
 
-	return pExtractStretchImage;
+	return pExtract9PatchImage;
 }
 
 

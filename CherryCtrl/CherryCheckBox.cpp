@@ -81,26 +81,26 @@ CHERRY_RET CCherryCheckBox::SetImage(LPCTSTR lpszImagePath)
 		if ((cherryRet = sourceImage.LoadImage(lpszImagePath)) != CCherryException::ERROR_CHERRY_SUCCESS)
 			throw cherryRet;
 
-		UINT nOrgWidth = sourceImage.GetWidth() / STATUS_MAX_COUNT;
-		UINT nOrgHeight = sourceImage.GetHeight() / 2;
+		UINT nRawWidth = sourceImage.GetWidth() / STATUS_MAX_COUNT;
+		UINT nRawHeight = sourceImage.GetHeight() / 2;
 
 		// 체크되지 않은 이미지 각 상태 이미지 잘라서 붙여넣기
 		for (UINT i = STATUS_NORMAL; i < STATUS_MAX_COUNT; i++)
 		{
-			if ((cherryRet = m_images[i].LoadImage(sourceImage.GetBitmap()->Clone(Rect(nOrgWidth * i, 0, nOrgWidth, nOrgHeight), PixelFormatDontCare))) != CCherryException::ERROR_CHERRY_SUCCESS)
+			if ((cherryRet = m_images[i].LoadImage(sourceImage.GetBitmap()->Clone(Rect(nRawWidth * i, 0, nRawWidth, nRawHeight), PixelFormatDontCare))) != CCherryException::ERROR_CHERRY_SUCCESS)
 				throw cherryRet;
 		}
 
 		// 체크된 이미지 각 상태 이미지 잘라서 붙여넣기
 		for (UINT j = STATUS_NORMAL; j < STATUS_MAX_COUNT; j++)
 		{
-			if ((cherryRet = m_checkedImages[j].LoadImage(sourceImage.GetBitmap()->Clone(Rect(nOrgWidth * j, nOrgHeight, nOrgWidth, nOrgHeight), PixelFormatDontCare))) != CCherryException::ERROR_CHERRY_SUCCESS)
+			if ((cherryRet = m_checkedImages[j].LoadImage(sourceImage.GetBitmap()->Clone(Rect(nRawWidth * j, nRawHeight, nRawWidth, nRawHeight), PixelFormatDontCare))) != CCherryException::ERROR_CHERRY_SUCCESS)
 				throw cherryRet;
 		}
 
 		if (GetCherryStyle() & STYLE_AUTORESIZE)
 		{
-			ResizeWindow(nOrgWidth, nOrgHeight);
+			ResizeWindow(nRawWidth, nRawHeight);
 		}
 		else
 		{
@@ -113,12 +113,12 @@ CHERRY_RET CCherryCheckBox::SetImage(LPCTSTR lpszImagePath)
 			if (windowRect.Width() > 0)
 				nWidth = windowRect.Width();
 			else
-				nWidth = nOrgWidth;
+				nWidth = nRawWidth;
 
 			if (windowRect.Height() > 0)
 				nHeight = windowRect.Height();
 			else
-				nHeight = nOrgHeight;
+				nHeight = nRawHeight;
 
 			if (nWidth > 0 && nHeight > 0)
 			{
@@ -128,7 +128,7 @@ CHERRY_RET CCherryCheckBox::SetImage(LPCTSTR lpszImagePath)
 			}
 			else // nWidth || nHeight 어느 하나라도 0이면 Auto Resizing
 			{
-				ResizeWindow(nOrgWidth, nOrgHeight);
+				ResizeWindow(nRawWidth, nRawHeight);
 			}
 		}
 	}
@@ -185,7 +185,7 @@ void CCherryCheckBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 				nWidth = clientRect.Width();
 				nHeight = clientRect.Height();
 
-				pCurrentImage->DrawStretchImage3x3(&graphics, 0, nTop, nWidth, nHeight);
+				pCurrentImage->Draw9PatchImage(&graphics, 0, nTop, nWidth, nHeight);
 			}
 			else
 			{

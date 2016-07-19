@@ -32,7 +32,7 @@ void CCherryProgressCtrl::OnDrawCherry(CCherryMemDC *pDC)
 		if ((UINT)clientRect.Width() > m_images[DRAW_TYPE_BACKGROUND].GetWidth() && 
 			(UINT)clientRect.Height() > m_images[DRAW_TYPE_BACKGROUND].GetHeight())
 			// Source 보다 큰 경우 3x3 확대하여 출력한다.
-			m_images[DRAW_TYPE_BACKGROUND].DrawStretchImage3x3(&graphics, clientRect);
+			m_images[DRAW_TYPE_BACKGROUND].Draw9PatchImage(&graphics, clientRect);
 		else
 			// Source 크기보다 Client가 작거나 같은 경우는 Client 크기로 출력한다.
 			m_images[DRAW_TYPE_BACKGROUND].DrawImage(&graphics, clientRect);
@@ -90,7 +90,7 @@ void CCherryProgressCtrl::OnDrawCherry(CCherryMemDC *pDC)
 
 		if ((UINT)clientRect.Width() > m_images[DRAW_TYPE_FILL].GetWidth() &&
 			(UINT)clientRect.Height() > m_images[DRAW_TYPE_FILL].GetHeight())
-			fillImage.DrawStretchImage3x3(&graphics, fillRect);
+			fillImage.Draw9PatchImage(&graphics, fillRect);
 		else
 			fillImage.DrawImage(&graphics, fillRect);
 	}
@@ -198,20 +198,20 @@ CHERRY_RET CCherryProgressCtrl::SetImage(LPCTSTR lpszImagePath, int nWidth, int 
 		if ((cherryRet = sourceImage.LoadImage(lpszImagePath)) != CCherryException::ERROR_CHERRY_SUCCESS)
 			throw cherryRet;
 
-		UINT nOrgWidth, nOrgHeight;
+		UINT nRawWidth, nRawHeight;
 		DWORD dwCherryStyle = GetCherryStyle();
 
 		switch (dwCherryStyle)
 		{
 		case STYLE_HORIZONTAL_LEFT_TO_RIGHT:
 		case STYLE_HORIZONTAL_RIGHT_TO_LEFT:
-			nOrgWidth = sourceImage.GetWidth();
-			nOrgHeight = sourceImage.GetHeight() / 2;
+			nRawWidth = sourceImage.GetWidth();
+			nRawHeight = sourceImage.GetHeight() / 2;
 			break;
 		case STYLE_VERTICAL_BOTTOM_TO_TOP:
 		case STYLE_VERTICAL_TOP_TO_BOTTOM:
-			nOrgWidth = sourceImage.GetWidth() / 2;
-			nOrgHeight = sourceImage.GetHeight();
+			nRawWidth = sourceImage.GetWidth() / 2;
+			nRawHeight = sourceImage.GetHeight();
 			break;
 		default:
 			ASSERT(0);
@@ -226,11 +226,11 @@ CHERRY_RET CCherryProgressCtrl::SetImage(LPCTSTR lpszImagePath, int nWidth, int 
 			{
 			case STYLE_HORIZONTAL_LEFT_TO_RIGHT:
 			case STYLE_HORIZONTAL_RIGHT_TO_LEFT:
-				rect = Rect(0, nOrgHeight * i, nOrgWidth, nOrgHeight);
+				rect = Rect(0, nRawHeight * i, nRawWidth, nRawHeight);
 				break;
 			case STYLE_VERTICAL_BOTTOM_TO_TOP:
 			case STYLE_VERTICAL_TOP_TO_BOTTOM:
-				rect = Rect(nOrgWidth * i, 0, nOrgWidth, nOrgHeight);
+				rect = Rect(nRawWidth * i, 0, nRawWidth, nRawHeight);
 				break;
 			default:
 				ASSERT(0);
@@ -244,7 +244,7 @@ CHERRY_RET CCherryProgressCtrl::SetImage(LPCTSTR lpszImagePath, int nWidth, int 
 		if (GetCherryStyle() & STYLE_AUTORESIZE)
 		{
 			// SLIDER_STYLE_AUTORESIZE 설정되어 있다면 무조건 Resize
-			ResizeWindow(nOrgWidth, nOrgHeight);
+			ResizeWindow(nRawWidth, nRawHeight);
 		}
 		else
 		{
@@ -274,17 +274,17 @@ CHERRY_RET CCherryProgressCtrl::SetImage(LPCTSTR lpszImagePath, int nWidth, int 
 			else
 			{
 				// nWidth || nHeight 어느 하나라도 0이면 Auto Resizing
-				ResizeWindow(nOrgWidth, nOrgHeight);
+				ResizeWindow(nRawWidth, nRawHeight);
 			}
 		}
 		/*
 			// 값이 없다면 원본 이미지 사이즈를 사용한다.
 			// nWidth, nHeight 넘어온 값이 있다면 그 사이즈를 사용한다.
 			if (nWidth <= 0)
-			nWidth = nOrgWidth;
+			nWidth = nRawWidth;
 
 			if (nHeight <= 0)
-			nHeight = nOrgHeight;
+			nHeight = nRawHeight;
 
 			ResizeWindow(nWidth, nHeight);
 			*/

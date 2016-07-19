@@ -29,6 +29,11 @@ public:
 		RGN_TYPE_INVISIBLE_THRESHOLD,	// 안보이는 영역 임계치 설정
 	};
 
+	enum DPI
+	{
+		DPI_96
+	};
+
 	CCherryImage();
 	CCherryImage(LPCTSTR lpszImagePath, BOOL bUseCachedImage = FALSE);
 	CCherryImage(Bitmap *pBitmap, BOOL bUseCachedImage = FALSE);
@@ -46,8 +51,6 @@ protected:
 	BOOL			m_bUseCachedImage;
 
 	static CString	m_strDefaultImagePath;
-
-	Bitmap			*m_pNcEdgeBitmap[4];
 
 // Operations
 public:
@@ -95,8 +98,8 @@ public:
 	//BOOL			DrawRatioImage(Graphics *pGraphics, CPoint point, UINT nRatio, UINT nAlphaBlendRatio = 100);
 
 	// 3x3 으로 분할하여 확대 그리기(외곽선 깨짐 방지용)
-	CHERRY_RET		DrawStretchImage3x3(Graphics *pGraphics, int nLeft, int nTop, int nRight, int nBottom, UINT nAlphaBlendRatio = 100);
-	CHERRY_RET		DrawStretchImage3x3(Graphics *pGraphics, CRect rect, UINT nAlphaBlendRatio = 100);
+	CHERRY_RET		Draw9PatchImage(Graphics *pGraphics, int nLeft, int nTop, int nRight, int nBottom, UINT nAlphaBlendRatio = 100);
+	CHERRY_RET		Draw9PatchImage(Graphics *pGraphics, CRect rect, UINT nAlphaBlendRatio = 100);
 	
 	// 3x3 확대된 이미지에 대한 Region 가져오기(사용 안 함)
 	//HRGN			GetStretchRgn3x3(RGN_TYPE rgnType, CRect rect, short nAlpha = 255);
@@ -104,8 +107,8 @@ public:
 	Bitmap			*ExtractBitmap(CRect extractRect);
 	CCherryImage	*ExtractImage(CRect extractRect);
 
-	Bitmap			*ExtractStretchBitmap(CRect stretchRect, CRect extractRect, UINT nAlphaBlendRatio, _Out_ CHERRY_RET &cherryRet);
-	CCherryImage	*ExtractStretchImage(CRect stretchRect, CRect extractRect, UINT nAlphaBlendRatio, _Out_ CHERRY_RET &cherryRet);
+	Bitmap			*Extract9PatchBitmap(CRect stretchRect, CRect extractRect, UINT nAlphaBlendRatio, _Out_ CHERRY_RET &cherryRet);
+	CCherryImage	*Extract9PatchImage(CRect stretchRect, CRect extractRect, UINT nAlphaBlendRatio, _Out_ CHERRY_RET &cherryRet);
 
 	// 멤버로 할당된 Bitmap 객체 삭제
 	BOOL			RemoveImage();
@@ -113,12 +116,13 @@ public:
 	// 멤버로 할당된 캐시된 Bitmap 객체 삭제
 	BOOL			RemoveCachedImage();
 
+	// 기본 이미지의 경로를 설정
 	static void		SetDefaultImagePath(LPCTSTR lpszPath);
 
 protected:
 	// 중복되는 로직을 하나로 묶어서 클래스 내부에서만 사용하는 이미지 Draw 함수
 	Status			MakeImage(Graphics *pGraphics, Rect rect, UINT nAlphaBlendRatio);
-	Status			MakeStretchImage3x3(Graphics *pGraphics, Rect rect, UINT nAlphaBlendRatio = 100);
+	Status			Make9PatchImage(Graphics *pGraphics, Rect rect, UINT nAlphaBlendRatio = 100);
 
 	// 이미지 속성에 투명 효과
 	Status			CaculatedAlphaBlendAttributes(_In_ UINT nAlphaBlendRatio, _Out_ ImageAttributes &imageAttributes);

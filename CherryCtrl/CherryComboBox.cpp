@@ -99,13 +99,13 @@ CHERRY_RET CCherryComboBox::SetImage(LPCTSTR lpszImagePath)
 		if ((cherryRet = sourceImage.LoadImage(lpszImagePath)) != CCherryException::ERROR_CHERRY_SUCCESS)
 			throw cherryRet;
 
-		UINT nOrgWidth = sourceImage.GetWidth() / STATUS_MAX_COUNT;
-		UINT nOrgHeight = sourceImage.GetHeight();
+		UINT nRawWidth = sourceImage.GetWidth() / STATUS_MAX_COUNT;
+		UINT nRawHeight = sourceImage.GetHeight();
 
 		// 각 상태 이미지 잘라서 붙여넣기
 		for (UINT i = STATUS_NORMAL; i < STATUS_MAX_COUNT; i++)
 		{
-			if ((cherryRet = m_images[i].LoadImage(sourceImage.GetBitmap()->Clone(Rect(nOrgWidth * i, 0, nOrgWidth, nOrgHeight), PixelFormatDontCare))) != CCherryException::ERROR_CHERRY_SUCCESS)
+			if ((cherryRet = m_images[i].LoadImage(sourceImage.GetBitmap()->Clone(Rect(nRawWidth * i, 0, nRawWidth, nRawHeight), PixelFormatDontCare))) != CCherryException::ERROR_CHERRY_SUCCESS)
 				throw cherryRet;
 		}
 
@@ -114,7 +114,7 @@ CHERRY_RET CCherryComboBox::SetImage(LPCTSTR lpszImagePath)
 		if (GetCherryStyle() & STYLE_AUTORESIZE)
 		{
 			// CherryCheckBox::STYLE_AUTORESIZE 설정되어 있다면 무조건 Resize
-			ResizeWindow(nOrgWidth, nOrgHeight);
+			ResizeWindow(nRawWidth, nRawHeight);
 		}
 		else
 		{
@@ -146,7 +146,7 @@ CHERRY_RET CCherryComboBox::SetImage(LPCTSTR lpszImagePath)
 			else
 			{
 				// nWidth || nHeight 어느 하나라도 0이면 Auto Resizing
-				ResizeWindow(nOrgWidth, nOrgHeight);
+				ResizeWindow(nRawWidth, nRawHeight);
 			}
 		}
 	}
@@ -483,7 +483,7 @@ void CCherryComboBox::OnPaint()
 			if ((UINT)clientRect.Width() > m_pCurrentImage->GetWidth() &&
 				(UINT)clientRect.Height() > m_pCurrentImage->GetHeight())
 				// 원본 이미지 보다 큰 경우 3x3 확대하여 출력한다.
-				m_pCurrentImage->DrawStretchImage3x3(&graphics, clientRect);
+				m_pCurrentImage->Draw9PatchImage(&graphics, clientRect);
 			else
 				// Source 크기보다 Client가 작거나 같은 경우는 Client 크기로 출력한다.
 				m_pCurrentImage->DrawImage(&graphics, clientRect);
@@ -527,7 +527,7 @@ void CCherryComboBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 			// 원본 이미지 보다 큰 경우 3x3 확대하여 출력한다.
 			else
 			{
-				m_pCurrentImage->DrawStretchImage3x3(&graphics, clientRect);
+				m_pCurrentImage->Draw9PatchImage(&graphics, clientRect);
 			}
 		}
 	}

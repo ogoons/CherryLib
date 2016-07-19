@@ -74,8 +74,8 @@ void CCherryAnimateImageCtrl::SetImageList(CCherryImageList &imageList)
 
 	if (!m_imageList.IsEmpty())
 	{
-		UINT nOrgWidth = m_imageList[0]->GetWidth();
-		UINT nOrgHeight = m_imageList[0]->GetHeight();
+		UINT nRawWidth = m_imageList[0]->GetWidth();
+		UINT nRawHeight = m_imageList[0]->GetHeight();
 
 		CRect windowRect;
 		GetWindowRect(&windowRect);
@@ -86,12 +86,12 @@ void CCherryAnimateImageCtrl::SetImageList(CCherryImageList &imageList)
 		if (windowRect.Width() > 0)
 			nWidth = windowRect.Width();
 		else
-			nWidth = nOrgWidth;
+			nWidth = nRawWidth;
 
 		if (windowRect.Height() > 0)
 			nHeight = windowRect.Height();
 		else
-			nHeight = nOrgHeight;
+			nHeight = nRawHeight;
 
 		windowRect.right = windowRect.left + nWidth;
 		windowRect.bottom = windowRect.top + nHeight;

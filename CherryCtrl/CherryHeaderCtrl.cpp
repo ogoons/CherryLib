@@ -84,7 +84,7 @@ void CCherryHeaderCtrl::OnNMCustomdraw(NMHDR *pNMHDR, LRESULT *pResult)
 			graphics.SetPixelOffsetMode(PixelOffsetModeNone);
 
 			if (m_headerImage.IsLoadedImage())
-				m_headerImage.DrawStretchImage3x3(&graphics, itemRect);
+				m_headerImage.Draw9PatchImage(&graphics, itemRect);
 
 			TCHAR szHeaderText[256] = { 0, };
 			HDITEM hdItem = { 0, };

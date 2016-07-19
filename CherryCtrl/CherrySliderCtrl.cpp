@@ -160,13 +160,13 @@ CHERRY_RET CCherrySliderCtrl::SetTrackImage(LPCTSTR lpszImagePath)
 		if ((cherryRet = m_trackImage.LoadImage(lpszImagePath, TRUE)) != CCherryException::ERROR_CHERRY_SUCCESS)
 			throw cherryRet;
 
-		UINT nOrgWidth = m_trackImage.GetWidth();
-		UINT nOrgHeight = m_trackImage.GetHeight();
+		UINT nRawWidth = m_trackImage.GetWidth();
+		UINT nRawHeight = m_trackImage.GetHeight();
 
 		if (GetCherryStyle() & STYLE_AUTORESIZE)
 		{
 			// SLIDER_STYLE_AUTORESIZE 설정되어 있다면 무조건 Resize
-			ResizeWindow(nOrgWidth, nOrgHeight);
+			ResizeWindow(nRawWidth, nRawHeight);
 		}
 		else
 		{
@@ -199,7 +199,7 @@ CHERRY_RET CCherrySliderCtrl::SetTrackImage(LPCTSTR lpszImagePath)
 			else
 			{
 				// nWidth || nHeight 어느 하나라도 0이면 Auto Resizing
-				ResizeWindow(nOrgWidth, nOrgHeight);
+				ResizeWindow(nRawWidth, nRawHeight);
 			}
 		}
 	}
@@ -239,7 +239,7 @@ void CCherrySliderCtrl::OnDrawCherry(CCherryMemDC *pDC)
 			if ((UINT)clientRect.Width() > m_images[DRAW_TYPE_BACKGROUND].GetWidth() && 
 				(UINT)clientRect.Height() > m_images[DRAW_TYPE_BACKGROUND].GetHeight())
 				// Source 보다 큰 경우 3x3 확대하여 출력한다.
-				m_images[DRAW_TYPE_BACKGROUND].DrawStretchImage3x3(&graphics, clientRect);
+				m_images[DRAW_TYPE_BACKGROUND].Draw9PatchImage(&graphics, clientRect);
 			else
 				// Source 크기보다 Client가 작거나 같은 경우는 Client 크기로 출력한다.
 				m_images[DRAW_TYPE_BACKGROUND].DrawImage(&graphics, clientRect);
@@ -295,7 +295,7 @@ void CCherrySliderCtrl::OnDrawCherry(CCherryMemDC *pDC)
 			if ((UINT)clientRect.Width() > m_images[DRAW_TYPE_FILL].GetWidth() &&
 				(UINT)clientRect.Height() > m_images[DRAW_TYPE_FILL].GetHeight())
 				// Source 보다 큰 경우 3x3 확대하여 출력한다.
-				fillImage.DrawStretchImage3x3(&graphics, fillRect);
+				fillImage.Draw9PatchImage(&graphics, fillRect);
 			else
 				// Source 크기보다 Client가 작거나 같은 경우는 Client 크기로 출력한다.
 				fillImage.DrawImage(&graphics, fillRect);
@@ -307,7 +307,7 @@ void CCherrySliderCtrl::OnDrawCherry(CCherryMemDC *pDC)
 	case STYLE_VERTICAL_BOTTOM_TO_TOP_NOT_FOLLOW:
 	case STYLE_VERTICAL_TOP_TO_BOTTOM_NOT_FOLLOW:
 		if (m_trackImage.IsLoadedImage())
-			m_trackImage.DrawStretchImage3x3(&graphics, clientRect);
+			m_trackImage.Draw9PatchImage(&graphics, clientRect);
 		break;
 	default:
 		ASSERT(0);

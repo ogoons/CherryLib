@@ -36,9 +36,17 @@ public:
 
 // Attributes
 protected:
-	// Status
-	BOOL m_bNcActive;
+	enum BACK_IMAGE_TYPE
+	{
+		BACK_IMAGE_NONE,
+		BACK_IMAGE_CLIENT,
+		BACK_IMAGE_NON_CLIENT,
+	};
 
+	// Status
+	BACK_IMAGE_TYPE m_backImageType;
+	BOOL m_bNcActive;
+	
 	// Icon
 	enum WINDOW_ACTIVATION
 	{
@@ -47,12 +55,12 @@ protected:
 		WINDOW_ACTIVATION_MAX_COUNT
 	};
 
-	CCherryImage m_iconImage;
-	CCherryImage m_clientImage[WINDOW_ACTIVATION_MAX_COUNT];
-	CCherryImage m_ncImage[WINDOW_ACTIVATION_MAX_COUNT];
+	// Non-Client
+	CCherryImage *m_pNcActive9PatchImage[3][3];
+	CCherryImage *m_pNcImage[WINDOW_ACTIVATION_MAX_COUNT];
 
-	//CCherryImage m_clientImage_;
-	//Bitmap *m_pClientImage;
+	// Client
+	CCherryImage *m_pClientImage[WINDOW_ACTIVATION_MAX_COUNT];
 
 	// Region
 	HRGN m_hNcRgn;
@@ -66,19 +74,21 @@ protected:
 
 // Operations
 public:
-	void SetClientImage(LPCTSTR lpszImagePath); // 구현 필요
-	void SetClientImage(Bitmap clientBitmap);
-	void SetClientImage(CCherryImage clientImage);
-
+	CHERRY_RET SetClientImage(LPCTSTR lpszImagePath);
 	CHERRY_RET SetNcImage(LPCTSTR lpszActiveImagePath, LPCTSTR lpszInactiveImagePath);
 	CHERRY_RET SetNcImage(LPCTSTR lpszActiveInactiveMergedImagePath);
+
+	void RemoveBackImage();
+	BOOL InitRgn();
 	CHERRY_RET SetSystemButtonImage(LPCTSTR lpszMinButtonImagePath, LPCTSTR lpszMaxButtonImagePath, LPCTSTR lpszCloseButtonImagePath); // 구현 필요
 
 	// 단색을 위한 함수 구현
 	// NC 이미지에 ALPHA 값 수동 옵션 파라미터 추가
 
 protected:
-	void UpdateNcRegion();
+	void		RefreshNcImage();
+	void		RefreshNcRegion();
+	CHERRY_RET	Make9PatchNcActiveImage();
 
 	// 모든 그리기 작업은 여기서 한다. (OnPaint 오버라이드 금지)
 	virtual void OnDrawCherry(CCherryMemDC *pDC) = 0; // 자식 클래스에서 구현하도록 한다.
@@ -99,9 +109,7 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-	
 	virtual void OnDrawSystemButton(CCherryMemDC *pDC);
-
 	afx_msg void OnNcPaint();
 	afx_msg BOOL OnNcActivate(BOOL bActive);
 	afx_msg LRESULT OnNcHitTest(CPoint point);
@@ -109,5 +117,4 @@ protected:
 	afx_msg void OnNcLButtonUp(UINT nHitTest, CPoint point);
 	afx_msg void OnNcMouseHover(UINT nFlags, CPoint point);
 	afx_msg void OnNcMouseLeave();
-	virtual void PreSubclassWindow();
 };

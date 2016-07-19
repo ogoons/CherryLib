@@ -13,12 +13,15 @@
 #include "CherrySliderCtrl.h"
 #include "CherryTabCtrl.h"
 
+using namespace Gdiplus;
+
 // CCherryDialog
 
 IMPLEMENT_DYNAMIC(CCherryDialog, CDialogEx)
 
 CCherryDialog::CCherryDialog()
 {
+	m_backImageType = BACK_IMAGE_NONE;
 	m_bNcActive = TRUE;
 
 	m_hNcRgn = NULL;
@@ -26,11 +29,22 @@ CCherryDialog::CCherryDialog()
 	m_hNcEdgeRgn[1] = NULL;
 	m_hNcEdgeRgn[2] = NULL;
 	m_hNcEdgeRgn[3] = NULL;
+
+	for (int i = 0; i < 3; i++)
+		for (int j = 0; j < 3; j++)
+			m_pNcActive9PatchImage[i][j] = NULL;
+
+	m_pNcImage[WINDOW_ACTIVATION_ACTIVE] = NULL;
+	m_pNcImage[WINDOW_ACTIVATION_INACTIVE] = NULL;
+
+	m_pClientImage[WINDOW_ACTIVATION_ACTIVE] = NULL;
+	m_pClientImage[WINDOW_ACTIVATION_INACTIVE] = NULL;
 }
 
 CCherryDialog::CCherryDialog(UINT nIDTemplate, CWnd* pParent)
-: CDialogEx(nIDTemplate, pParent)
+	: CDialogEx(nIDTemplate, pParent)
 {
+	m_backImageType = BACK_IMAGE_NONE;
 	m_bNcActive = TRUE;
 
 	m_hNcRgn = NULL;
@@ -38,10 +52,56 @@ CCherryDialog::CCherryDialog(UINT nIDTemplate, CWnd* pParent)
 	m_hNcEdgeRgn[1] = NULL;
 	m_hNcEdgeRgn[2] = NULL;
 	m_hNcEdgeRgn[3] = NULL;
+
+	for (int i = 0; i < 3; i++)
+		for (int j = 0; j < 3; j++)
+			m_pNcActive9PatchImage[i][j] = NULL;
+
+	m_pNcImage[WINDOW_ACTIVATION_ACTIVE] = NULL;
+	m_pNcImage[WINDOW_ACTIVATION_INACTIVE] = NULL;
+
+	m_pClientImage[WINDOW_ACTIVATION_ACTIVE] = NULL;
+	m_pClientImage[WINDOW_ACTIVATION_INACTIVE] = NULL;
 }
 
 CCherryDialog::~CCherryDialog()
 {
+	if (NULL != m_pClientImage[WINDOW_ACTIVATION_ACTIVE])
+	{
+		delete m_pClientImage[WINDOW_ACTIVATION_ACTIVE];
+		m_pClientImage[WINDOW_ACTIVATION_ACTIVE] = NULL;
+	}
+
+	if (NULL != m_pClientImage[WINDOW_ACTIVATION_INACTIVE])
+	{
+		delete m_pClientImage[WINDOW_ACTIVATION_INACTIVE];
+		m_pClientImage[WINDOW_ACTIVATION_INACTIVE] = NULL;
+	}
+
+	if (NULL != m_pNcImage[WINDOW_ACTIVATION_ACTIVE])
+	{
+		delete m_pNcImage[WINDOW_ACTIVATION_ACTIVE];
+		m_pNcImage[WINDOW_ACTIVATION_ACTIVE] = NULL;
+	}
+
+	if (NULL != m_pNcImage[WINDOW_ACTIVATION_INACTIVE])
+	{
+		delete m_pNcImage[WINDOW_ACTIVATION_INACTIVE];
+		m_pNcImage[WINDOW_ACTIVATION_INACTIVE] = NULL;
+	}
+
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (NULL != m_pNcActive9PatchImage[i][j])
+			{
+				delete m_pNcActive9PatchImage[i][j];
+				m_pNcActive9PatchImage[i][j] = NULL;
+			}
+		}
+	}
+
 	for (int i = 0; i < 4; i++)
 	{
 		if (NULL != m_hNcEdgeRgn[i])
@@ -69,6 +129,9 @@ BEGIN_MESSAGE_MAP(CCherryDialog, CDialogEx)
 	ON_WM_NCMOUSELEAVE()
 	ON_WM_SIZE()
 	ON_WM_NCPAINT()
+	ON_WM_SIZING()
+	ON_WM_SIZING()
+	ON_WM_ACTIVATE()
 END_MESSAGE_MAP()
 
 // CCherryDialog 메시지 처리기입니다.
@@ -88,37 +151,38 @@ void CCherryDialog::OnPaint()
 {
 	CPaintDC dc(this);
 
-	CRect windowRect;
-	GetWindowRect(&windowRect);
-
 	CRect clientRect;
 	GetClientRect(&clientRect);
 
-	CRect innerClientRect(clientRect);
-
-	CCherryMemDC memDC(&dc, innerClientRect);
-	ClientToScreen(&innerClientRect);
-
-	innerClientRect.OffsetRect(-windowRect.left, -windowRect.top);
-	windowRect.OffsetRect(-windowRect.left, -windowRect.top);
+	CCherryMemDC memDC(&dc, clientRect);
 
 	// Client 이미지 그리기
 	Graphics graphics(memDC.GetSafeHdc());
-	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
-	CCherryImage *pClientImage = NULL;
-	
-	if (TRUE == m_bNcActive)
-		pClientImage = m_ncImage[WINDOW_ACTIVATION_ACTIVE].ExtractStretchImage(windowRect, innerClientRect, 100, cherryRet); // Active
-	else
-		pClientImage = m_ncImage[WINDOW_ACTIVATION_INACTIVE].ExtractStretchImage(windowRect, innerClientRect, 100, cherryRet); // Inactive
 
-	if (NULL != pClientImage && CCherryException::ERROR_CHERRY_SUCCESS == cherryRet)
+	switch (m_backImageType)
 	{
-		pClientImage->DrawImage(&graphics, clientRect);
-		delete pClientImage;
-		pClientImage = NULL;
+	case BACK_IMAGE_NONE:
+		break;
+	case BACK_IMAGE_CLIENT:
+		if (NULL != m_pClientImage[WINDOW_ACTIVATION_ACTIVE])
+			m_pClientImage[WINDOW_ACTIVATION_ACTIVE]->DrawImage(&graphics, clientRect);
+		break;
+	case BACK_IMAGE_NON_CLIENT:
+		if (TRUE == m_bNcActive)
+		{
+			if (NULL != m_pClientImage[WINDOW_ACTIVATION_ACTIVE])
+				m_pClientImage[WINDOW_ACTIVATION_ACTIVE]->DrawImage(&graphics, clientRect);
+		}
+		else
+		{
+			if (NULL != m_pClientImage[WINDOW_ACTIVATION_INACTIVE])
+				m_pClientImage[WINDOW_ACTIVATION_INACTIVE]->DrawImage(&graphics, clientRect);
+		}
+		break;
+	default:
+		break;
 	}
-	
+
 	// CherryDialog 용 OnPaint()
 	OnDrawCherry(&memDC);
 
@@ -151,7 +215,7 @@ void CCherryDialog::OnPaint()
 		else if (pChildWnd->IsKindOf(RUNTIME_CLASS(CCherryTabCtrl)))
 			((CCherryTabCtrl *)pChildWnd)->SetBackground(&memDC);
 
-		if (pChildWnd->IsWindowVisible()) 
+		if (TRUE == pChildWnd->IsWindowVisible()) 
 		{			
 			CRect windowRect;
 			pChildWnd->GetWindowRect(windowRect);
@@ -182,28 +246,77 @@ BOOL CCherryDialog::OnCreateCherry()
 	return TRUE;
 }
 
-void CCherryDialog::SetClientImage(CCherryImage clientImage)
+CHERRY_RET CCherryDialog::SetClientImage(LPCTSTR lpszImagePath)
 {
+	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
+
+	try
+	{
+		if (NULL == lpszImagePath)
+			throw CCherryException::ERROR_DIALOG_CLIENT_ACTIVE_WINDOW_IMAGE_NOT_FOUND;
+
+		RemoveBackImage();
+
+		m_pClientImage[WINDOW_ACTIVATION_ACTIVE] = new CCherryImage();
+		
+		if (CCherryException::ERROR_CHERRY_SUCCESS != (cherryRet = m_pClientImage[WINDOW_ACTIVATION_ACTIVE]->LoadImage(lpszImagePath)))
+			throw cherryRet;
+
+		m_backImageType = BACK_IMAGE_CLIENT;
+
+		RedrawWindow(NULL, NULL, RDW_FRAME | RDW_INVALIDATE);
+	}
+	catch (CHERRY_RET &errorRet)
+	{
+		cherryRet = errorRet;
+	}
+
+	return cherryRet;
 }
 
-void CCherryDialog::SetClientImage(Bitmap clientBitmap)
+CHERRY_RET CCherryDialog::Make9PatchNcActiveImage()
 {
-	m_clientImage[WINDOW_ACTIVATION_ACTIVE].LoadImage(&clientBitmap);
-}
+	if (NULL == m_pNcImage[WINDOW_ACTIVATION_ACTIVE])
+		return CCherryException::ERROR_DIALOG_NON_CLIENT_ACTIVE_WINDOW_IMAGE_NOT_FOUND;
 
-///////////////////////////////////////////////////////////////////////////
-///
-/// \brief		현재 프로세스의 실행 파일 위치를 반환
-/// \author		ogoons
-/// \date		2015-01-20
-/// \param		
-/// \return		CString
-/// \remark		2016-06-08 ogoons: NC영역 스킨 기능 추가 완료
-///				다만 Client 영역 draw 대하여 Move/Resize/Active/Inactive에 대한 윈도우 상태 변경시 깜빡이는 현상이 있다.
-///				이미지 처리 방식에 따른 퍼포먼스 문제이나 추후에 성능 개선을 위한 코드 개선이 필요하다.
-/// \section	
-///
-///////////////////////////////////////////////////////////////////////////
+	UINT nDivWidth = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->GetWidth() / 3;
+	UINT nDivHeight = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->GetHeight() / 3;
+
+	// Active image
+	////////////////////////////////////////////////////////////////
+	// 1 row
+	m_pNcActive9PatchImage[0][0] = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->ExtractImage(CRect(0, 0, nDivWidth, nDivHeight));
+
+	if (NULL == m_pNcActive9PatchImage[0][1])
+		m_pNcActive9PatchImage[0][1] = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->ExtractImage(CRect(nDivWidth, 0, nDivWidth * 2, nDivHeight));
+
+	if (NULL == m_pNcActive9PatchImage[0][2])
+		m_pNcActive9PatchImage[0][2] = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->ExtractImage(CRect(nDivWidth * 2, 0, m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->GetWidth(), nDivHeight));
+
+	////////////////////////////////////////////////////////////////
+	// 2 row
+	if (NULL == m_pNcActive9PatchImage[1][0])
+		m_pNcActive9PatchImage[1][0] = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->ExtractImage(CRect(0, nDivHeight, nDivWidth, nDivHeight * 2));
+
+	if (NULL == m_pNcActive9PatchImage[1][1])
+		m_pNcActive9PatchImage[1][1] = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->ExtractImage(CRect(nDivWidth, nDivHeight, nDivWidth * 2, nDivHeight * 2));
+
+	if (NULL == m_pNcActive9PatchImage[1][2])
+		m_pNcActive9PatchImage[1][2] = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->ExtractImage(CRect(nDivWidth * 2, nDivHeight, m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->GetWidth(), nDivHeight * 2));
+
+	////////////////////////////////////////////////////////////////
+	// 3 row
+	if (NULL == m_pNcActive9PatchImage[2][0])
+		m_pNcActive9PatchImage[2][0] = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->ExtractImage(CRect(0, nDivHeight * 2, nDivWidth, m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->GetHeight()));
+
+	if (NULL == m_pNcActive9PatchImage[2][1])
+		m_pNcActive9PatchImage[2][1] = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->ExtractImage(CRect(nDivWidth, nDivHeight * 2, nDivWidth * 2, m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->GetHeight()));
+
+	if (NULL == m_pNcActive9PatchImage[2][2])
+		m_pNcActive9PatchImage[2][2] = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->ExtractImage(CRect(nDivWidth * 2, nDivHeight * 2, m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->GetWidth(), m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->GetHeight()));
+
+	return CCherryException::ERROR_CHERRY_SUCCESS;
+}
 
 CHERRY_RET CCherryDialog::SetNcImage(LPCTSTR lpszActiveImagePath, LPCTSTR lpszInactiveImagePath)
 {
@@ -214,16 +327,36 @@ CHERRY_RET CCherryDialog::SetNcImage(LPCTSTR lpszActiveImagePath, LPCTSTR lpszIn
 		if (NULL == lpszActiveImagePath)
 			throw CCherryException::ERROR_IMAGE_LOAD_FAIL;
 
-		if (CCherryException::ERROR_CHERRY_SUCCESS != (cherryRet = m_ncImage[WINDOW_ACTIVATION_ACTIVE].LoadImage(lpszActiveImagePath, TRUE)))
+		RemoveBackImage();
+
+		// Active image
+		m_pNcImage[WINDOW_ACTIVATION_ACTIVE] = new CCherryImage();
+
+		if (CCherryException::ERROR_CHERRY_SUCCESS != (cherryRet = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->LoadImage(lpszActiveImagePath)))
 			throw cherryRet;
 
-		m_ncImage[WINDOW_ACTIVATION_INACTIVE].LoadImage(lpszInactiveImagePath, TRUE); // Inactive 이미지는 없어도 동작할 수 있게 Exception skip
+		if (CCherryException::ERROR_CHERRY_SUCCESS != (cherryRet = Make9PatchNcActiveImage()))
+			throw cherryRet;
 
-		UpdateNcRegion();
+		// Inactive image
+		m_pNcImage[WINDOW_ACTIVATION_INACTIVE] = new CCherryImage();
+		m_pNcImage[WINDOW_ACTIVATION_INACTIVE]->LoadImage(lpszInactiveImagePath); // Inactive 이미지는 없어도 동작할 수 있게 Exception skip
+
+		m_backImageType = BACK_IMAGE_NON_CLIENT;
+
+		RefreshNcImage();
+		RefreshNcRegion();
+		RedrawWindow(NULL, NULL, RDW_FRAME | RDW_INVALIDATE);
 	}
 	catch (const CHERRY_RET &errorRet)
 	{
 		cherryRet = errorRet;
+
+		if (NULL != m_pNcImage[WINDOW_ACTIVATION_ACTIVE])
+		{
+			delete m_pNcImage[WINDOW_ACTIVATION_ACTIVE];
+			m_pNcImage[WINDOW_ACTIVATION_ACTIVE] = NULL;
+		}
 	}
 
 	return cherryRet;
@@ -239,36 +372,21 @@ CHERRY_RET CCherryDialog::SetNcImage(LPCTSTR lpszActiveInactiveMergedImagePath)
 		if (CCherryException::ERROR_CHERRY_SUCCESS != (cherryRet = rawImage.LoadImage(lpszActiveInactiveMergedImagePath)))
 			throw cherryRet;
 
-		CCherryImage *pActiveImage = rawImage.ExtractImage(CRect(0, 0, rawImage.GetWidth() / 2, rawImage.GetHeight()));
-		m_ncImage[WINDOW_ACTIVATION_ACTIVE].LoadImage(pActiveImage, TRUE);
+		RemoveBackImage();
 
-		/*
-		// 2016-06-09 ogoons: 
-		// 퍼포먼스 증가를 위한 리팩토링 코드 (테스트 중)
-		CRect windowRect;
-		GetWindowRect(&windowRect);
+		m_pNcImage[WINDOW_ACTIVATION_ACTIVE] = rawImage.ExtractImage(CRect(0, 0, rawImage.GetWidth() / 2, rawImage.GetHeight()));
 
-		CRect innerClientRect;
-		GetClientRect(&innerClientRect);
-		ClientToScreen(&innerClientRect);
+		if (CCherryException::ERROR_CHERRY_SUCCESS != (cherryRet = Make9PatchNcActiveImage()))
+			throw cherryRet;
 
-		innerClientRect.OffsetRect(-windowRect.left, -windowRect.top);
-		innerClientRect.right = (pActiveImage->GetWidth() / 2) - innerClientRect.left;
-		innerClientRect.bottom = pActiveImage->GetHeight() - innerClientRect.left;
-		
-		Bitmap *pActiveClientBitmap = pActiveImage->ExtractBitmap(innerClientRect);
-		m_clientImage_.LoadImage(pActiveClientBitmap, TRUE);
-		delete pActiveClientBitmap;
-		pActiveClientBitmap = NULL;
-		*/
+		// Inactive image
+		m_pNcImage[WINDOW_ACTIVATION_INACTIVE] = rawImage.ExtractImage(CRect(rawImage.GetWidth() / 2, 0, rawImage.GetWidth(), rawImage.GetHeight()));
 
-		delete pActiveImage;
-		pActiveImage = NULL;
+		m_backImageType = BACK_IMAGE_NON_CLIENT;
 
-		CCherryImage *pInactiveImage = rawImage.ExtractImage(CRect(rawImage.GetWidth() / 2, 0, rawImage.GetWidth(), rawImage.GetHeight()));
-		m_ncImage[WINDOW_ACTIVATION_INACTIVE].LoadImage(pInactiveImage, TRUE);
-		delete pInactiveImage;
-		pInactiveImage = NULL;
+		RefreshNcImage();
+		RefreshNcRegion();
+		RedrawWindow(NULL, NULL, RDW_FRAME | RDW_INVALIDATE);
 	}
 	catch (CHERRY_RET &errorRet)
 	{
@@ -278,9 +396,107 @@ CHERRY_RET CCherryDialog::SetNcImage(LPCTSTR lpszActiveInactiveMergedImagePath)
 	return cherryRet;
 }
 
+void CCherryDialog::RefreshNcImage()
+{
+	CRect windowRect;
+	GetWindowRect(&windowRect);
+
+	CRect innerClientRect;
+	GetClientRect(&innerClientRect);
+	ClientToScreen(&innerClientRect);
+
+	innerClientRect.OffsetRect(-windowRect.left, -windowRect.top);
+	windowRect.OffsetRect(-windowRect.left, -windowRect.top);
+
+	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
+
+	// Client
+	if (NULL != m_pClientImage[WINDOW_ACTIVATION_ACTIVE])
+	{
+		delete m_pClientImage[WINDOW_ACTIVATION_ACTIVE];
+		m_pClientImage[WINDOW_ACTIVATION_ACTIVE] = NULL;
+	}
+
+	if (NULL != m_pNcImage[WINDOW_ACTIVATION_ACTIVE])
+		m_pClientImage[WINDOW_ACTIVATION_ACTIVE] = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->Extract9PatchImage(windowRect, innerClientRect, 100, cherryRet); // Active
+
+	if (NULL != m_pClientImage[WINDOW_ACTIVATION_INACTIVE])
+	{
+		delete m_pClientImage[WINDOW_ACTIVATION_INACTIVE];
+		m_pClientImage[WINDOW_ACTIVATION_INACTIVE] = NULL;
+	}
+
+	if (NULL != m_pNcImage[WINDOW_ACTIVATION_INACTIVE])
+		m_pClientImage[WINDOW_ACTIVATION_INACTIVE] = m_pNcImage[WINDOW_ACTIVATION_INACTIVE]->Extract9PatchImage(windowRect, innerClientRect, 100, cherryRet); // Inactive
+}
+
+void CCherryDialog::RemoveBackImage() // 수정 필요
+{
+	if (m_backImageType == BACK_IMAGE_NONE)
+		return;
+
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (NULL != m_pNcActive9PatchImage[i][j])
+			{
+				delete m_pNcActive9PatchImage[i][j];
+				m_pNcActive9PatchImage[i][j] = NULL;
+			}
+		}
+	}
+
+	if (NULL != m_pNcImage[WINDOW_ACTIVATION_ACTIVE])
+	{
+		delete m_pNcImage[WINDOW_ACTIVATION_ACTIVE];
+		m_pNcImage[WINDOW_ACTIVATION_ACTIVE] = NULL;
+	}
+
+	if (NULL != m_pNcImage[WINDOW_ACTIVATION_INACTIVE])
+	{
+		delete m_pNcImage[WINDOW_ACTIVATION_INACTIVE];
+		m_pNcImage[WINDOW_ACTIVATION_INACTIVE] = NULL;
+	}
+
+	if (NULL != m_pClientImage[WINDOW_ACTIVATION_ACTIVE])
+	{
+		delete m_pClientImage[WINDOW_ACTIVATION_ACTIVE];
+		m_pClientImage[WINDOW_ACTIVATION_ACTIVE] = NULL;
+	}
+
+	if (NULL != m_pClientImage[WINDOW_ACTIVATION_INACTIVE])
+	{
+		delete m_pClientImage[WINDOW_ACTIVATION_INACTIVE];
+		m_pClientImage[WINDOW_ACTIVATION_INACTIVE] = NULL;
+	}
+
+	m_backImageType = BACK_IMAGE_NONE;
+
+	InitRgn();
+
+	RedrawWindow(NULL, NULL, RDW_FRAME | RDW_INVALIDATE);
+}
+
+BOOL CCherryDialog::InitRgn()
+{
+	if (NULL != m_hNcRgn)
+	{
+		DeleteObject(m_hNcRgn);
+		m_hNcRgn = NULL;
+	}
+
+	CRect windowRect;
+	GetWindowRect(&windowRect);
+
+	m_hNcRgn = CreateRectRgn(windowRect.left, windowRect.top, windowRect.right, windowRect.bottom);
+
+	return (0 != SetWindowRgn(m_hNcRgn, TRUE) ? TRUE : FALSE);
+}
+
 BOOL CCherryDialog::OnEraseBkgnd(CDC* pDC)
 {
-	// 배경 깜박임 처리
+	// 배경 깜박임 처리 (배경을 그리지 않음)
 	return FALSE;
 	//return CDialogEx::OnEraseBkgnd(pDC);
 }
@@ -294,11 +510,11 @@ void CCherryDialog::OnNcPaint()
 	if (!(GetStyle() & WS_CAPTION))
 		return;
 
-	if (FALSE == m_ncImage[WINDOW_ACTIVATION_ACTIVE].IsLoadedImage())
+	if (NULL == m_pNcImage[WINDOW_ACTIVATION_ACTIVE])
 		return;
 
-	CWindowDC dc(this);
-	dc.SetBkMode(TRANSPARENT);
+	CWindowDC windowDC(this);
+	windowDC.SetBkMode(TRANSPARENT);
 
 	CRect windowRect;
 	GetWindowRect(&windowRect);
@@ -314,36 +530,56 @@ void CCherryDialog::OnNcPaint()
 	windowRect.OffsetRect(-windowRect.left, -windowRect.top);
 
 	// Client 영역 Clipping (그리지 않기)
-	dc.ExcludeClipRect(innerClientRect);
+	windowDC.ExcludeClipRect(innerClientRect);
 
-	CCherryMemDC memDC(&dc, CRect(0, 0, windowRect.Width(), windowRect.Height()));
-	Graphics graphics(memDC.GetSafeHdc());
+	CCherryMemDC memDC(&windowDC, CRect(0, 0, windowRect.Width(), windowRect.Height()));
+	Graphics graphics(memDC);
+	graphics.SetSmoothingMode(SmoothingModeDefault);
+	graphics.SetInterpolationMode(InterpolationModeNearestNeighbor);
+	graphics.SetPixelOffsetMode(PixelOffsetModeHalf);
 
 	if (TRUE == m_bNcActive)
-		m_ncImage[WINDOW_ACTIVATION_ACTIVE].DrawStretchImage3x3(&graphics, windowRect);
-	else
-		m_ncImage[WINDOW_ACTIVATION_INACTIVE].DrawStretchImage3x3(&graphics, windowRect);
+	{
+		if (NULL != m_pNcActive9PatchImage[0][0] && NULL != m_pNcActive9PatchImage[0][1] && NULL != m_pNcActive9PatchImage[0][2] &&
+			NULL != m_pNcActive9PatchImage[1][0] && NULL != m_pNcActive9PatchImage[1][1] && NULL != m_pNcActive9PatchImage[1][2] &&
+			NULL != m_pNcActive9PatchImage[2][0] && NULL != m_pNcActive9PatchImage[2][1] && NULL != m_pNcActive9PatchImage[2][2])
+		{
+			// 1행
+			m_pNcActive9PatchImage[0][0]->DrawImage(&graphics, 0, 0, m_pNcActive9PatchImage[0][0]->GetWidth(), m_pNcActive9PatchImage[0][0]->GetHeight());
+			m_pNcActive9PatchImage[0][1]->DrawImage(&graphics, m_pNcActive9PatchImage[0][0]->GetWidth(), 0, windowRect.Width() - m_pNcActive9PatchImage[0][2]->GetWidth(), m_pNcActive9PatchImage[0][1]->GetHeight());
+			m_pNcActive9PatchImage[0][2]->DrawImage(&graphics, windowRect.Width() - m_pNcActive9PatchImage[0][2]->GetWidth(), 0, windowRect.Width(), m_pNcActive9PatchImage[0][2]->GetHeight());
 
-	// 그리기 메시지에 대해서는 CDialogEx::OnNcPaint()을(를) 호출하지 마십시오.
+			// 2행
+			m_pNcActive9PatchImage[1][0]->DrawImage(&graphics, 0, m_pNcActive9PatchImage[0][0]->GetHeight(), m_pNcActive9PatchImage[1][0]->GetWidth(), windowRect.Height() - m_pNcActive9PatchImage[2][0]->GetHeight());
+			m_pNcActive9PatchImage[1][1]->DrawImage(&graphics, m_pNcActive9PatchImage[1][0]->GetWidth(), m_pNcActive9PatchImage[0][1]->GetHeight(), windowRect.Width() - m_pNcActive9PatchImage[1][2]->GetWidth(), windowRect.Height() - m_pNcActive9PatchImage[2][1]->GetHeight());
+			m_pNcActive9PatchImage[1][2]->DrawImage(&graphics, windowRect.Width() - m_pNcActive9PatchImage[1][2]->GetWidth(), m_pNcActive9PatchImage[0][2]->GetHeight(), windowRect.Width(), windowRect.Height() - m_pNcActive9PatchImage[2][2]->GetHeight());
+
+			// 3행
+			m_pNcActive9PatchImage[2][0]->DrawImage(&graphics, 0, windowRect.Height() - m_pNcActive9PatchImage[2][0]->GetHeight(), m_pNcActive9PatchImage[2][0]->GetWidth(), windowRect.Height());
+			m_pNcActive9PatchImage[2][1]->DrawImage(&graphics, m_pNcActive9PatchImage[2][0]->GetWidth(), windowRect.Height() - m_pNcActive9PatchImage[2][1]->GetHeight(), windowRect.Width() - m_pNcActive9PatchImage[2][2]->GetWidth(), windowRect.Height());
+			m_pNcActive9PatchImage[2][2]->DrawImage(&graphics, windowRect.Width() - m_pNcActive9PatchImage[2][2]->GetWidth(), windowRect.Height() - m_pNcActive9PatchImage[2][2]->GetHeight(), windowRect.Width(), windowRect.Height());
+		}
+	}
+	else
+	{
+		if (NULL != m_pNcImage[WINDOW_ACTIVATION_INACTIVE])
+			m_pNcImage[WINDOW_ACTIVATION_INACTIVE]->Draw9PatchImage(&graphics, windowRect);
+	}
 }
 
 BOOL CCherryDialog::OnNcActivate(BOOL bActive)
 {
-	if (FALSE == m_ncImage[WINDOW_ACTIVATION_ACTIVE].IsLoadedImage())
-		return CDialogEx::OnNcActivate(bActive);
-
 	m_bNcActive = bActive;
 
-	UpdateNcRegion();
-	OnNcPaint();
-	Invalidate(FALSE);
+	RedrawWindow(NULL, NULL, RDW_FRAME | RDW_INVALIDATE);
 
 	return TRUE;
+	//return CDialogEx::OnNcActivate(bActive);
 }
 
 LRESULT CCherryDialog::OnNcHitTest(CPoint point)
 {
-	OnNcPaint();
+	//OnNcPaint();
 
 	return CDialogEx::OnNcHitTest(point);
 }
@@ -351,7 +587,7 @@ LRESULT CCherryDialog::OnNcHitTest(CPoint point)
 
 void CCherryDialog::OnNcLButtonDown(UINT nHitTest, CPoint point)
 {
-	OnNcPaint();
+	//OnNcPaint();
 
 	CDialogEx::OnNcLButtonDown(nHitTest, point);
 }
@@ -359,7 +595,7 @@ void CCherryDialog::OnNcLButtonDown(UINT nHitTest, CPoint point)
 
 void CCherryDialog::OnNcLButtonUp(UINT nHitTest, CPoint point)
 {
-	OnNcPaint();
+	//OnNcPaint();
 
 	CDialogEx::OnNcLButtonUp(nHitTest, point);
 }
@@ -367,7 +603,7 @@ void CCherryDialog::OnNcLButtonUp(UINT nHitTest, CPoint point)
 
 void CCherryDialog::OnNcMouseHover(UINT nFlags, CPoint point)
 {
-	OnNcPaint();
+	//OnNcPaint();
 
 	CDialogEx::OnNcMouseHover(nFlags, point);
 }
@@ -375,15 +611,9 @@ void CCherryDialog::OnNcMouseHover(UINT nFlags, CPoint point)
 
 void CCherryDialog::OnNcMouseLeave()
 {
-	OnNcPaint();
+	//OnNcPaint();
 
 	CDialogEx::OnNcMouseLeave();
-}
-
-
-void CCherryDialog::PreSubclassWindow()
-{
-	CDialogEx::PreSubclassWindow();
 }
 
 CHERRY_RET CCherryDialog::SetSystemButtonImage(LPCTSTR lpszMinButtonImagePath, LPCTSTR lpszMaxButtonImagePath, LPCTSTR lpszCloseButtonImagePath)
@@ -405,8 +635,8 @@ CHERRY_RET CCherryDialog::SetSystemButtonImage(LPCTSTR lpszMinButtonImagePath, L
 		if ((cherryRet = closeButtonImage.LoadImage(lpszCloseButtonImagePath)) != CCherryException::ERROR_CHERRY_SUCCESS)
 			throw cherryRet;
 
-		UINT nMinOrgWidth = minButtonImage.GetWidth() / STATUS_MAX_COUNT;
-		UINT nMinOrgHeight = minButtonImage.GetHeight();
+		UINT nMinRawWidth = minButtonImage.GetWidth() / STATUS_MAX_COUNT;
+		UINT nMinRawHeight = minButtonImage.GetHeight();
 
 		UINT nMaxOrgWidth = maxButtonImage.GetWidth() / STATUS_MAX_COUNT;
 		UINT nMaxOrgHeight = maxButtonImage.GetHeight();
@@ -417,7 +647,7 @@ CHERRY_RET CCherryDialog::SetSystemButtonImage(LPCTSTR lpszMinButtonImagePath, L
 		for (UINT i = STATUS_NORMAL; i < STATUS_MAX_COUNT; i++) // 각 상태 이미지 잘라서 붙여넣기
 		{
 			// Min
-			if ((cherryRet = m_sysMinButtonImage[i].LoadImage(minButtonImage.GetBitmap()->Clone(Rect(nMinOrgWidth * i, 0, nMinOrgWidth, nMinOrgHeight), PixelFormatDontCare))) != CCherryException::ERROR_CHERRY_SUCCESS)
+			if ((cherryRet = m_sysMinButtonImage[i].LoadImage(minButtonImage.GetBitmap()->Clone(Rect(nMinRawWidth * i, 0, nMinRawWidth, nMinRawHeight), PixelFormatDontCare))) != CCherryException::ERROR_CHERRY_SUCCESS)
 				throw cherryRet;
 
 			// Max
@@ -442,105 +672,145 @@ void CCherryDialog::OnSize(UINT nType, int cx, int cy)
 {
 	CDialogEx::OnSize(nType, cx, cy);
 
-	UpdateNcRegion();
-	OnNcPaint();
-	Invalidate(FALSE);
+	RefreshNcImage();
+	RefreshNcRegion();
+	RedrawWindow(NULL, NULL, RDW_FRAME | RDW_INVALIDATE);
 }
 
-void CCherryDialog::UpdateNcRegion()
+void CCherryDialog::RefreshNcRegion()
 {
-	if (FALSE == m_ncImage[WINDOW_ACTIVATION_ACTIVE].IsLoadedImage())
+	if (NULL == m_pNcImage[WINDOW_ACTIVATION_ACTIVE])
 		return;
-
-	UINT nNcWidth = m_ncImage[WINDOW_ACTIVATION_ACTIVE].GetWidth();
-	UINT nNcHeight = m_ncImage[WINDOW_ACTIVATION_ACTIVE].GetHeight();
-
-	if (NULL == m_hNcEdgeRgn[0])
-	{
-		// Left, Top
-		CCherryImage *pNcEdgeImage = m_ncImage[WINDOW_ACTIVATION_ACTIVE].ExtractImage(CRect(0, 0, nNcWidth / 3, nNcHeight / 3));
-		m_hNcEdgeRgn[0] = pNcEdgeImage->GetHRGN(CCherryImage::RGN_TYPE_INVISIBLE_THRESHOLD, 160);
-		
-		if (NULL != pNcEdgeImage)
-		{
-			delete pNcEdgeImage;
-			pNcEdgeImage = NULL;
-		}
-	}
-
-	if (NULL == m_hNcEdgeRgn[1])
-	{
-		// Right, Top
-		CCherryImage *pNcEdgeImage = m_ncImage[WINDOW_ACTIVATION_ACTIVE].ExtractImage(CRect((nNcWidth / 3) * 2, 0, nNcWidth, nNcHeight / 3));
-		m_hNcEdgeRgn[1] = pNcEdgeImage->GetHRGN(CCherryImage::RGN_TYPE_INVISIBLE_THRESHOLD, 160);
-
-		if (NULL != pNcEdgeImage)
-		{
-			delete pNcEdgeImage;
-			pNcEdgeImage = NULL;
-		}
-	}
-
-	if (NULL == m_hNcEdgeRgn[2])
-	{
-		// Left, Bottom
-		CCherryImage *pNcEdgeImage = m_ncImage[WINDOW_ACTIVATION_ACTIVE].ExtractImage(CRect(0, (nNcHeight / 3) * 2, nNcWidth / 3, nNcHeight));
-		m_hNcEdgeRgn[2] = pNcEdgeImage->GetHRGN(CCherryImage::RGN_TYPE_INVISIBLE_THRESHOLD, 160);
-
-		if (NULL != pNcEdgeImage)
-		{
-			delete pNcEdgeImage;
-			pNcEdgeImage = NULL;
-		}
-	}
-
-	if (NULL == m_hNcEdgeRgn[3])
-	{
-		// Right, Bottom
-		CCherryImage *pNcEdgeImage = m_ncImage[WINDOW_ACTIVATION_ACTIVE].ExtractImage(CRect((nNcWidth / 3) * 2, (nNcHeight / 3) * 2, nNcWidth, nNcHeight));
-		m_hNcEdgeRgn[3] = pNcEdgeImage->GetHRGN(CCherryImage::RGN_TYPE_INVISIBLE_THRESHOLD, 160);
-
-		if (NULL != pNcEdgeImage)
-		{
-			delete pNcEdgeImage;
-			pNcEdgeImage = NULL;ㅗ
-		}
-	}
-
-	if (NULL != m_hNcRgn)
-	{
-		DeleteObject(m_hNcRgn);
-		m_hNcRgn = NULL;
-	}
 
 	CRect windowRect;
 	GetWindowRect(&windowRect);
 
-	m_hNcRgn = CreateRectRgn(0, 0, windowRect.Width(), windowRect.Height());
-
-	// Left, Top merge
-	CombineRgn(m_hNcRgn, m_hNcRgn, m_hNcEdgeRgn[0], RGN_XOR);
-
-	// Right, Top merge
-	int nOffsetX = windowRect.Width() - (nNcWidth / 3);
-	int nOffsetY = windowRect.Height() - (nNcHeight / 3);
-	OffsetRgn(m_hNcEdgeRgn[1], nOffsetX, 0);
-	CombineRgn(m_hNcRgn, m_hNcRgn, m_hNcEdgeRgn[1], RGN_XOR);
-	OffsetRgn(m_hNcEdgeRgn[1], -nOffsetX, 0);
-
-	// Left, Bottom merge
-	OffsetRgn(m_hNcEdgeRgn[2], 0, nOffsetY);
-	CombineRgn(m_hNcRgn, m_hNcRgn, m_hNcEdgeRgn[2], RGN_XOR);
-	OffsetRgn(m_hNcEdgeRgn[2], 0, -nOffsetY);
-
-	// Right, Bottom merge
-	OffsetRgn(m_hNcEdgeRgn[3], nOffsetX, nOffsetY);
-	CombineRgn(m_hNcRgn, m_hNcRgn, m_hNcEdgeRgn[3], RGN_XOR);
-	OffsetRgn(m_hNcEdgeRgn[3], -nOffsetX, -nOffsetY);
-
-	if (TRUE == IsZoomed()) 
+	// 최대화한 경우 전체화면을 꽉 채워 설정한다.
+	if (TRUE == IsZoomed())
 	{
-		// 구현 필요
+		if (NULL != m_hNcRgn)
+		{
+			DeleteObject(m_hNcRgn);
+			m_hNcRgn = NULL;
+		}
+
+		m_hNcRgn = CreateRectRgn(windowRect.left, windowRect.top, windowRect.right, windowRect.bottom);
+	}
+	else
+	{
+		UINT nRawWidth = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->GetWidth();
+		UINT nRawHeight = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->GetWidth();
+
+		UINT nDivWidth = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->GetWidth() / 3;
+		UINT nDivHeight = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->GetHeight() / 3;
+
+		if (NULL == m_hNcEdgeRgn[0])
+		{
+			// Left, Top
+			CCherryImage *pNcEdgeImage = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->ExtractImage(CRect(0, 0, nDivWidth, nDivHeight));
+			
+			if (NULL != m_hNcEdgeRgn[0])
+			{
+				DeleteObject(m_hNcEdgeRgn[0]);
+				m_hNcEdgeRgn[0] = NULL;
+			}
+
+			m_hNcEdgeRgn[0] = pNcEdgeImage->GetHRGN(CCherryImage::RGN_TYPE_INVISIBLE_THRESHOLD, 160);
+
+			if (NULL != pNcEdgeImage)
+			{
+				delete pNcEdgeImage;
+				pNcEdgeImage = NULL;
+			}
+		}
+
+		if (NULL == m_hNcEdgeRgn[1])
+		{
+			// Right, Top
+			CCherryImage *pNcEdgeImage = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->ExtractImage(CRect(nDivWidth * 2, 0, nRawWidth, nDivHeight));
+			
+			if (NULL != m_hNcEdgeRgn[1])
+			{
+				DeleteObject(m_hNcEdgeRgn[1]);
+				m_hNcEdgeRgn[1] = NULL;
+			}
+			
+			m_hNcEdgeRgn[1] = pNcEdgeImage->GetHRGN(CCherryImage::RGN_TYPE_INVISIBLE_THRESHOLD, 160);
+
+			if (NULL != pNcEdgeImage)
+			{
+				delete pNcEdgeImage;
+				pNcEdgeImage = NULL;
+			}
+		}
+
+		if (NULL == m_hNcEdgeRgn[2])
+		{
+			// Left, Bottom
+			CCherryImage *pNcEdgeImage = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->ExtractImage(CRect(0, nDivHeight * 2, nDivWidth, nRawHeight));
+			
+			if (NULL != m_hNcEdgeRgn[2])
+			{
+				DeleteObject(m_hNcEdgeRgn[2]);
+				m_hNcEdgeRgn[2] = NULL;
+			}
+			
+			m_hNcEdgeRgn[2] = pNcEdgeImage->GetHRGN(CCherryImage::RGN_TYPE_INVISIBLE_THRESHOLD, 160);
+
+			if (NULL != pNcEdgeImage)
+			{
+				delete pNcEdgeImage;
+				pNcEdgeImage = NULL;
+			}
+		}
+
+		if (NULL == m_hNcEdgeRgn[3])
+		{
+			// Right, Bottom
+			CCherryImage *pNcEdgeImage = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->ExtractImage(CRect(nDivWidth * 2, nDivHeight * 2, nRawWidth, nRawHeight));
+			
+			if (NULL != m_hNcEdgeRgn[3])
+			{
+				DeleteObject(m_hNcEdgeRgn[3]);
+				m_hNcEdgeRgn[3] = NULL;
+			}
+			
+			m_hNcEdgeRgn[3] = pNcEdgeImage->GetHRGN(CCherryImage::RGN_TYPE_INVISIBLE_THRESHOLD, 160);
+
+			if (NULL != pNcEdgeImage)
+			{
+				delete pNcEdgeImage;
+				pNcEdgeImage = NULL;
+			}
+		}
+
+		if (NULL != m_hNcRgn)
+		{
+			DeleteObject(m_hNcRgn);
+			m_hNcRgn = NULL;
+		}
+
+		m_hNcRgn = CreateRectRgn(0, 0, windowRect.Width(), windowRect.Height());
+
+		// Left, Top merge
+		CombineRgn(m_hNcRgn, m_hNcRgn, m_hNcEdgeRgn[0], RGN_XOR);
+
+		// Right, Top merge
+		int nOffsetX = windowRect.Width() - nDivWidth;
+		int nOffsetY = windowRect.Height() - nDivHeight;
+		OffsetRgn(m_hNcEdgeRgn[1], nOffsetX, 0);
+		CombineRgn(m_hNcRgn, m_hNcRgn, m_hNcEdgeRgn[1], RGN_XOR);
+		OffsetRgn(m_hNcEdgeRgn[1], -nOffsetX, 0);
+
+		// Left, Bottom merge
+		OffsetRgn(m_hNcEdgeRgn[2], 0, nOffsetY);
+		CombineRgn(m_hNcRgn, m_hNcRgn, m_hNcEdgeRgn[2], RGN_XOR);
+		OffsetRgn(m_hNcEdgeRgn[2], 0, -nOffsetY);
+
+		// Right, Bottom merge
+		OffsetRgn(m_hNcEdgeRgn[3], nOffsetX, nOffsetY);
+		CombineRgn(m_hNcRgn, m_hNcRgn, m_hNcEdgeRgn[3], RGN_XOR);
+		OffsetRgn(m_hNcEdgeRgn[3], -nOffsetX, -nOffsetY);
 	}
 
 	SetWindowRgn(m_hNcRgn, TRUE);

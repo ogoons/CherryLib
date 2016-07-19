@@ -146,15 +146,15 @@ CHERRY_RET CCherryListCtrl::SetItemImage(LPCTSTR lpszImagePath)
 		if ((cherryRet = sourceImage.LoadImage(lpszImagePath)) != CCherryException::ERROR_CHERRY_SUCCESS)
 			throw cherryRet;
 
-		UINT nOrgWidth = sourceImage.GetWidth();
-		UINT nOrgHeight = sourceImage.GetHeight() / ITEM_STATUS_MAX_COUNT;
+		UINT nRawWidth = sourceImage.GetWidth();
+		UINT nRawHeight = sourceImage.GetHeight() / ITEM_STATUS_MAX_COUNT;
 
 		Rect itemImageRect[ITEM_STATUS_MAX_COUNT];
 
 		// 각 상태 이미지 잘라서 붙여넣기
 		for (UINT i = ITEM_STATUS_NORMAL; i < ITEM_STATUS_MAX_COUNT; i++)
 		{
-			itemImageRect[i] = Gdiplus::Rect(0, nOrgHeight * i, nOrgWidth, nOrgHeight);
+			itemImageRect[i] = Gdiplus::Rect(0, nRawHeight * i, nRawWidth, nRawHeight);
 
 			if ((cherryRet = m_itemImage[i].LoadImage(sourceImage.GetBitmap()->Clone(itemImageRect[i], PixelFormatDontCare), TRUE)) != CCherryException::ERROR_CHERRY_SUCCESS) // 캐시된 이미지
 				return cherryRet;
@@ -264,7 +264,7 @@ void CCherryListCtrl::OnNMCustomdraw(NMHDR *pNMHDR, LRESULT *pResult)
 				pCurItemImage = &m_itemImage[ITEM_STATUS_NORMAL];
 
 			if (pCurItemImage)
-				pCurItemImage->DrawStretchImage3x3(&graphics, itemRect);
+				pCurItemImage->Draw9PatchImage(&graphics, itemRect);
 
 			// 텍스트 뿌리기
 			TCHAR szItemText[256] = { 0, };

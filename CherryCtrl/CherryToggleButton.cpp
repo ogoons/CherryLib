@@ -60,27 +60,27 @@ CHERRY_RET CCherryToggleButton::SetImage(LPCTSTR lpszImagePath)
 		if ((cherryRet = sourceImage.LoadImage(lpszImagePath)) != CCherryException::ERROR_CHERRY_SUCCESS)
 			throw cherryRet;
 
-		UINT nOrgWidth = sourceImage.GetWidth() / STATUS_MAX_COUNT;
-		UINT nOrgHeight = sourceImage.GetHeight() / 2;
+		UINT nRawWidth = sourceImage.GetWidth() / STATUS_MAX_COUNT;
+		UINT nRawHeight = sourceImage.GetHeight() / 2;
 
 		// 체크되지 않은 이미지 각 상태 이미지 잘라서 붙여넣기
 		for (UINT i = STATUS_NORMAL; i < STATUS_MAX_COUNT; i++)
 		{
-			if ((cherryRet = m_images[i].LoadImage(sourceImage.GetBitmap()->Clone(Rect(nOrgWidth * i, 0, nOrgWidth, nOrgHeight), PixelFormatDontCare))) != CCherryException::ERROR_CHERRY_SUCCESS)
+			if ((cherryRet = m_images[i].LoadImage(sourceImage.GetBitmap()->Clone(Rect(nRawWidth * i, 0, nRawWidth, nRawHeight), PixelFormatDontCare))) != CCherryException::ERROR_CHERRY_SUCCESS)
 				throw cherryRet;
 		}
 
 		// 토글된 이미지 각 상태 이미지 잘라서 붙여넣기
 		for (UINT j = STATUS_NORMAL; j < STATUS_MAX_COUNT; j++)
 		{
-			if ((cherryRet = m_toggleOnImages[j].LoadImage(sourceImage.GetBitmap()->Clone(Rect(nOrgWidth * j, nOrgHeight, nOrgWidth, nOrgHeight), PixelFormatDontCare))) != CCherryException::ERROR_CHERRY_SUCCESS)
+			if ((cherryRet = m_toggleOnImages[j].LoadImage(sourceImage.GetBitmap()->Clone(Rect(nRawWidth * j, nRawHeight, nRawWidth, nRawHeight), PixelFormatDontCare))) != CCherryException::ERROR_CHERRY_SUCCESS)
 				throw cherryRet;
 		}
 
 		if (GetCherryStyle() & STYLE_AUTORESIZE)
 		{
 			// CherryToggleButton::STYLE_AUTORESIZE 설정되어 있다면 무조건 Resize
-			ResizeWindow(nOrgWidth, nOrgHeight);
+			ResizeWindow(nRawWidth, nRawHeight);
 		}
 		else
 		{
@@ -93,12 +93,12 @@ CHERRY_RET CCherryToggleButton::SetImage(LPCTSTR lpszImagePath)
 			if (windowRect.Width() > 0)
 				nWidth = windowRect.Width();
 			else
-				nWidth = nOrgWidth;
+				nWidth = nRawWidth;
 
 			if (windowRect.Height() > 0)
 				nHeight = windowRect.Height();
 			else
-				nHeight = nOrgHeight;
+				nHeight = nRawHeight;
 
 			if (nWidth > 0 && nHeight > 0)
 			{
@@ -109,7 +109,7 @@ CHERRY_RET CCherryToggleButton::SetImage(LPCTSTR lpszImagePath)
 			else
 			{
 				// nWidth || nHeight 어느 하나라도 0이면 Auto Resizing
-				ResizeWindow(nOrgWidth, nOrgHeight);
+				ResizeWindow(nRawWidth, nRawHeight);
 			}
 		}
 	}
@@ -156,7 +156,7 @@ void CCherryToggleButton::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 		if ((UINT)clientRect.Width() > pCurrentImage->GetWidth() &&
 			(UINT)clientRect.Height() > pCurrentImage->GetHeight())
 			// 원본 이미지 보다 큰 경우 3x3 확대하여 출력한다.
-			pCurrentImage->DrawStretchImage3x3(&graphics, clientRect);
+			pCurrentImage->Draw9PatchImage(&graphics, clientRect);
 		else
 			// Source 크기보다 Client가 작거나 같은 경우는 Client 크기로 출력한다.
 			pCurrentImage->DrawImage(&graphics, clientRect);

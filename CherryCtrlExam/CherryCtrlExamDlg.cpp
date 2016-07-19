@@ -153,7 +153,7 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 	m_edit.SetFontStyle(CCherryFont::STYLE_BOLD);
 	m_edit.SetFontColor(Color(255, 0, 0));
 
-	m_checkBox.Create(_T("[CherryCheckBox] 체크박스(&C)\nadfkjlasfas\najfldjflksdf\nadlfjalkdfjla"), _T("wimax_on_off.png"), CCherryCheckBox::STYLE_AUTORESIZE | CCherryCheckBox::STYLE_AUTOCHECKBOX, WS_CHILD | WS_VISIBLE, CRect(200, 380, 0, 0), this, 1010);
+	m_checkBox.Create(_T("[CherryCheckBox] 체크박스(&C)\n테스트1라인\n테스트2라인\n테스트3라인"), _T("wimax_on_off.png"), CCherryCheckBox::STYLE_AUTORESIZE | CCherryCheckBox::STYLE_AUTOCHECKBOX, WS_CHILD | WS_VISIBLE, CRect(200, 380, 0, 0), this, 1010);
 	m_checkBox.EnableHoverHandCursor(TRUE);
 	//CCherryFont hoverFont(_T("굴림"), 100, Color(23, 233, 56), CherryFont::STYLE_VCENTER);
 	//m_checkBox.SetHoverFont(hoverFont);
@@ -185,12 +185,12 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 	m_listCtrl.InsertColumn(1, _T("테스트2"), LVCFMT_LEFT/*| HDF_OWNERDRAW*/, 150);
 	
 	int nItem = m_listCtrl.InsertItem(m_listCtrl.GetItemCount(), _T("테스트1"));
-	m_listCtrl.SetItem(nItem, 1, LVIF_TEXT, _T("하나"), NULL, NULL, NULL, NULL);
+	m_listCtrl.SetItem(nItem, 1, LVIF_TEXT, _T("아이템1"), NULL, NULL, NULL, NULL);
 	
 	nItem = m_listCtrl.InsertItem(m_listCtrl.GetItemCount(), _T("테스트2"));
-	m_listCtrl.SetItem(nItem, 1, LVIF_TEXT, _T("하나"), NULL, NULL, NULL, NULL);
+	m_listCtrl.SetItem(nItem, 1, LVIF_TEXT, _T("아이템2"), NULL, NULL, NULL, NULL);
 
-	m_listCtrl.InsertItem(m_listCtrl.GetItemCount(), _T("테스트3\r\n하하"));
+	m_listCtrl.InsertItem(m_listCtrl.GetItemCount(), _T("테스트3\r\n줄바꿈"));
 	m_listCtrl.InsertItem(m_listCtrl.GetItemCount(), _T("테스트4"));
 
 	m_listCtrl.GetCherryHeaderCtrl()->SetFontStyle(CCherryFont::STYLE_VCENTER | CCherryFont::STYLE_LEFT);
@@ -200,19 +200,19 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 	// CCherryTabCtrl
 	m_tabCtrl.Create(_T("tab.png"), CCherryTabCtrl::STYLE_TAB_BOTTOM, WS_CHILD | WS_VISIBLE, CRect(700, 250, 1200, 500), this, 1013);
 
-	m_wnd1.Create(NULL, _T("babo1"), WS_CHILD | WS_VISIBLE, CRect(), &m_tabCtrl, 1014);
+	m_wnd1.Create(NULL, _T("탭1"), WS_CHILD | WS_VISIBLE, CRect(), &m_tabCtrl, 1014);
 	m_wnd1.SetBackColor(RGB(255, 0, 0));
 
-	m_wnd2.Create(NULL, _T("babo2"), WS_CHILD | WS_VISIBLE, CRect(), &m_tabCtrl, 1015);
+	m_wnd2.Create(NULL, _T("탭2"), WS_CHILD | WS_VISIBLE, CRect(), &m_tabCtrl, 1015);
 	m_wnd2.SetBackColor(RGB(0, 255, 0));
 
-	m_wnd3.Create(NULL, _T("babo3"), WS_CHILD | WS_VISIBLE, CRect(), &m_tabCtrl, 1016);
+	m_wnd3.Create(NULL, _T("탭3"), WS_CHILD | WS_VISIBLE, CRect(), &m_tabCtrl, 1016);
 	m_wnd3.SetBackColor(RGB(0, 0, 255));
 
-	m_wnd4.Create(NULL, _T("babo4"), WS_CHILD | WS_VISIBLE, CRect(), &m_tabCtrl, 1017);
+	m_wnd4.Create(NULL, _T("탭4"), WS_CHILD | WS_VISIBLE, CRect(), &m_tabCtrl, 1017);
 	m_wnd4.SetBackColor(RGB(255, 255, 255));
 
-	m_wnd5.Create(NULL, _T("babo5"), WS_CHILD | WS_VISIBLE, CRect(), &m_tabCtrl, 1018);
+	m_wnd5.Create(NULL, _T("탭5"), WS_CHILD | WS_VISIBLE, CRect(), &m_tabCtrl, 1018);
 	m_wnd5.SetBackColor(RGB(0, 0, 0));
 
 	m_tabCtrl.AddPage(&m_wnd1);
@@ -291,7 +291,7 @@ void CCherryCtrlExamDlg::OnDrawCherry(CCherryMemDC *pDC)
 
 	//m_defaultSizeImage.DrawImage(&grs, clientRect);
 	m_font.DrawText(&grs, _T("CCherryFont 테스트 입니다."), CRect(10, 10, 100, 20));
-	//m_resImage.DrawStretchImage3x3(&grs, 10, 10, 600, 600);
+	//m_resImage.Draw9PatchImage(&grs, 10, 10, 600, 600);
 }
 
 // 사용자가 최소화된 창을 끄는 동안에 커서가 표시되도록 시스템에서
@@ -310,7 +310,8 @@ void CCherryCtrlExamDlg::OnDrawCherry(CCherryMemDC *pDC)
 
 void CCherryCtrlExamDlg::OnBnClickedButton1()
 {
-	SetTimer(1, 1, NULL);
+	//SetTimer(1, 1, NULL);
+	RemoveBackImage();
 }
 
 void CCherryCtrlExamDlg::OnBnClickedButton2()

@@ -100,7 +100,7 @@ void CCherryImageCtrl::OnDrawCherry(CCherryMemDC *pDC)
 
 	if ((UINT)clientRect.Width() > m_image.GetWidth() &&
 		(UINT)clientRect.Height() > m_image.GetHeight())
-		m_image.DrawStretchImage3x3(&graphics, clientRect);
+		m_image.Draw9PatchImage(&graphics, clientRect);
 	else
 		m_image.DrawImage(&graphics, clientRect);
 
