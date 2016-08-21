@@ -22,7 +22,7 @@ IMPLEMENT_DYNAMIC(CCherryDialog, CDialogEx)
 CCherryDialog::CCherryDialog()
 {
 	m_backImageType = BACK_IMAGE_NONE;
-	m_bNcActive = TRUE;
+	m_windowActivation = WINDOW_ACTIVATION_ACTIVE;
 
 	m_hNcRgn = NULL;
 	m_hNcEdgeRgn[0] = NULL;
@@ -45,7 +45,7 @@ CCherryDialog::CCherryDialog(UINT nIDTemplate, CWnd* pParent)
 	: CDialogEx(nIDTemplate, pParent)
 {
 	m_backImageType = BACK_IMAGE_NONE;
-	m_bNcActive = TRUE;
+	m_windowActivation = WINDOW_ACTIVATION_ACTIVE;
 
 	m_hNcRgn = NULL;
 	m_hNcEdgeRgn[0] = NULL;
@@ -66,56 +66,9 @@ CCherryDialog::CCherryDialog(UINT nIDTemplate, CWnd* pParent)
 
 CCherryDialog::~CCherryDialog()
 {
-	if (NULL != m_pClientImage[WINDOW_ACTIVATION_ACTIVE])
-	{
-		delete m_pClientImage[WINDOW_ACTIVATION_ACTIVE];
-		m_pClientImage[WINDOW_ACTIVATION_ACTIVE] = NULL;
-	}
-
-	if (NULL != m_pClientImage[WINDOW_ACTIVATION_INACTIVE])
-	{
-		delete m_pClientImage[WINDOW_ACTIVATION_INACTIVE];
-		m_pClientImage[WINDOW_ACTIVATION_INACTIVE] = NULL;
-	}
-
-	if (NULL != m_pNcImage[WINDOW_ACTIVATION_ACTIVE])
-	{
-		delete m_pNcImage[WINDOW_ACTIVATION_ACTIVE];
-		m_pNcImage[WINDOW_ACTIVATION_ACTIVE] = NULL;
-	}
-
-	if (NULL != m_pNcImage[WINDOW_ACTIVATION_INACTIVE])
-	{
-		delete m_pNcImage[WINDOW_ACTIVATION_INACTIVE];
-		m_pNcImage[WINDOW_ACTIVATION_INACTIVE] = NULL;
-	}
-
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			if (NULL != m_pNcActive9PatchImage[i][j])
-			{
-				delete m_pNcActive9PatchImage[i][j];
-				m_pNcActive9PatchImage[i][j] = NULL;
-			}
-		}
-	}
-
-	for (int i = 0; i < 4; i++)
-	{
-		if (NULL != m_hNcEdgeRgn[i])
-		{
-			DeleteObject(m_hNcEdgeRgn[i]);
-			m_hNcEdgeRgn[i] = NULL;
-		}
-	}
-
-	if (NULL != m_hNcRgn)
-	{
-		DeleteObject(m_hNcRgn);
-		m_hNcRgn = NULL;
-	}
+	RemoveClientColor();
+	RemoveClientImage();
+	RemoveNonClientImage();
 }
 
 BEGIN_MESSAGE_MAP(CCherryDialog, CDialogEx)
@@ -155,29 +108,19 @@ void CCherryDialog::OnPaint()
 	GetClientRect(&clientRect);
 
 	CCherryMemDC memDC(&dc, clientRect);
-
-	// Client 이미지 그리기
-	Graphics graphics(memDC.GetSafeHdc());
+	Graphics graphics(memDC);
 
 	switch (m_backImageType)
 	{
 	case BACK_IMAGE_NONE:
 		break;
 	case BACK_IMAGE_CLIENT:
-		if (NULL != m_pClientImage[WINDOW_ACTIVATION_ACTIVE])
-			m_pClientImage[WINDOW_ACTIVATION_ACTIVE]->DrawImage(&graphics, clientRect);
+		if (NULL != m_pClientImage[m_windowActivation] && TRUE == m_pClientImage[m_windowActivation]->IsLoadedImage())
+			m_pClientImage[m_windowActivation]->DrawImage(&graphics, clientRect);
 		break;
+	case BACK_COLOR_CLIENT:
 	case BACK_IMAGE_NON_CLIENT:
-		if (TRUE == m_bNcActive)
-		{
-			if (NULL != m_pClientImage[WINDOW_ACTIVATION_ACTIVE])
-				m_pClientImage[WINDOW_ACTIVATION_ACTIVE]->DrawImage(&graphics, clientRect);
-		}
-		else
-		{
-			if (NULL != m_pClientImage[WINDOW_ACTIVATION_INACTIVE])
-				m_pClientImage[WINDOW_ACTIVATION_INACTIVE]->DrawImage(&graphics, clientRect);
-		}
+		memDC.FillSolidRect(clientRect, m_clientColorRef[m_windowActivation]);
 		break;
 	default:
 		break;
@@ -246,21 +189,40 @@ BOOL CCherryDialog::OnCreateCherry()
 	return TRUE;
 }
 
-CHERRY_RET CCherryDialog::SetClientImage(LPCTSTR lpszImagePath)
+CHERRY_RET CCherryDialog::SetClientColor(COLORREF activeColor, COLORREF inactiveColor)
+{
+	RemoveClientImage();
+
+	m_clientColorRef[WINDOW_ACTIVATION_ACTIVE] = activeColor;
+	m_clientColorRef[WINDOW_ACTIVATION_INACTIVE] = inactiveColor;
+
+	m_backImageType = BACK_COLOR_CLIENT;
+
+	// Invalidate와 RedrawWindow는 기능적으론 같으나 RedrawWindow가 상세한 옵션을 지원.
+	RedrawWindow(NULL, NULL, RDW_FRAME | RDW_INVALIDATE);
+
+	return CCherryException::ERROR_CHERRY_SUCCESS;
+}
+
+CHERRY_RET CCherryDialog::SetClientImage(LPCTSTR activeImagePath, LPCTSTR inactiveImagePath)
 {
 	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
 
 	try
 	{
-		if (NULL == lpszImagePath)
+		if (NULL == activeImagePath)
 			throw CCherryException::ERROR_DIALOG_CLIENT_ACTIVE_WINDOW_IMAGE_NOT_FOUND;
 
-		RemoveBackImage();
+		RemoveClientColor();
+		RemoveClientImage();
 
 		m_pClientImage[WINDOW_ACTIVATION_ACTIVE] = new CCherryImage();
-		
-		if (CCherryException::ERROR_CHERRY_SUCCESS != (cherryRet = m_pClientImage[WINDOW_ACTIVATION_ACTIVE]->LoadImage(lpszImagePath)))
+
+		if (CCherryException::ERROR_CHERRY_SUCCESS != (cherryRet = m_pClientImage[WINDOW_ACTIVATION_ACTIVE]->LoadImage(activeImagePath)))
 			throw cherryRet;
+
+		m_pClientImage[WINDOW_ACTIVATION_INACTIVE] = new CCherryImage();
+		m_pClientImage[WINDOW_ACTIVATION_ACTIVE]->LoadImage(inactiveImagePath); // Inactive 이미지는 없어도 동작할 수 있게 Exception skip
 
 		m_backImageType = BACK_IMAGE_CLIENT;
 
@@ -318,7 +280,7 @@ CHERRY_RET CCherryDialog::Make9PatchNcActiveImage()
 	return CCherryException::ERROR_CHERRY_SUCCESS;
 }
 
-CHERRY_RET CCherryDialog::SetNcImage(LPCTSTR lpszActiveImagePath, LPCTSTR lpszInactiveImagePath)
+CHERRY_RET CCherryDialog::SetNcImage(LPCTSTR lpszActiveImagePath, LPCTSTR lpszInactiveImagePath, COLORREF activeColor, COLORREF inactiveColor)
 {
 	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
 
@@ -327,7 +289,9 @@ CHERRY_RET CCherryDialog::SetNcImage(LPCTSTR lpszActiveImagePath, LPCTSTR lpszIn
 		if (NULL == lpszActiveImagePath)
 			throw CCherryException::ERROR_IMAGE_LOAD_FAIL;
 
-		RemoveBackImage();
+		RemoveClientColor();
+		RemoveClientImage();
+		RemoveNonClientImage();
 
 		// Active image
 		m_pNcImage[WINDOW_ACTIVATION_ACTIVE] = new CCherryImage();
@@ -342,9 +306,10 @@ CHERRY_RET CCherryDialog::SetNcImage(LPCTSTR lpszActiveImagePath, LPCTSTR lpszIn
 		m_pNcImage[WINDOW_ACTIVATION_INACTIVE] = new CCherryImage();
 		m_pNcImage[WINDOW_ACTIVATION_INACTIVE]->LoadImage(lpszInactiveImagePath); // Inactive 이미지는 없어도 동작할 수 있게 Exception skip
 
+		SetClientColor(activeColor, inactiveColor);
+
 		m_backImageType = BACK_IMAGE_NON_CLIENT;
 
-		RefreshNcImage();
 		RefreshNcRegion();
 		RedrawWindow(NULL, NULL, RDW_FRAME | RDW_INVALIDATE);
 	}
@@ -362,7 +327,7 @@ CHERRY_RET CCherryDialog::SetNcImage(LPCTSTR lpszActiveImagePath, LPCTSTR lpszIn
 	return cherryRet;
 }
 
-CHERRY_RET CCherryDialog::SetNcImage(LPCTSTR lpszActiveInactiveMergedImagePath)
+CHERRY_RET CCherryDialog::SetNcImage(LPCTSTR lpszActiveInactiveMergedImagePath, COLORREF activeColor, COLORREF inactiveColor)
 {
 	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
 
@@ -372,7 +337,9 @@ CHERRY_RET CCherryDialog::SetNcImage(LPCTSTR lpszActiveInactiveMergedImagePath)
 		if (CCherryException::ERROR_CHERRY_SUCCESS != (cherryRet = rawImage.LoadImage(lpszActiveInactiveMergedImagePath)))
 			throw cherryRet;
 
-		RemoveBackImage();
+		RemoveClientColor();
+		RemoveClientImage();
+		RemoveNonClientImage();
 
 		m_pNcImage[WINDOW_ACTIVATION_ACTIVE] = rawImage.ExtractImage(CRect(0, 0, rawImage.GetWidth() / 2, rawImage.GetHeight()));
 
@@ -382,9 +349,10 @@ CHERRY_RET CCherryDialog::SetNcImage(LPCTSTR lpszActiveInactiveMergedImagePath)
 		// Inactive image
 		m_pNcImage[WINDOW_ACTIVATION_INACTIVE] = rawImage.ExtractImage(CRect(rawImage.GetWidth() / 2, 0, rawImage.GetWidth(), rawImage.GetHeight()));
 
+		SetClientColor(activeColor, inactiveColor);
+
 		m_backImageType = BACK_IMAGE_NON_CLIENT;
 
-		RefreshNcImage();
 		RefreshNcRegion();
 		RedrawWindow(NULL, NULL, RDW_FRAME | RDW_INVALIDATE);
 	}
@@ -396,41 +364,34 @@ CHERRY_RET CCherryDialog::SetNcImage(LPCTSTR lpszActiveInactiveMergedImagePath)
 	return cherryRet;
 }
 
-void CCherryDialog::RefreshNcImage()
+void CCherryDialog::RemoveClientColor()
 {
-	CRect windowRect;
-	GetWindowRect(&windowRect);
+	if (m_backImageType == BACK_IMAGE_NONE)
+		return;
 
-	CRect innerClientRect;
-	GetClientRect(&innerClientRect);
-	ClientToScreen(&innerClientRect);
+	m_clientColorRef[WINDOW_ACTIVATION_ACTIVE] = 0;
+	m_clientColorRef[WINDOW_ACTIVATION_INACTIVE] = 0;
+}
 
-	innerClientRect.OffsetRect(-windowRect.left, -windowRect.top);
-	windowRect.OffsetRect(-windowRect.left, -windowRect.top);
+void CCherryDialog::RemoveClientImage()
+{
+	if (m_backImageType == BACK_IMAGE_NONE)
+		return;
 
-	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
-
-	// Client
 	if (NULL != m_pClientImage[WINDOW_ACTIVATION_ACTIVE])
 	{
 		delete m_pClientImage[WINDOW_ACTIVATION_ACTIVE];
 		m_pClientImage[WINDOW_ACTIVATION_ACTIVE] = NULL;
 	}
 
-	if (NULL != m_pNcImage[WINDOW_ACTIVATION_ACTIVE])
-		m_pClientImage[WINDOW_ACTIVATION_ACTIVE] = m_pNcImage[WINDOW_ACTIVATION_ACTIVE]->Extract9PatchImage(windowRect, innerClientRect, 100, cherryRet); // Active
-
 	if (NULL != m_pClientImage[WINDOW_ACTIVATION_INACTIVE])
 	{
 		delete m_pClientImage[WINDOW_ACTIVATION_INACTIVE];
 		m_pClientImage[WINDOW_ACTIVATION_INACTIVE] = NULL;
 	}
-
-	if (NULL != m_pNcImage[WINDOW_ACTIVATION_INACTIVE])
-		m_pClientImage[WINDOW_ACTIVATION_INACTIVE] = m_pNcImage[WINDOW_ACTIVATION_INACTIVE]->Extract9PatchImage(windowRect, innerClientRect, 100, cherryRet); // Inactive
 }
 
-void CCherryDialog::RemoveBackImage() // 수정 필요
+void CCherryDialog::RemoveNonClientImage()
 {
 	if (m_backImageType == BACK_IMAGE_NONE)
 		return;
@@ -458,18 +419,16 @@ void CCherryDialog::RemoveBackImage() // 수정 필요
 		delete m_pNcImage[WINDOW_ACTIVATION_INACTIVE];
 		m_pNcImage[WINDOW_ACTIVATION_INACTIVE] = NULL;
 	}
+}
 
-	if (NULL != m_pClientImage[WINDOW_ACTIVATION_ACTIVE])
-	{
-		delete m_pClientImage[WINDOW_ACTIVATION_ACTIVE];
-		m_pClientImage[WINDOW_ACTIVATION_ACTIVE] = NULL;
-	}
+void CCherryDialog::RemoveBackImage()
+{
+	if (m_backImageType == BACK_IMAGE_NONE)
+		return;
 
-	if (NULL != m_pClientImage[WINDOW_ACTIVATION_INACTIVE])
-	{
-		delete m_pClientImage[WINDOW_ACTIVATION_INACTIVE];
-		m_pClientImage[WINDOW_ACTIVATION_INACTIVE] = NULL;
-	}
+	RemoveClientColor();
+	RemoveClientImage();
+	RemoveNonClientImage();
 
 	m_backImageType = BACK_IMAGE_NONE;
 
@@ -534,42 +493,45 @@ void CCherryDialog::OnNcPaint()
 
 	CCherryMemDC memDC(&windowDC, CRect(0, 0, windowRect.Width(), windowRect.Height()));
 	Graphics graphics(memDC);
-	graphics.SetSmoothingMode(SmoothingModeDefault);
+	graphics.SetSmoothingMode(SmoothingModeNone);
 	graphics.SetInterpolationMode(InterpolationModeNearestNeighbor);
 	graphics.SetPixelOffsetMode(PixelOffsetModeHalf);
 
-	if (TRUE == m_bNcActive)
+	switch (m_windowActivation)
 	{
+	case WINDOW_ACTIVATION_ACTIVE:
 		if (NULL != m_pNcActive9PatchImage[0][0] && NULL != m_pNcActive9PatchImage[0][1] && NULL != m_pNcActive9PatchImage[0][2] &&
 			NULL != m_pNcActive9PatchImage[1][0] && NULL != m_pNcActive9PatchImage[1][1] && NULL != m_pNcActive9PatchImage[1][2] &&
 			NULL != m_pNcActive9PatchImage[2][0] && NULL != m_pNcActive9PatchImage[2][1] && NULL != m_pNcActive9PatchImage[2][2])
 		{
 			// 1행
 			m_pNcActive9PatchImage[0][0]->DrawImage(&graphics, 0, 0, m_pNcActive9PatchImage[0][0]->GetWidth(), m_pNcActive9PatchImage[0][0]->GetHeight());
-			m_pNcActive9PatchImage[0][1]->DrawImage(&graphics, m_pNcActive9PatchImage[0][0]->GetWidth(), 0, windowRect.Width() - m_pNcActive9PatchImage[0][2]->GetWidth(), m_pNcActive9PatchImage[0][1]->GetHeight());
+			m_pNcActive9PatchImage[0][1]->DrawImage(&graphics, m_pNcActive9PatchImage[0][0]->GetWidth(), 0, windowRect.Width() - m_pNcActive9PatchImage[0][2]->GetWidth() + 1, m_pNcActive9PatchImage[0][1]->GetHeight()); // Right 값 +1을 해주어야 창의 확장시에 빈 pixel이 생기지 않는다.
 			m_pNcActive9PatchImage[0][2]->DrawImage(&graphics, windowRect.Width() - m_pNcActive9PatchImage[0][2]->GetWidth(), 0, windowRect.Width(), m_pNcActive9PatchImage[0][2]->GetHeight());
 
 			// 2행
 			m_pNcActive9PatchImage[1][0]->DrawImage(&graphics, 0, m_pNcActive9PatchImage[0][0]->GetHeight(), m_pNcActive9PatchImage[1][0]->GetWidth(), windowRect.Height() - m_pNcActive9PatchImage[2][0]->GetHeight());
-			m_pNcActive9PatchImage[1][1]->DrawImage(&graphics, m_pNcActive9PatchImage[1][0]->GetWidth(), m_pNcActive9PatchImage[0][1]->GetHeight(), windowRect.Width() - m_pNcActive9PatchImage[1][2]->GetWidth(), windowRect.Height() - m_pNcActive9PatchImage[2][1]->GetHeight());
+			m_pNcActive9PatchImage[1][1]->DrawImage(&graphics, m_pNcActive9PatchImage[1][0]->GetWidth(), m_pNcActive9PatchImage[0][1]->GetHeight(), windowRect.Width() - m_pNcActive9PatchImage[1][2]->GetWidth() + 1, windowRect.Height() - m_pNcActive9PatchImage[2][1]->GetHeight()); // Right 값 +1을 해주어야 창의 확장시에 빈 pixel이 생기지 않는다.
 			m_pNcActive9PatchImage[1][2]->DrawImage(&graphics, windowRect.Width() - m_pNcActive9PatchImage[1][2]->GetWidth(), m_pNcActive9PatchImage[0][2]->GetHeight(), windowRect.Width(), windowRect.Height() - m_pNcActive9PatchImage[2][2]->GetHeight());
 
 			// 3행
 			m_pNcActive9PatchImage[2][0]->DrawImage(&graphics, 0, windowRect.Height() - m_pNcActive9PatchImage[2][0]->GetHeight(), m_pNcActive9PatchImage[2][0]->GetWidth(), windowRect.Height());
-			m_pNcActive9PatchImage[2][1]->DrawImage(&graphics, m_pNcActive9PatchImage[2][0]->GetWidth(), windowRect.Height() - m_pNcActive9PatchImage[2][1]->GetHeight(), windowRect.Width() - m_pNcActive9PatchImage[2][2]->GetWidth(), windowRect.Height());
+			m_pNcActive9PatchImage[2][1]->DrawImage(&graphics, m_pNcActive9PatchImage[2][0]->GetWidth(), windowRect.Height() - m_pNcActive9PatchImage[2][1]->GetHeight(), windowRect.Width() - m_pNcActive9PatchImage[2][2]->GetWidth() + 1, windowRect.Height());
 			m_pNcActive9PatchImage[2][2]->DrawImage(&graphics, windowRect.Width() - m_pNcActive9PatchImage[2][2]->GetWidth(), windowRect.Height() - m_pNcActive9PatchImage[2][2]->GetHeight(), windowRect.Width(), windowRect.Height());
 		}
-	}
-	else
-	{
+		break;
+	case WINDOW_ACTIVATION_INACTIVE:
 		if (NULL != m_pNcImage[WINDOW_ACTIVATION_INACTIVE])
 			m_pNcImage[WINDOW_ACTIVATION_INACTIVE]->Draw9PatchImage(&graphics, windowRect);
+		break;
+	default:
+		break;
 	}
 }
 
 BOOL CCherryDialog::OnNcActivate(BOOL bActive)
 {
-	m_bNcActive = bActive;
+	m_windowActivation = (TRUE == bActive) ? WINDOW_ACTIVATION_ACTIVE : WINDOW_ACTIVATION_INACTIVE;
 
 	RedrawWindow(NULL, NULL, RDW_FRAME | RDW_INVALIDATE);
 
@@ -672,7 +634,8 @@ void CCherryDialog::OnSize(UINT nType, int cx, int cy)
 {
 	CDialogEx::OnSize(nType, cx, cy);
 
-	RefreshNcImage();
+	TRACE("Width = %d, Height = %d\n", cx, cy);
+
 	RefreshNcRegion();
 	RedrawWindow(NULL, NULL, RDW_FRAME | RDW_INVALIDATE);
 }

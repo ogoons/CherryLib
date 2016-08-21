@@ -39,15 +39,11 @@ protected:
 	enum BACK_IMAGE_TYPE
 	{
 		BACK_IMAGE_NONE,
+		BACK_COLOR_CLIENT,
 		BACK_IMAGE_CLIENT,
 		BACK_IMAGE_NON_CLIENT,
 	};
 
-	// Status
-	BACK_IMAGE_TYPE m_backImageType;
-	BOOL m_bNcActive;
-	
-	// Icon
 	enum WINDOW_ACTIVATION
 	{
 		WINDOW_ACTIVATION_ACTIVE,
@@ -55,12 +51,17 @@ protected:
 		WINDOW_ACTIVATION_MAX_COUNT
 	};
 
+	// Status
+	BACK_IMAGE_TYPE m_backImageType;
+	WINDOW_ACTIVATION m_windowActivation;
+
 	// Non-Client
 	CCherryImage *m_pNcActive9PatchImage[3][3];
 	CCherryImage *m_pNcImage[WINDOW_ACTIVATION_MAX_COUNT];
 
 	// Client
-	CCherryImage *m_pClientImage[WINDOW_ACTIVATION_MAX_COUNT];
+	CCherryImage	*m_pClientImage[WINDOW_ACTIVATION_MAX_COUNT];
+	COLORREF		m_clientColorRef[WINDOW_ACTIVATION_MAX_COUNT];
 
 	// Region
 	HRGN m_hNcRgn;
@@ -74,9 +75,10 @@ protected:
 
 // Operations
 public:
-	CHERRY_RET SetClientImage(LPCTSTR lpszImagePath);
-	CHERRY_RET SetNcImage(LPCTSTR lpszActiveImagePath, LPCTSTR lpszInactiveImagePath);
-	CHERRY_RET SetNcImage(LPCTSTR lpszActiveInactiveMergedImagePath);
+	CHERRY_RET SetClientColor(COLORREF activeColor, COLORREF inactiveColor);
+	CHERRY_RET SetClientImage(LPCTSTR activeImagePath, LPCTSTR inactiveImagePath);
+	CHERRY_RET SetNcImage(LPCTSTR lpszActiveImagePath, LPCTSTR lpszInactiveImagePath, COLORREF clientColor, COLORREF inactiveColor);
+	CHERRY_RET SetNcImage(LPCTSTR lpszActiveInactiveMergedImagePath, COLORREF clientColor, COLORREF inactiveColor);
 
 	void RemoveBackImage();
 	BOOL InitRgn();
@@ -86,7 +88,10 @@ public:
 	// NC 이미지에 ALPHA 값 수동 옵션 파라미터 추가
 
 protected:
-	void		RefreshNcImage();
+	void		RemoveClientColor();
+	void		RemoveClientImage();
+	void		RemoveNonClientImage();
+
 	void		RefreshNcRegion();
 	CHERRY_RET	Make9PatchNcActiveImage();
 

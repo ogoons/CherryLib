@@ -58,11 +58,12 @@ END_MESSAGE_MAP()
 
 BOOL CCherryCtrlExamDlg::OnCreateCherry()
 {
-	SetNcImage(_T("main_back.png"));
+	SetNcImage(_T("main_back.png"), RGB(240, 240, 240), RGB(248, 248, 248));
+	//SetClientColor(RGB(255, 0, 0), RGB(0, 255, 0));
+	//SetClientImage(_T("22.png"), NULL);
 
 	//_CrtSetBreakAlloc(357);
 	m_comboBox.Create(_T("combotest.png"), NULL, WS_VISIBLE | WS_CHILD, CRect(150, 250, 500, 500), this, 499);
-	
 	m_comboBox.AddString(_T("CherryComboBox"));
 	m_comboBox.AddString(_T("Å×½ºÆ®"));
 	//m_comboBox.OffsetText(10, 0);
@@ -310,8 +311,7 @@ void CCherryCtrlExamDlg::OnDrawCherry(CCherryMemDC *pDC)
 
 void CCherryCtrlExamDlg::OnBnClickedButton1()
 {
-	//SetTimer(1, 1, NULL);
-	RemoveBackImage();
+	SetTimer(1, 1, NULL);
 }
 
 void CCherryCtrlExamDlg::OnBnClickedButton2()
