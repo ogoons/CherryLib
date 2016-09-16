@@ -14,7 +14,7 @@
     <ProjectGuid>{58CB4A65-1428-4EE5-B2B1-293514A2421B}</ProjectGuid>
     <RootNamespace>CherryCtrl</RootNamespace>
     <Keyword>MFCDLLProj</Keyword>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -188,9 +188,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CherryCtrl.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ToDoList.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

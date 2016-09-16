@@ -191,7 +191,7 @@ void CCherryUpdate::ParseFileNode(BOOL bPackageNode, XMLNode *pFileListNode, LPC
 
 CHERRY_RET CCherryUpdate::OpenUpdateProfile(LPCTSTR lpszRootUrl, LPCTSTR lpszUpdateProfileXml, BOOL bUseUtf8)
 {
-	CHERRY_RET cherryRet = CHERRY_RET::ERROR_CHERRY_SUCCESS;
+	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
 
 	m_updateProfile.Initialize();
 
@@ -200,7 +200,7 @@ CHERRY_RET CCherryUpdate::OpenUpdateProfile(LPCTSTR lpszRootUrl, LPCTSTR lpszUpd
 	if (FALSE == PathFileExists(strTargetRootPath))
 	{
 		if (FALSE == CreateDirectory(strTargetRootPath, NULL))
-			return CHERRY_RET::ERROR_UPDATE_INCOMING_DIR_CREATE_FAIL;
+			return CCherryException::ERROR_UPDATE_INCOMING_DIR_CREATE_FAIL;
 	}
 
 	// 오른쪽 '/' 모두 제거 후
@@ -217,11 +217,11 @@ CHERRY_RET CCherryUpdate::OpenUpdateProfile(LPCTSTR lpszRootUrl, LPCTSTR lpszUpd
 	strUpdateProfileXmlUrl.ReleaseBuffer();
 
 	CString strHttpResponse;
-	if (FALSE == SendHttpRequest(strUpdateProfileXmlUrl, FALSE, NULL, strHttpResponse))
-		return CHERRY_RET::ERROR_UPDATE_RECEIVE_PROFILE_FAIL;
+	if (FALSE == RequestHttp(strUpdateProfileXmlUrl, FALSE, NULL, strHttpResponse))
+		return CCherryException::ERROR_UPDATE_RECEIVE_PROFILE_FAIL;
 
 	if (TRUE == strHttpResponse.IsEmpty())
-		return CHERRY_RET::ERROR_UPDATE_NO_CONTEXT_PROFILE;
+		return CCherryException::ERROR_UPDATE_NO_CONTEXT_PROFILE;
 
 	if (TRUE == bUseUtf8)
 		strHttpResponse = ConvertUtf8ToUnicode(strHttpResponse);
@@ -256,33 +256,33 @@ CHERRY_RET CCherryUpdate::OpenUpdateProfile(LPCTSTR lpszRootUrl, LPCTSTR lpszUpd
 	try
 	{
 		if (XML_SUCCESS != xmlDoc.Parse(W2CA(strHttpResponse)))
-			return CHERRY_RET::ERROR_UPDATE_PROFILE_XML_PARSE_FAIL;
+			return CCherryException::ERROR_UPDATE_PROFILE_XML_PARSE_FAIL;
 
 		XMLNode *pRootNode = xmlDoc.FirstChildElement("Update");
 
 		if (!pRootNode)
-			throw CHERRY_RET::ERROR_UPDATE_PROFILE_XML_PARSE_FAIL;
+			throw CCherryException::ERROR_UPDATE_PROFILE_XML_PARSE_FAIL;
 
 		// 1. Server 버전을 가져온다.
 		XMLNode *pPackageNode = pRootNode->FirstChildElement("Package");
 		
 		if (NULL == pPackageNode)
-			throw CHERRY_RET::ERROR_UPDATE_PROFILE_XML_PARSE_FAIL;
+			throw CCherryException::ERROR_UPDATE_PROFILE_XML_PARSE_FAIL;
 
 		CString strServerPackageVersion = CA2W(pPackageNode->ToElement()->Attribute("Version"));
 
 		if (TRUE == strServerPackageVersion.IsEmpty())
-			throw CHERRY_RET::ERROR_UPDATE_PROFILE_XML_PARSE_FAIL;
+			throw CCherryException::ERROR_UPDATE_PROFILE_XML_PARSE_FAIL;
 
 		XMLNode *pPartialNode = pRootNode->FirstChildElement("Partial");
 
 		if (NULL == pPartialNode)
-			throw CHERRY_RET::ERROR_UPDATE_PROFILE_XML_PARSE_FAIL;
+			throw CCherryException::ERROR_UPDATE_PROFILE_XML_PARSE_FAIL;
 
 		CString strServerPartialVersion = CA2W(pPartialNode->ToElement()->Attribute("Version"));
 
 		if (TRUE == strServerPartialVersion.IsEmpty())
-			throw CHERRY_RET::ERROR_UPDATE_PROFILE_XML_PARSE_FAIL;
+			throw CCherryException::ERROR_UPDATE_PROFILE_XML_PARSE_FAIL;
 
 		// 2. 서버에 존재하는 패키지 버전이 더 크면
 		if (1 == CompareVersion(m_strClientVersion, strServerPackageVersion))
@@ -318,7 +318,7 @@ CHERRY_RET CCherryUpdate::OpenUpdateProfile(LPCTSTR lpszRootUrl, LPCTSTR lpszUpd
 		else
 		{
 			// 3. 업데이트 할 내용이 없겠다.
-			return CHERRY_RET::ERROR_UPDATE_NO_UPDATE_IS_REQUIRED;
+			return CCherryException::ERROR_UPDATE_NO_UPDATE_IS_REQUIRED;
 		}
 	}
 	catch (const CHERRY_RET &errorRet)
@@ -563,7 +563,7 @@ BOOL CCherryUpdate::DownloadFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszDownload
 /// \section	
 ///
 ///////////////////////////////////////////////////////////////////////////
-BOOL CCherryUpdate::SendHttpRequest(_In_ LPCTSTR lpszUrl, _In_ BOOL bPost, _In_ LPCTSTR lpszPostData, _Out_ CString &strResponse)
+BOOL CCherryUpdate::RequestHttp(_In_ LPCTSTR lpszUrl, _In_ BOOL bPost, _In_ LPCTSTR lpszPostData, _Out_ CString &strResponse)
 {
 	DWORD dwServiceType = AFX_INET_SERVICE_HTTP;
 	CString strServer;

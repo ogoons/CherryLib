@@ -1,4 +1,0 @@
-To do list.
-
-1. CCherryTabCtrl 페이지 전환 시 callback or message handler 코드 작성 필요
-2. ...

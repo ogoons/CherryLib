@@ -53,7 +53,7 @@ extern "C"
 CHERRYUTIL_DECL_API CString		GetCurrentPath();
 
 // WinInet functions
-CHERRYUTIL_DECL_API BOOL		SendHttpRequest(_In_ LPCTSTR lpszUrl, _In_ BOOL bPost, _In_ LPCTSTR lpszPostData, _Out_ CString &strResponse);
+CHERRYUTIL_DECL_API BOOL		RequestHttp(_In_ LPCTSTR lpszUrl, _In_ BOOL bPost, _In_ LPCTSTR lpszPostData, _Out_ CString &strResponse);
 CHERRYUTIL_DECL_API BOOL		DownloadFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszDownloadPath);
 
 CHERRYUTIL_DECL_API CString		ConvertAnsiToUnicode(_In_ LPCSTR lpszAnsi);

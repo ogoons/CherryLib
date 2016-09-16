@@ -14,7 +14,7 @@
 #include "rpc.h"	// for GUID
 #pragma comment(lib, "rpcrt4.lib")
 
-#include "versionhelpers.h"
+#include "VersionHelpers.h"
 
 // CCherryNotificationIcon
 

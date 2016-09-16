@@ -221,9 +221,4 @@
       <Filter>리소스 파일</Filter>
     </ResourceCompile>
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="ToDoList.txt">
-      <Filter>리소스 파일</Filter>
-    </Text>
-  </ItemGroup>
 </Project>

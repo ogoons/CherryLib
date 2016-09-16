@@ -8,7 +8,7 @@
 #pragma comment(lib, "CherryUtil.lib")
 #endif
 
-#include "versionhelpers.h"
+#include "VersionHelpers.h"
 
 #define ID_TIMER_FADING		100
 #define ID_TIMER_DURATION	101

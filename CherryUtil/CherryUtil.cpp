@@ -145,9 +145,18 @@ CHERRYUTIL_DECL_API CString GetCurrentPath()
 	return strPath;
 }
 
-
-
-CHERRYUTIL_DECL_API BOOL SendHttpRequest(_In_ LPCTSTR lpszUrl, _In_ BOOL bPost, _In_ LPCTSTR lpszPostData, _Out_ CString &strResponse)
+///////////////////////////////////////////////////////////////////////////
+///
+/// \brief		HTTP 요청
+/// \author		ogoons
+/// \date		2016-09-16
+/// \param		
+/// \return		BOOL
+/// \remark		
+/// \section	
+///
+///////////////////////////////////////////////////////////////////////////
+CHERRYUTIL_DECL_API BOOL RequestHttp(_In_ LPCTSTR lpszUrl, _In_ BOOL bPost, _In_ LPCTSTR lpszPostData, _Out_ CString &strResponse)
 {
 	DWORD dwServiceType = AFX_INET_SERVICE_HTTP;
 	CString strServer;
@@ -236,6 +245,17 @@ CHERRYUTIL_DECL_API BOOL SendHttpRequest(_In_ LPCTSTR lpszUrl, _In_ BOOL bPost, 
 	return TRUE;
 }
 
+///////////////////////////////////////////////////////////////////////////
+///
+/// \brief		파일 다운로드
+/// \author		ogoons
+/// \date		2016-09-16
+/// \param		
+/// \return		BOOL
+/// \remark		
+/// \section	
+///
+///////////////////////////////////////////////////////////////////////////
 CHERRYUTIL_DECL_API BOOL DownloadFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszDownloadPath)
 {
 	HINTERNET hSession = InternetOpen(NULL, INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
@@ -279,6 +299,17 @@ CHERRYUTIL_DECL_API BOOL DownloadFile(_In_ LPCTSTR lpszUrl, _In_ LPCTSTR lpszDow
 	return TRUE;
 }
 
+///////////////////////////////////////////////////////////////////////////
+///
+/// \brief		ANSI > Unicode
+/// \author		ogoons
+/// \date		2016-09-16
+/// \param		
+/// \return		CString
+/// \remark		
+/// \section	
+///
+///////////////////////////////////////////////////////////////////////////
 CHERRYUTIL_DECL_API CString	ConvertAnsiToUnicode(LPCSTR lpszAnsi)
 {
 	if (NULL == lpszAnsi)
@@ -303,6 +334,17 @@ CHERRYUTIL_DECL_API CString	ConvertAnsiToUnicode(LPCSTR lpszAnsi)
 	return strRet;
 }
 
+///////////////////////////////////////////////////////////////////////////
+///
+/// \brief		Unicode > ANSI
+/// \author		ogoons
+/// \date		2016-09-16
+/// \param		
+/// \return		CStringA
+/// \remark		
+/// \section	
+///
+///////////////////////////////////////////////////////////////////////////
 CHERRYUTIL_DECL_API CStringA ConvertUnicodeToAnsi(LPCWSTR lpszUnicode)
 {
 	if (NULL == lpszUnicode)
@@ -327,6 +369,17 @@ CHERRYUTIL_DECL_API CStringA ConvertUnicodeToAnsi(LPCWSTR lpszUnicode)
 	return strRet;
 }
 
+///////////////////////////////////////////////////////////////////////////
+///
+/// \brief		UTF-8 > Unicode
+/// \author		ogoons
+/// \date		2016-09-16
+/// \param		
+/// \return		CString
+/// \remark		
+/// \section	
+///
+///////////////////////////////////////////////////////////////////////////
 CHERRYUTIL_DECL_API CString ConvertUtf8ToUnicode(_In_ LPCWSTR lpszUtf8)
 {
 	if (NULL == lpszUtf8)
@@ -353,6 +406,17 @@ CHERRYUTIL_DECL_API CString ConvertUtf8ToUnicode(_In_ LPCWSTR lpszUtf8)
 	return strRet;
 }
 
+///////////////////////////////////////////////////////////////////////////
+///
+/// \brief		UTF-8 > ANSI
+/// \author		ogoons
+/// \date		2016-09-16
+/// \param		
+/// \return		CStringA
+/// \remark		
+/// \section	
+///
+///////////////////////////////////////////////////////////////////////////
 CHERRYUTIL_DECL_API CStringA ConvertUtf8ToAnsi(_In_ LPCSTR lpszUtf8)
 {
 	// Calculate UTF-8 text length
@@ -513,9 +577,10 @@ CHERRYUTIL_DECL_API BOOL ExecuteProcess(_In_ LPCTSTR lpszPath, _In_ LPCTSTR lpsz
 		{
 		case WAIT_OBJECT_0:
 			break;
-
 		case WAIT_FAILED:
 			return FALSE;
+		default:
+			break;
 		}
 	}
 
