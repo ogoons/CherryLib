@@ -9,9 +9,11 @@ Win32/MFC 기반의 Application을 개발하기 위해 필수적인 기능들을
 1. CherryCtrl: Windows GDI+ 기반으로 제작된 UI Control DLL 라이브러리
 
   - 목적
+  
     예쁘고 유연한 UI의 빠른 구현
   
   - 주요 기능 및 장점
+  
     1. MFC와 GDI+를 사용하여 이미지 파일 포맷 사용의 다양성, Transparency 이미지를 지원하여 좀 더 매끄러운 UI 구현을 할 수 있다.
     2. C++의 다중 상속 기능을 활용하여 코드 재사용성을 획기적으로 높임.
     3. 굳이 third-party 라이브러리를 사용하는 것보다는 Native Windows Control 기반의 이질감 없는 UI 컨트롤 사용 수요도 있을 것
@@ -19,10 +21,12 @@ Win32/MFC 기반의 Application을 개발하기 위해 필수적인 기능들을
     4. 9-Patch 지원
 
   - 단점
+  
     1. GDI+ 때문에 느리다.
     2. Native API를 사용하기 때문에 Windows 기반에서만 사용 가능하다.
   
   - Classes
+  
     CCherryDialog
       CDialog 를 Subclassing 한 유연한 Dialog 컨트롤 슬라이드와 서서히 나타나는 기능, NonClient 영역 이미지로 덮는 기능.
 
