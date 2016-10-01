@@ -46,11 +46,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="CherryUpdateExam.rc">
-      <Filter>리소스 파일</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="res\CherryUpdateExam.rc2">
       <Filter>리소스 파일</Filter>
     </None>
@@ -59,5 +54,10 @@
     <Image Include="res\CherryUpdateExam.ico">
       <Filter>리소스 파일</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CherryUpdateExam.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

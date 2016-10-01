@@ -7,11 +7,6 @@
 #include "CherryButton.h"
 #include "CherryFontByStatus.h"
 
-//namespace CherryComboBox
-//{
-//
-//}
-
 ///////////////////////////////////////////////////////////////////////////
 ///
 /// \class		CCherryComboBox

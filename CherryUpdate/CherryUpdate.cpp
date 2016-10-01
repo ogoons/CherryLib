@@ -233,7 +233,10 @@ CHERRY_RET CCherryUpdate::OpenUpdateProfile(LPCTSTR lpszRootUrl, LPCTSTR lpszUpd
 	<?xml version="1.0" enconding="UTF-8"?>
 
 	<Update>
-		<Package Version="2.0.0.1" Root="/Package" Run="KizONResetPCTool_v0.9.6.0_Setup.exe">
+		<Package 
+			Version="2.0.0.1" 
+			Root="/Package" 
+			Run="KizONResetPCTool_v0.9.6.0_Setup.exe">
 			<File>KizONResetPCTool_v0.9.6.0_Setup.exe</File>
 			<File>KizONResetPCTool_v0.9.6.0_Setup.dat</File> // 패키지는 단일 파일이 아닐 수도 있다.
 		</Package>
