@@ -207,7 +207,6 @@ void CCherryCheckBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 
 	CString strText;
 	GetWindowText(strText);
-
 	if (!strText.IsEmpty())
 	{
 		CRect textRect(clientRect);
@@ -236,7 +235,6 @@ void CCherryCheckBox::ResizeWindow(UINT nWidth, UINT nHeight)
 	{
 		// 각 상태 별 폰트 중에 가장 폰트 크기가 큰 상태를 기준으로 리사이징 한다.
 		CCherryFont *pFonts[STATUS_MAX_COUNT], *pGreatestSizeFont;
-
 		pFonts[STATUS_NORMAL] = GetNormalFont();
 		pFonts[STATUS_HOVER] = GetHoverFont();
 		pFonts[STATUS_DOWN] = GetDownFont();
@@ -250,28 +248,26 @@ void CCherryCheckBox::ResizeWindow(UINT nWidth, UINT nHeight)
 				pGreatestSizeFont = pFonts[i + 1];
 		}
 
+		CRect windowRect;
+		GetWindowRect(&windowRect);
+		GetParent()->ScreenToClient(&windowRect);
+		windowRect.right = windowRect.left + nWidth;
+		windowRect.bottom = windowRect.top + nHeight;
+
 		CRect textRect;
 		CString strText;
 		GetWindowText(strText);
-
 		if (!strText.IsEmpty())
 		{
 			CPaintDC dc(this);
 			Graphics graphics(dc.GetSafeHdc());
-
 			textRect = pGreatestSizeFont->MeasureString(&graphics, strText);
+			windowRect.right += textRect.Width() + 3;	// 오차를 보정하기 위한 3
+
+			// 텍스트 높이가 이미지 높이보다 더 크면
+			if (nHeight < (UINT)textRect.Height())
+				windowRect.bottom = windowRect.top + textRect.Height();
 		}
-
-		CRect windowRect;
-		GetWindowRect(&windowRect);
-		GetParent()->ScreenToClient(&windowRect);
-		windowRect.right = windowRect.left + nWidth + textRect.Width() + 3;	// 오차를 보정하기 위한 3
-
-		// 이미지 높이가 텍스트 높이보다 크면
-		if (nHeight > (UINT)textRect.Height())
-			windowRect.bottom = windowRect.top + nHeight;
-		else
-			windowRect.bottom = windowRect.top + textRect.Height();
 
 		MoveWindow(windowRect);
 	}
