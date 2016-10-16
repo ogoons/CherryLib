@@ -368,7 +368,7 @@ void CCherryLinkCtrl::OnMouseLeave()
 	if (!IsWindowEnabled())
 		return;
 
-	if (!m_bTracking)
+	if (m_bTracking)
 	{
 		TRACKMOUSEEVENT trackMouseEvent;
 		trackMouseEvent.cbSize = sizeof(TRACKMOUSEEVENT);

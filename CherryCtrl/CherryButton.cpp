@@ -231,7 +231,7 @@ void CCherryButton::OnMouseHover(UINT nFlags, CPoint point)
 
 void CCherryButton::OnMouseLeave()
 {
-	if (!m_bTracking)
+	if (m_bTracking)
 	{
 		TRACKMOUSEEVENT trackMouseEvent;
 		trackMouseEvent.cbSize = sizeof(TRACKMOUSEEVENT);
