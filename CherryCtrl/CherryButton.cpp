@@ -210,7 +210,6 @@ void CCherryButton::OnMouseMove(UINT nFlags, CPoint point)
 		trackMouseEvent.dwFlags = TME_HOVER | TME_LEAVE;
 		trackMouseEvent.hwndTrack = m_hWnd;
 		trackMouseEvent.dwHoverTime = 1;
-		
 		m_bTracking = _TrackMouseEvent(&trackMouseEvent);
 	}
 
@@ -220,7 +219,6 @@ void CCherryButton::OnMouseMove(UINT nFlags, CPoint point)
 void CCherryButton::OnMouseHover(UINT nFlags, CPoint point)
 {
 	m_bHover = TRUE;
-
 	SetCurrentFont(GetHoverFont());
 
 	if (m_bEnableHoverHandCursor)
@@ -233,9 +231,19 @@ void CCherryButton::OnMouseHover(UINT nFlags, CPoint point)
 
 void CCherryButton::OnMouseLeave()
 {
-	m_bTracking = FALSE;
-	m_bHover = FALSE;
+	if (!m_bTracking)
+	{
+		TRACKMOUSEEVENT trackMouseEvent;
+		trackMouseEvent.cbSize = sizeof(TRACKMOUSEEVENT);
+		trackMouseEvent.dwFlags = TME_CANCEL;
+		trackMouseEvent.hwndTrack = m_hWnd;
+		trackMouseEvent.dwHoverTime = 1;
+		_TrackMouseEvent(&trackMouseEvent);
 
+		m_bTracking = FALSE;
+	}
+	
+	m_bHover = FALSE;
 	SetCurrentFont(GetNormalFont());
 
 	if (m_bEnableHoverHandCursor)

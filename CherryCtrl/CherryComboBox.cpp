@@ -14,8 +14,9 @@ CCherryComboBox::CCherryComboBox()
 {
 	m_pCurrentImage = NULL;
 	m_pBackMemDC = NULL;
-	m_bHover = FALSE;
 	m_bTracking = FALSE;
+	m_bHover = FALSE;
+	m_bDropDown = FALSE;
 	m_dwCherryStyle = 0;
 	m_bEnableHoverHandCursor = FALSE;
 
@@ -33,7 +34,6 @@ CCherryComboBox::~CCherryComboBox()
 
 	if (m_pBackMemDC)
 		delete m_pBackMemDC;
-
 }
 
 BEGIN_MESSAGE_MAP(CCherryComboBox, CComboBox)
@@ -158,6 +158,11 @@ CHERRY_RET CCherryComboBox::SetImage(LPCTSTR lpszImagePath)
 	return cherryRet;
 }
 
+void CCherryComboBox::OnLButtonDown() 
+{
+
+}
+
 void CCherryComboBox::OnMouseMove(UINT nFlags, CPoint point)
 {
 	if (!m_bTracking)
@@ -165,9 +170,8 @@ void CCherryComboBox::OnMouseMove(UINT nFlags, CPoint point)
 		TRACKMOUSEEVENT trackMouseEvent;
 		trackMouseEvent.cbSize = sizeof(TRACKMOUSEEVENT);
 		trackMouseEvent.dwFlags = TME_HOVER | TME_LEAVE;
-		trackMouseEvent.hwndTrack = m_hWnd;
+		trackMouseEvent.hwndTrack = GetSafeHwnd();
 		trackMouseEvent.dwHoverTime = 1;
-		
 		m_bTracking = _TrackMouseEvent(&trackMouseEvent);
 	}
 
@@ -193,19 +197,29 @@ void CCherryComboBox::OnMouseHover(UINT nFlags, CPoint point)
 
 void CCherryComboBox::OnMouseLeave()
 {
-	m_bTracking = FALSE;
-	m_bHover = FALSE;
-
 	COMBOBOXINFO comboBoxInfo = { sizeof(COMBOBOXINFO) };
 	GetComboBoxInfo(&comboBoxInfo);
 
 	// 버튼이 눌린 상태면
-	if (comboBoxInfo.stateButton == STATE_SYSTEM_PRESSED)
+	if (/* comboBoxInfo.stateButton == STATE_SYSTEM_PRESSED || */ !m_bDropDown)
 	{
 		// Normal
 		m_pCurrentImage = &m_images[STATUS_NORMAL];
 	}
 
+	if (m_bTracking)
+	{
+		TRACKMOUSEEVENT trackMouseEvent;
+		trackMouseEvent.cbSize = sizeof(TRACKMOUSEEVENT);
+		trackMouseEvent.dwFlags = TME_CANCEL;
+		trackMouseEvent.hwndTrack = GetSafeHwnd();
+		trackMouseEvent.dwHoverTime = 1;
+		_TrackMouseEvent(&trackMouseEvent);
+
+		m_bTracking = FALSE;
+	}
+
+	m_bHover = FALSE;
 	SetCurrentFont(GetNormalFont());
 
 	if (m_bEnableHoverHandCursor)
@@ -218,16 +232,16 @@ void CCherryComboBox::OnMouseLeave()
 
 void CCherryComboBox::OnCbnDropDown()
 {
+	m_bDropDown = TRUE;
 	m_pCurrentImage = &m_images[STATUS_DOWN];
-
 	SetCurrentFont(GetDownFont());
 	Invalidate(FALSE);
 }
 
 void CCherryComboBox::OnCbnCloseUp()
 {
+	m_bDropDown = FALSE;
 	m_pCurrentImage = &m_images[STATUS_NORMAL];	
-
 	SetCurrentFont(GetHoverFont());
 	Invalidate(FALSE);
 }
@@ -450,7 +464,6 @@ void CCherryComboBox::SetDropDownListFontStyle(DWORD dwFontStyle)
 	// Offset pixel은 항상 반영
 	m_textRect.OffsetRect(m_nOffsetTextLeft, m_nOffsetTextTop);
 
-	
 	CCherryFont::SetFontStyle(dwFontStyle);
 }
 

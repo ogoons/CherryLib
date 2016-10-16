@@ -65,5 +65,5 @@ CHERRYUTIL_DECL_API BOOL		GetFileSize(_In_ LPCTSTR lpszFilePath, _Out_ LONGLONG 
 CHERRYUTIL_DECL_API BOOL		ExecuteProcess(_In_ LPCTSTR lpszPath, _In_ LPCTSTR lpszParam, _In_ BOOL bWaitProcess);
 CHERRYUTIL_DECL_API int			CompareVersion(LPCTSTR lpszCurrentVersion, LPCTSTR lpszNewVersion);
 
-CHERRYUTIL_DECL_API void		CreateDirectoryAndParent(LPTSTR lpszPath);				// 디렉토리 생성(path 중 상위 디렉토리가 없다면 전부 생성)
-CHERRYUTIL_DECL_API BOOL		DeleteDirectoryAndChild(LPCTSTR lpszPath);				// 디렉토리 삭제(하위 디렉토리, 파일 모두 삭제)
+CHERRYUTIL_DECL_API void		CreateDirs(LPTSTR lpszPath);				// 디렉토리 생성(path 중 상위 디렉토리가 없다면 전부 생성)
+CHERRYUTIL_DECL_API BOOL		DeleteDirs(LPCTSTR lpszPath);				// 디렉토리 삭제(하위 디렉토리, 파일 모두 삭제)

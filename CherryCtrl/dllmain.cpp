@@ -11,7 +11,7 @@ using namespace Gdiplus;
 #define new DEBUG_NEW
 #endif
 
-ULONG_PTR g_lGDIPlusToken = 0;
+ULONG_PTR g_lGdiPlusToken = 0;
 
 static AFX_EXTENSION_MODULE CherryCtrlDLL = { NULL, NULL };
 
@@ -32,7 +32,7 @@ DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 
 		GdiplusStartupInput gdiPlusStartupInput;
 
-		if (Ok != GdiplusStartup(&g_lGDIPlusToken, &gdiPlusStartupInput, NULL))
+		if (Ok != GdiplusStartup(&g_lGdiPlusToken, &gdiPlusStartupInput, NULL))
 		{
 			TRACE(_T("[CherryCtrl.dll] Start GDI+ failure."));
 			return 0;
@@ -56,7 +56,7 @@ DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 	{
 		TRACE0("CherryCtrl.DLL을 종료하고 있습니다.\n");
 
-		GdiplusShutdown(g_lGDIPlusToken);
+		GdiplusShutdown(g_lGdiPlusToken);
 
 		// 소멸자가 호출되기 전에 라이브러리를 종료합니다.
 		AfxTermExtensionModule(CherryCtrlDLL);

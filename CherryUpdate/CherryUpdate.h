@@ -148,8 +148,8 @@ public:
 	static BOOL		GetFileSize(_In_ LPCTSTR lpszFilePath, _Out_ LONGLONG &llFileSize);											// 파일의 사이즈 가져오기
 	static BOOL		ExecuteProcess(_In_ LPCTSTR lpszPath, _In_ LPCTSTR lpszParam = NULL, _In_ BOOL bWaitProcess = FALSE);		// 프로세스 실행															// 파일 실행
 	static int		CompareVersion(LPCTSTR lpszCurrentVersion, LPCTSTR lpszNewVersion);											// 버전 비교
-	static void		CreateDirectoryAndParent(LPTSTR lpszPath);																	// 디렉토리 생성(path 중 상위 디렉토리가 없다면 전부 생성)
-	static BOOL		DeleteDirectoryAndChild(LPCTSTR lpszPath);																	// 디렉토리 삭제(하위 디렉토리, 파일 모두 삭제)
+	static void		CreateDirs(LPTSTR lpszPath);																	// 디렉토리 생성(path 중 상위 디렉토리가 없다면 전부 생성)
+	static BOOL		DeleteDirs(LPCTSTR lpszPath);																	// 디렉토리 삭제(하위 디렉토리, 파일 모두 삭제)
 	static CString	ConvertUtf8ToUnicode(_In_ LPCWSTR lpszUtf8);																// UTF-8 -> Unicode(UTF-8 LE)
 	void			UrlEncode(char *output, char *input);																		// 현재 사용 안 함
 

@@ -827,7 +827,7 @@ UINT CCherryUpdate::UpdateProcessThread(LPVOID lpParam)
 			strTargetPath.ReleaseBuffer();
 
 			if (FALSE == PathFileExists(strTargetPath)) // 디렉토리 존재 여부
-				pThis->CreateDirectoryAndParent((LPTSTR)(LPCTSTR)strTargetPath); // 디렉토리 생성
+				pThis->CreateDirs((LPTSTR)(LPCTSTR)strTargetPath); // 디렉토리 생성
 
 			if (TRUE == pThis->DownloadFile(strSourceFileUrl, strTargetPath, strDownloadedFullPath))
 			{
@@ -919,7 +919,7 @@ UINT CCherryUpdate::UpdateProcessThread(LPVOID lpParam)
 
 			// Sub dir 생성
 			if (FALSE == PathFileExists(strCopyTargetDirPath))
-				pThis->CreateDirectoryAndParent((LPTSTR)(LPCTSTR)strCopyTargetDirPath);
+				pThis->CreateDirs((LPTSTR)(LPCTSTR)strCopyTargetDirPath);
 
 			if (FALSE == CopyFile(strCopySourcePath, strCopyTargetPath, FALSE)) // Overwrite
 			{
@@ -938,7 +938,7 @@ UINT CCherryUpdate::UpdateProcessThread(LPVOID lpParam)
 	{
 	}
 
-	pThis->DeleteDirectoryAndChild(strTargetRootPath); // Incoming dir 제거(다운로드 받은 임시 폴더 제거)
+	pThis->DeleteDirs(strTargetRootPath); // Incoming dir 제거(다운로드 받은 임시 폴더 제거)
 	pThis->m_llReceivedSize = 0;
 	pThis->m_bStarted = FALSE;
 
@@ -1191,7 +1191,7 @@ BOOL CCherryUpdate::IsStarted() const
 	return m_bStarted;
 }
 
-void CCherryUpdate::CreateDirectoryAndParent(LPTSTR lpszPath)
+void CCherryUpdate::CreateDirs(LPTSTR lpszPath)
 {
 	TCHAR szDirName[MAX_PATH] = { 0, };	// 생성할 디렉초리 이름
 	TCHAR *pszPath = lpszPath;			// 인자로 받은 디렉토리
@@ -1251,7 +1251,7 @@ void CCherryUpdate::SetPatchCompleteCallback(LPVOID lpCallbackFunc, void *pUserD
 /// \section	
 ///
 ///////////////////////////////////////////////////////////////////////////
-BOOL CCherryUpdate::DeleteDirectoryAndChild(LPCTSTR lpszPath)
+BOOL CCherryUpdate::DeleteDirs(LPCTSTR lpszPath)
 {
 	if (NULL == lpszPath)
 		return FALSE;
@@ -1275,7 +1275,7 @@ BOOL CCherryUpdate::DeleteDirectoryAndChild(LPCTSTR lpszPath)
 		if (TRUE == fileFind.IsDirectory())
 		{
 			strNextDirPath = fileFind.GetFilePath() + _T("\\*.*");
-			DeleteDirectoryAndChild(strNextDirPath);	// 재귀호출
+			DeleteDirs(strNextDirPath);	// 재귀호출
 		}
 		else
 		{

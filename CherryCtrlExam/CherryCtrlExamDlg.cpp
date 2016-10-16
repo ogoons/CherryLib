@@ -12,6 +12,7 @@
 #include "CherryTabCtrl.h"
 
 #include "CherryUtil.h"
+#include "CherryTimer.h"
 
 #ifdef _DEBUG
 #pragma comment(lib, "CherryUtilD.lib")
@@ -67,8 +68,8 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 	m_comboBox.AddString(_T("CherryComboBox"));
 	m_comboBox.AddString(_T("Å×½ºÆ®"));
 	//m_comboBox.OffsetText(10, 0);
-	m_comboBox.SetCherryFont(_T("¸¼Àº °íµñ"), 15, Color(255, 0, 0), CCherryFont::STYLE_CENTER);
-	m_comboBox.SetDropDownListFontSize(60);
+	m_comboBox.SetCherryFont(_T("¸¼Àº °íµñ"), 15, Color(255, 0, 0), CCherryFont::STYLE_CENTER | CCherryFont::STYLE_VCENTER);
+	m_comboBox.SetDropDownListFontSize(30);
 	m_comboBox.SetDropDownListFontName(_T("¸¼Àº °íµñ"));
 	m_comboBox.SetCurSel(0);
 

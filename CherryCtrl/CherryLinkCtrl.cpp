@@ -348,7 +348,6 @@ void CCherryLinkCtrl::OnMouseMove(UINT nFlags, CPoint point)
 void CCherryLinkCtrl::OnMouseHover(UINT nFlags, CPoint point)
 {
 	m_bHover = TRUE;
-	
 	SetCurrentFont(GetHoverFont());
 
 	if (m_bEnableHoverHandCursor)
@@ -369,9 +368,19 @@ void CCherryLinkCtrl::OnMouseLeave()
 	if (!IsWindowEnabled())
 		return;
 
-	m_bTracking = FALSE;
+	if (!m_bTracking)
+	{
+		TRACKMOUSEEVENT trackMouseEvent;
+		trackMouseEvent.cbSize = sizeof(TRACKMOUSEEVENT);
+		trackMouseEvent.dwFlags = TME_CANCEL;
+		trackMouseEvent.hwndTrack = m_hWnd;
+		trackMouseEvent.dwHoverTime = 1;
+		_TrackMouseEvent(&trackMouseEvent);
+
+		m_bTracking = FALSE;
+	}
+
 	m_bHover = FALSE;
-	
 	SetCurrentFont(GetNormalFont());
 	Invalidate();
 

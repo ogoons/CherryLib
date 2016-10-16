@@ -4,7 +4,7 @@
 #include <thread>
 using namespace std;
 
-class CCherryTimer
+class AFX_EXT_CLASS CCherryTimer
 {
 public:
 	CCherryTimer(LPVOID lpCallbackFunc, LPVOID lpParam, DWORD dwDelay, DWORD dwCount = 0);

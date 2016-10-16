@@ -653,7 +653,7 @@ CHERRYUTIL_DECL_API int CompareVersion(LPCTSTR lpszCurrentVersion, LPCTSTR lpszN
 /// \section	
 ///
 ///////////////////////////////////////////////////////////////////////////
-CHERRYUTIL_DECL_API void CreateDirectoryAndParent(LPTSTR lpszPath)
+CHERRYUTIL_DECL_API void CreateDirs(LPTSTR lpszPath)
 {
 	TCHAR szDirName[MAX_PATH] = { 0, };	// 생성할 디렉초리 이름
 	TCHAR *pszPath = lpszPath;			// 인자로 받은 디렉토리
@@ -687,7 +687,7 @@ CHERRYUTIL_DECL_API void CreateDirectoryAndParent(LPTSTR lpszPath)
 /// \section	
 ///
 ///////////////////////////////////////////////////////////////////////////
-CHERRYUTIL_DECL_API BOOL DeleteDirectoryAndChild(LPCTSTR lpszPath)
+CHERRYUTIL_DECL_API BOOL DeleteDirs(LPCTSTR lpszPath)
 {
 	if (NULL == lpszPath)
 		return FALSE;
@@ -711,7 +711,7 @@ CHERRYUTIL_DECL_API BOOL DeleteDirectoryAndChild(LPCTSTR lpszPath)
 		if (TRUE == fileFind.IsDirectory())
 		{
 			strNextDirPath = fileFind.GetFilePath() + _T("\\*.*");
-			DeleteDirectoryAndChild(strNextDirPath);	// 재귀호출
+			DeleteDirs(strNextDirPath);	// 재귀호출
 		}
 		else
 		{

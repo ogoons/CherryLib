@@ -56,6 +56,7 @@ protected:
 
 	BOOL			m_bTracking;	// 트래킹 여부
 	BOOL			m_bHover;		// 마우스 Hover 상태 저장
+	BOOL			m_bDropDown;
 	BOOL			m_bEnableHoverHandCursor;
 	DWORD			m_dwCherryStyle;
 
@@ -107,6 +108,7 @@ protected:
 	virtual BOOL	PreTranslateMessage(MSG* pMsg);
 
 	afx_msg void	OnPaint();
+	afx_msg void	OnLButtonDown();
 	afx_msg void	OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void	OnMouseHover(UINT nFlags, CPoint point);
 	afx_msg void	OnMouseLeave();
