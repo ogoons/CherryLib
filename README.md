@@ -1,7 +1,6 @@
-CherryLib
-=========
+# CherryLib
 
-Cherry Library - Win32/MFC Utility Library
+## Cherry Library - Win32/MFC Utility Library
 
 Win32/MFC 기반의 Application을 개발하기 위해 필수적인 기능들을 모은 유용한 라이브러리입니다. 
 이 프로젝트는 Visual Studio 2015 작성되었습니다.
@@ -25,7 +24,7 @@ Win32/MFC 기반의 Application을 개발하기 위해 필수적인 기능들을
     2. Native API를 사용하기 때문에 Windows 기반에서만 사용 가능하다.
   
   - Classes
-  
+
     CCherryDialog:
       CDialog 를 Subclassing 한 유연한 Dialog 컨트롤 슬라이드와 서서히 나타나는 기능, NonClient 영역 이미지로 덮는 기능.
 
@@ -82,8 +81,25 @@ Win32/MFC 기반의 Application을 개발하기 위해 필수적인 기능들을
 
 3. CherryUtil: 유틸리티성 함수들을 모아놓은 DLL 라이브러리
 
-아직 이렇다할 문서도 없고 현재 진행형인 프로젝트이지만 공개합니다.
+# License
+The MIT License (MIT)
 
-License
----------------------------------------------------
-자유롭게 사용이 가능 하나, 코드의 수정 후 재배포를 금지합니다. 상업적인 목적은 개발자에게 메일주세요. (ogoons@hanmail.net)
+Copyright (c) 2016 Oh, Su-cheol <<ogoons@hanmail.net>>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
