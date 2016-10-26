@@ -85,7 +85,7 @@ Win32/MFC 기반의 Application을 개발하기 위해 필수적인 기능들을
 
     The MIT License (MIT)
 
-    Copyright (c) 2016 Oh, Su-cheol <<ogoons@hanmail.net>>
+    Copyright (c) 2016 Oh, Su-cheol <ogoons@hanmail.net>
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
