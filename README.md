@@ -10,8 +10,8 @@ Win32/MFC 기반의 Application을 개발하기 위해 필수적인 기능들을
   - 목적
   
     예쁘고 유연한 UI의 빠른 구현
-  
-  - 주요 기능 및 장점
+  
+  - 주요 기능 및 장점
   
     1. MFC와 GDI+를 사용하여 이미지 파일 포맷 사용의 다양성, Transparency 이미지를 지원하여 좀 더 매끄러운 UI 구현을 할 수 있다.
     2. 굳이 third-party 라이브러리를 사용하는 것보다는 Native Windows Control 기반의 이질감 없는 UI 컨트롤의 필요도 있을 것
@@ -33,11 +33,11 @@ Win32/MFC 기반의 Application을 개발하기 위해 필수적인 기능들을
 
     CCherryFont:
       CherryCtrl 에서 사용하는 모든 문자열은 이 클래스를 사용하여 표현하고 관리하도록 한다.
-      직접 사용하기 보단 상속하여 사용하는 상위 클래스 성격을 갖고 있다.
+      직접 사용하기 보단 상속하여 사용하는 추상 클래스 성격을 갖고 있다.
 
     CCherryImage:
       마찬가지로 CherryCtrl 에서 사용하는 모든 이미지는 클래스를 사용하여 표현하고 관리하도록 한다. 
-      직접 사용하기 보단 상속하여 사용하는 상위 클래스 성격을 갖고 있다.
+      직접 사용하기 보단 상속하여 사용하는 추상 클래스 격을 갖고 있다.
 
     CCherryEdit:
       CEdit 를 Subclassing 한 컨트롤. 배경과 폰트를 Custom 할 수 있다.
@@ -45,8 +45,8 @@ Win32/MFC 기반의 Application을 개발하기 위해 필수적인 기능들을
     CCherryListCtrl:
       CListCtrl을 Subclassing 한 컨트롤. 리스트 헤더/아이템의 배경색 설정이나 이미지를 입힐 수 있다.
 
-    CCherryProressCtrl:
-      CWnd를 Subclassing 하여 새로 구현한 Progress 컨트롤.
+    CCherryProressCtrl:
+      CWnd를 Subclassing 하여 새로 구현한 Progress 컨트롤.
 
     CCherryMenu (준비 중):
       CMenu를 Subclassing 하여 스킨을 입힐 수 있도록 함.
