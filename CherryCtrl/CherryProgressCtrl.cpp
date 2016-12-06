@@ -153,27 +153,27 @@ CHERRY_RET CCherryProgressCtrl::Create(
 	const short nMaxPos, 
 	DWORD dwCherryStyle,
 	DWORD dwStyle, 
-	const RECT &rect, 
+	const CCherryRect &cherryRect,
 	CWnd *pParentWnd, UINT nID)
 {
 	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
 
 	try
 	{
-		if (!CCherryWnd::Create(NULL, NULL, dwStyle, rect, pParentWnd, nID))
+		if (!CCherryWnd::Create(NULL, NULL, dwStyle, cherryRect, pParentWnd, nID))
 			throw CCherryException::ERROR_PROGRESSCTRL_CREATE_FAIL;
 
 		UINT nWidth, nHeight;
 
-		if (rect.right == 0)
+		if (cherryRect.right == 0)
 			nWidth = 0;
 		else
-			nWidth = rect.right - rect.left;
+			nWidth = cherryRect.right - cherryRect.left;
 
-		if (rect.bottom == 0)
+		if (cherryRect.bottom == 0)
 			nHeight = 0;
 		else
-			nHeight = rect.bottom - rect.top;
+			nHeight = cherryRect.bottom - cherryRect.top;
 
 		SetMaxPos(nMaxPos);
 		ModifyCherryStyle(0, dwCherryStyle);

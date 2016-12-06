@@ -101,7 +101,7 @@ public:
 		const int nMaxRange,
 		DWORD dwCherryStyle, 
 		DWORD dwStyle,
-		const RECT &rect, 
+		const CCherryRect &cherryRect,
 		CWnd *pParentWnd, 
 		UINT nID);	// 버튼 생성(필수 사용)
 	

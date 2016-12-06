@@ -40,16 +40,16 @@ BEGIN_MESSAGE_MAP(CCherryTabCtrl, CCherryWnd)
 //	ON_WM_PARENTNOTIFY()
 END_MESSAGE_MAP()
 
-CHERRY_RET CCherryTabCtrl::Create(LPCTSTR lpszTabImagePath, DWORD dwCherryStyle, DWORD dwStyle, const RECT &rect, CWnd *pParentWnd, UINT nID)
+CHERRY_RET CCherryTabCtrl::Create(LPCTSTR lpszTabImagePath, DWORD dwCherryStyle, DWORD dwStyle, const CCherryRect &cherryRect, CWnd *pParentWnd, UINT nID)
 {
 	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
 
 	try
 	{
-		if (!CCherryWnd::Create(NULL, NULL, dwStyle, rect, pParentWnd, nID))
+		if (!CCherryWnd::Create(NULL, NULL, dwStyle, cherryRect, pParentWnd, nID))
 			throw CCherryException::ERROR_TABCTRL_CREATE_FAIL;
 
-		if (!m_tabCtrlBackWnd.Create(NULL, NULL, WS_VISIBLE | WS_CHILD, rect, this, nID + 1))
+		if (!m_tabCtrlBackWnd.Create(NULL, NULL, WS_VISIBLE | WS_CHILD, cherryRect, this, nID + 1))
 			throw CCherryException::ERROR_TABCTRL_CREATE_FAIL;
 		
 		ModifyCherryStyle(0, dwCherryStyle);
@@ -97,7 +97,7 @@ CHERRY_RET CCherryTabCtrl::AddPage(CCherryWnd *pWnd)
 			CCherryRadioButton::STYLE_BUTTONTYPE,
 			m_pHeadTab, 
 			WS_CHILD | WS_VISIBLE, 
-			CRect(), 
+			CCherryRect(), 
 			&m_tabCtrlBackWnd,
 			++m_nCtrlIDCount)) != CCherryException::ERROR_CHERRY_SUCCESS) // 탭 제거 시 컨트롤 아이디 생성에 대한 예외처리 필요
 			throw cherryRet;

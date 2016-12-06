@@ -133,6 +133,7 @@
     <ClCompile Include="CherryNotificationIcon.cpp" />
     <ClCompile Include="CherryProgressCtrl.cpp" />
     <ClCompile Include="CherryRadioButton.cpp" />
+    <ClCompile Include="CherryRect.cpp" />
     <ClCompile Include="CherrySliderCtrl.cpp" />
     <ClCompile Include="CherryStatic.cpp" />
     <ClCompile Include="CherryTabCtrlBackWnd.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="CherryNotificationIcon.h" />
     <ClInclude Include="CherryProgressCtrl.h" />
     <ClInclude Include="CherryRadioButton.h" />
+    <ClInclude Include="CherryRect.h" />
     <ClInclude Include="CherrySliderCtrl.h" />
     <ClInclude Include="CherryStatic.h" />
     <ClInclude Include="CherryTabCtrlBackWnd.h" />

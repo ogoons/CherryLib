@@ -20,7 +20,7 @@ CCherryStatic::~CCherryStatic()
 BEGIN_MESSAGE_MAP(CCherryStatic, CStatic)
 END_MESSAGE_MAP()
 
-CHERRY_RET CCherryStatic::Create(LPCTSTR lpszText, DWORD dwCherryStyle, DWORD dwStyle, const RECT &rect, CWnd *pParentWnd, UINT nID)
+CHERRY_RET CCherryStatic::Create(LPCTSTR lpszText, DWORD dwCherryStyle, DWORD dwStyle, const CCherryRect &cherryRect, CWnd *pParentWnd, UINT nID)
 {
 	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
 
@@ -28,7 +28,7 @@ CHERRY_RET CCherryStatic::Create(LPCTSTR lpszText, DWORD dwCherryStyle, DWORD dw
 	{
 		dwStyle |= SS_OWNERDRAW | SS_NOTIFY;
 
-		if (!CStatic::Create(NULL, dwStyle, rect, pParentWnd, nID))
+		if (!CStatic::Create(NULL, dwStyle, cherryRect, pParentWnd, nID))
 			throw CCherryException::ERROR_STATIC_CREATE_FAIL;
 
 		// CherryCheckBox 전용 스타일 bit 플래그

@@ -2,6 +2,7 @@
 
 #include "CherryStatic.h"
 #include "CherryFontByStatus.h"
+#include "CherryRect.h"
 
 ///////////////////////////////////////////////////////////////////////////
 ///
@@ -31,7 +32,7 @@ public:
 		LPCTSTR lpszText,
 		DWORD dwCherryStyle,
 		DWORD dwStyle, 
-		const RECT &rect, 
+		const CCherryRect &cherryRect,
 		CWnd *pParentWnd, 
 		UINT nID);
 

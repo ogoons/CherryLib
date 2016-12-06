@@ -40,7 +40,7 @@ BEGIN_MESSAGE_MAP(CCherryButton, CButton)
 	ON_WM_SYSCOMMAND()
 END_MESSAGE_MAP()
 
-CHERRY_RET CCherryButton::Create(LPCTSTR lpszCaption, LPCTSTR lpszImagePath, DWORD dwCherryStyle, DWORD dwStyle, const RECT &rect, CWnd *pParentWnd, UINT nID)
+CHERRY_RET CCherryButton::Create(LPCTSTR lpszCaption, LPCTSTR lpszImagePath, DWORD dwCherryStyle, DWORD dwStyle, CCherryRect &cherryRect, CWnd *pParentWnd, UINT nID)
 {	
 	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
 
@@ -48,7 +48,7 @@ CHERRY_RET CCherryButton::Create(LPCTSTR lpszCaption, LPCTSTR lpszImagePath, DWO
 	{
 		dwStyle |= BS_OWNERDRAW;
 
-		if (!CButton::Create(lpszCaption, dwStyle, rect, pParentWnd, nID))
+		if (!CButton::Create(lpszCaption, dwStyle, cherryRect, pParentWnd, nID))
 			throw CCherryException::ERROR_BUTTON_CREATE_FAIL;
 
 		// CCherryButton 전용 스타일 bit 플래그

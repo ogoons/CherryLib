@@ -16,6 +16,75 @@
     <Filter Include="Lib">
       <UniqueIdentifier>{e805a893-7722-4d2d-8bd3-9f4c298503ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Model">
+      <UniqueIdentifier>{42ee2695-c0a2-4cdb-9334-b2b5c2ef4720}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{0f532bfa-2d11-4f46-bef6-58ff1aa68e2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Incomplete">
+      <UniqueIdentifier>{34085caf-284e-4922-86a9-0d03ed1a50f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{18e6975a-4c90-4674-b09e-4cf535f5ec3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\CherryAnimateImageCtrl">
+      <UniqueIdentifier>{f27fcda3-ab5f-4475-b054-d1b8e7065b75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\CherryButton">
+      <UniqueIdentifier>{08d10c9f-f005-4e7c-b651-5dae0d8fefc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\CherryCheckBox">
+      <UniqueIdentifier>{6bf65d28-b245-4869-b930-069603c59f20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\CherryComboBox">
+      <UniqueIdentifier>{cb759d5c-161c-4eea-b531-54fd7cf1ad6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\CherryDialog">
+      <UniqueIdentifier>{af8817d2-540b-492a-9807-6f8620113525}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\CherryEdit">
+      <UniqueIdentifier>{c6d12a20-c82d-4f74-916e-3ce8032e4c3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\CherryImageCtrl">
+      <UniqueIdentifier>{ca0b09c6-de1b-4d8e-92a0-e0f8a61ce340}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\CherryLinkCtrl">
+      <UniqueIdentifier>{8e4d3af5-cb37-4811-b8c2-6b2a9d5b06f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\CherryNotificationDialog">
+      <UniqueIdentifier>{5df202da-3f60-4e8f-85a3-12b27649271f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\CherryNotificationIcon">
+      <UniqueIdentifier>{aefb5fd2-7d0b-42e7-861f-b889d3f1404f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\CherryProgressCtrl">
+      <UniqueIdentifier>{06b4f7c6-1c5f-48fc-9749-1dd2e9b99862}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\CherryRadioButton">
+      <UniqueIdentifier>{115f8c00-71c4-4c35-b442-c1b65c0f6540}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\CherrySliderCtrl">
+      <UniqueIdentifier>{dd69b5af-a47c-491a-b1ed-3cf04e12c88b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\CherryStatic">
+      <UniqueIdentifier>{89e99d62-bd2c-4478-b11a-f14454daa75b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\CherryToggleButton">
+      <UniqueIdentifier>{b4c3c9bf-f019-4d7d-a0dd-c2ce0cad0737}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\CherryWnd">
+      <UniqueIdentifier>{5391d262-33a3-480d-b299-4c05981ee952}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Incomplete\CherryMessageBox">
+      <UniqueIdentifier>{6c695a69-67c0-4235-91d5-60e0bd7ceb84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Incomplete\CherryTabCtrl">
+      <UniqueIdentifier>{f23482b4-93ae-4c5d-9198-ed5a32296dc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\CherryListCtrl">
+      <UniqueIdentifier>{20a325ab-29bf-4ece-8791-e8965a49442d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -36,86 +105,89 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="CherryDialog.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="CherryFontByStatus.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="CherryEdit.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="CherryRect.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="CherryFont.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CherryFontByStatus.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CherryImage.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CherryImageCtrl.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="CherryImageList.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="CherryLinkCtrl.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CherryNotificationIcon.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CherryProgressCtrl.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CherryRadioButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CherrySliderCtrl.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CherryStatic.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CherryToggleButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CherryAnimateImageCtrl.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CherryButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CherryCheckBox.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CherryComboBox.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CherryNotificationDialog.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CherryListCtrl.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CherryHeaderCtrl.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CherryTabCtrl.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CherryWnd.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CherryMessageBox.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="CherryImage.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="CherryMemDC.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="CherryEditBackWnd.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="CherryTabCtrl.cpp">
+      <Filter>Incomplete\CherryTabCtrl</Filter>
     </ClCompile>
     <ClCompile Include="CherryTabCtrlBackWnd.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Incomplete\CherryTabCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="CherryMessageBox.cpp">
+      <Filter>Incomplete\CherryMessageBox</Filter>
+    </ClCompile>
+    <ClCompile Include="CherryAnimateImageCtrl.cpp">
+      <Filter>UI\CherryAnimateImageCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="CherryButton.cpp">
+      <Filter>UI\CherryButton</Filter>
+    </ClCompile>
+    <ClCompile Include="CherryCheckBox.cpp">
+      <Filter>UI\CherryCheckBox</Filter>
+    </ClCompile>
+    <ClCompile Include="CherryComboBox.cpp">
+      <Filter>UI\CherryComboBox</Filter>
+    </ClCompile>
+    <ClCompile Include="CherryDialog.cpp">
+      <Filter>UI\CherryDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="CherryEdit.cpp">
+      <Filter>UI\CherryEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="CherryEditBackWnd.cpp">
+      <Filter>UI\CherryEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="CherryImageCtrl.cpp">
+      <Filter>UI\CherryImageCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="CherryListCtrl.cpp">
+      <Filter>UI\CherryListCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="CherryNotificationDialog.cpp">
+      <Filter>UI\CherryNotificationDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="CherryNotificationIcon.cpp">
+      <Filter>UI\CherryNotificationIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="CherryProgressCtrl.cpp">
+      <Filter>UI\CherryProgressCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="CherryRadioButton.cpp">
+      <Filter>UI\CherryRadioButton</Filter>
+    </ClCompile>
+    <ClCompile Include="CherrySliderCtrl.cpp">
+      <Filter>UI\CherrySliderCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="CherryStatic.cpp">
+      <Filter>UI\CherryStatic</Filter>
+    </ClCompile>
+    <ClCompile Include="CherryToggleButton.cpp">
+      <Filter>UI\CherryToggleButton</Filter>
+    </ClCompile>
+    <ClCompile Include="CherryLinkCtrl.cpp">
+      <Filter>UI\CherryLinkCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="CherryHeaderCtrl.cpp">
+      <Filter>UI\CherryListCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="CherryWnd.cpp">
+      <Filter>UI\CherryWnd</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,92 +200,95 @@
     <ClInclude Include="Resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="CherryAnimateImageCtrl.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryButton.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryCheckBox.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryComboBox.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryDialog.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryEdit.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryException.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryFont.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryFontByStatus.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryImage.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryImageCtrl.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryImageList.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryLinkCtrl.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryNotificationIcon.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryProgressCtrl.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryRadioButton.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherrySliderCtrl.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryStatic.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryToggleButton.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryNotificationDialog.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryListCtrl.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryHeaderCtrl.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryTabCtrl.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryWnd.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CherryMessageBox.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="..\CherryUtil\CherryUtil.h">
       <Filter>Lib</Filter>
     </ClInclude>
-    <ClInclude Include="CherryMemDC.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="CherryException.h">
+      <Filter>Model</Filter>
     </ClInclude>
-    <ClInclude Include="CherryEditBackWnd.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="CherryFontByStatus.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryRect.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryFont.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryImageList.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryImage.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryMemDC.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryTabCtrl.h">
+      <Filter>Incomplete\CherryTabCtrl</Filter>
     </ClInclude>
     <ClInclude Include="CherryTabCtrlBackWnd.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Incomplete\CherryTabCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryMessageBox.h">
+      <Filter>Incomplete\CherryMessageBox</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryAnimateImageCtrl.h">
+      <Filter>UI\CherryAnimateImageCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryButton.h">
+      <Filter>UI\CherryButton</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryCheckBox.h">
+      <Filter>UI\CherryCheckBox</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryComboBox.h">
+      <Filter>UI\CherryComboBox</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryDialog.h">
+      <Filter>UI\CherryDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryEdit.h">
+      <Filter>UI\CherryEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryEditBackWnd.h">
+      <Filter>UI\CherryEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryImageCtrl.h">
+      <Filter>UI\CherryImageCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryListCtrl.h">
+      <Filter>UI\CherryListCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryNotificationDialog.h">
+      <Filter>UI\CherryNotificationDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryNotificationIcon.h">
+      <Filter>UI\CherryNotificationIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryProgressCtrl.h">
+      <Filter>UI\CherryProgressCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryRadioButton.h">
+      <Filter>UI\CherryRadioButton</Filter>
+    </ClInclude>
+    <ClInclude Include="CherrySliderCtrl.h">
+      <Filter>UI\CherrySliderCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryStatic.h">
+      <Filter>UI\CherryStatic</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryToggleButton.h">
+      <Filter>UI\CherryToggleButton</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryLinkCtrl.h">
+      <Filter>UI\CherryLinkCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryHeaderCtrl.h">
+      <Filter>UI\CherryListCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="CherryWnd.h">
+      <Filter>UI\CherryWnd</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

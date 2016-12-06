@@ -24,11 +24,11 @@ BEGIN_MESSAGE_MAP(CCherryToggleButton, CCherryButton)
 END_MESSAGE_MAP()
 
 // CCherryToggleButton 메시지 처리기입니다.
-CHERRY_RET CCherryToggleButton::Create(LPCTSTR lpszCaption, LPCTSTR lpszImagePath, DWORD dwCherryStyle, DWORD dwStyle, const RECT &rect, CWnd *pParentWnd, UINT nID)
+CHERRY_RET CCherryToggleButton::Create(LPCTSTR lpszCaption, LPCTSTR lpszImagePath, DWORD dwCherryStyle, DWORD dwStyle, const CCherryRect &cherryRect, CWnd *pParentWnd, UINT nID)
 {
 	dwStyle |= BS_OWNERDRAW;	// 추가
 
-	if (!CButton::Create(lpszCaption, dwStyle, rect, pParentWnd, nID))
+	if (!CButton::Create(lpszCaption, dwStyle, cherryRect, pParentWnd, nID))
 		return CCherryException::ERROR_TOGGLEBUTTON_CREATE_FAIL;
 
 	// CherryToggleButton 전용 스타일 bit 플래그

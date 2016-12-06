@@ -41,7 +41,7 @@ public:
 		LPCTSTR lpszImagePath, 
 		DWORD dwCherryStyle,
 		DWORD dwStyle, 
-		const RECT &rect, 
+		const CCherryRect &cherryRect,
 		CWnd *pParentWnd, 
 		UINT nID);
 	

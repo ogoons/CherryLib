@@ -34,7 +34,7 @@ END_MESSAGE_MAP()
 CHERRY_RET CCherryLinkCtrl::Create(LPCTSTR lpszText,
 							 DWORD dwCherryStyle,
 							 DWORD dwStyle, 
-							 const RECT &rect, 
+							 const CCherryRect &cherryRect,
 							 CWnd *pParentWnd, 
 							 UINT nID)
 {
@@ -42,7 +42,7 @@ CHERRY_RET CCherryLinkCtrl::Create(LPCTSTR lpszText,
 
 	try
 	{
-		if (CCherryStatic::Create(lpszText, dwCherryStyle, dwStyle, rect, pParentWnd, nID) != CCherryException::ERROR_CHERRY_SUCCESS)
+		if (CCherryStatic::Create(lpszText, dwCherryStyle, dwStyle, cherryRect, pParentWnd, nID) != CCherryException::ERROR_CHERRY_SUCCESS)
 			throw CCherryException::ERROR_LINKCTRL_CREATE_FAIL;
 
 		// 링크 컨트롤 기본 폰트 스타일 설정

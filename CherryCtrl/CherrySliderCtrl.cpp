@@ -74,7 +74,7 @@ END_MESSAGE_MAP()
 
 // CCherrySliderCtrl 메시지 처리기입니다.
 
-CHERRY_RET CCherrySliderCtrl::Create(LPCTSTR lpszThumbImagePath, LPCTSTR lpszTrackImagePath, const int nMaxPos, DWORD dwCherryStyle, DWORD dwStyle, const RECT &rect, CWnd *pParentWnd, UINT nID)
+CHERRY_RET CCherrySliderCtrl::Create(LPCTSTR lpszThumbImagePath, LPCTSTR lpszTrackImagePath, const int nMaxPos, DWORD dwCherryStyle, DWORD dwStyle, const CCherryRect &cherryRect, CWnd *pParentWnd, UINT nID)
 {	
 	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
 
@@ -90,12 +90,12 @@ CHERRY_RET CCherrySliderCtrl::Create(LPCTSTR lpszThumbImagePath, LPCTSTR lpszTra
 			{
 				// 기존 CherryProgressCtrl 코드를 사용한다.
 				if ((cherryRet = CCherryProgressCtrl::Create(lpszTrackImagePath, nMaxPos, dwCherryStyle,
-					dwStyle, rect, pParentWnd, nID)) != CCherryException::ERROR_CHERRY_SUCCESS)
+					dwStyle, cherryRect, pParentWnd, nID)) != CCherryException::ERROR_CHERRY_SUCCESS)
 					throw cherryRet;
 
 				// 버튼 생성
 				if ((cherryRet = m_thumbButton.Create(NULL, lpszThumbImagePath, STYLE_AUTORESIZE,
-					WS_VISIBLE | WS_CHILD, CRect(0, 0, 0, 0), this, nID + 1)) != CCherryException::ERROR_CHERRY_SUCCESS)
+					WS_VISIBLE | WS_CHILD, CCherryRect(0, 0, 0, 0), this, nID + 1)) != CCherryException::ERROR_CHERRY_SUCCESS)
 					throw cherryRet;
 
 				m_thumbButton.UseCachedImage(); // 버튼이 자주 움직이지 캐시된 이미지를 사용하자.
@@ -113,7 +113,7 @@ CHERRY_RET CCherrySliderCtrl::Create(LPCTSTR lpszThumbImagePath, LPCTSTR lpszTra
 		case STYLE_VERTICAL_BOTTOM_TO_TOP_NOT_FOLLOW:
 		case STYLE_VERTICAL_TOP_TO_BOTTOM_NOT_FOLLOW:
 			{
-				if (!CWnd::Create(NULL, NULL, dwStyle, rect, pParentWnd, nID))
+				if (!CWnd::Create(NULL, NULL, dwStyle, cherryRect, pParentWnd, nID))
 					throw CCherryException::ERROR_SLIDERCTRL_CREATE_FAIL;
 
 				SetMaxPos(nMaxPos);	// CWnd로 생성했기에 수동으로 설정
@@ -124,7 +124,7 @@ CHERRY_RET CCherrySliderCtrl::Create(LPCTSTR lpszThumbImagePath, LPCTSTR lpszTra
 
 				// 버튼 생성
 				if ((cherryRet = m_thumbButton.Create(NULL, lpszThumbImagePath, STYLE_AUTORESIZE,
-					WS_VISIBLE | WS_CHILD, CRect(0, 0, 0, 0), this, nID + 1)) != CCherryException::ERROR_CHERRY_SUCCESS)
+					WS_VISIBLE | WS_CHILD, CCherryRect(0, 0, 0, 0), this, nID + 1)) != CCherryException::ERROR_CHERRY_SUCCESS)
 					throw cherryRet;
 
 				if ((cherryRet = SetTrackImage(lpszTrackImagePath)) != CCherryException::ERROR_CHERRY_SUCCESS)

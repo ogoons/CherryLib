@@ -56,7 +56,7 @@ int CFlyoutDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CCherryNotificationIconFlyout::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	m_cherryButton.Create(_T("[CherryButton]\n기본 사이즈 버튼(&A)"), _T("button.png"), CCherryButton::STYLE_AUTORESIZE, WS_CHILD | WS_VISIBLE, CRect(0, 00, 0, 0), this, 1000);
+	m_cherryButton.Create(_T("[CherryButton]\n기본 사이즈 버튼(&A)"), _T("button.png"), CCherryButton::STYLE_AUTORESIZE, WS_CHILD | WS_VISIBLE, CCherryRect(0, 0, 0, 0), this, 1000);
 
 	//m_button1.Create(_T("테스트"), WS_CHILD | WS_VISIBLE, CRect(0, 0, 50, 50), this, 1001);
 

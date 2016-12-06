@@ -4,6 +4,7 @@
 #include "CherryMemDC.h"
 #include "CherryImageList.h"
 #include "CherryHeaderCtrl.h"
+#include "CherryRect.h"
 
 ///////////////////////////////////////////////////////////////////////////
 ///
@@ -37,7 +38,7 @@ public:
 		UINT nItemHeight,
 		DWORD dwCherryStyle,
 		DWORD dwStyle,
-		const RECT &rect,
+		const CCherryRect &cherryRect,
 		CWnd *pParentWnd,
 		UINT nID);
 

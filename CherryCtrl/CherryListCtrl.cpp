@@ -31,7 +31,7 @@ CHERRY_RET CCherryListCtrl::Create(
 	UINT nItemHeight,
 	DWORD dwCherryStyle, 
 	DWORD dwStyle, 
-	const RECT &rect, 
+	const CCherryRect &cherryRect,
 	CWnd *pParentWnd, 
 	UINT nID)
 {
@@ -42,7 +42,7 @@ CHERRY_RET CCherryListCtrl::Create(
 		//dwStyle |= LVS_REPORT | LVS_OWNERDATA | LVS_AUTOARRANGE | LVS_SHAREIMAGELISTS | LVS_ICON | LVS_EX_TRACKSELECT;
 		dwStyle |= LVS_REPORT | LVS_EX_TRACKSELECT;
 
-		if (!CListCtrl::Create(dwStyle, rect, pParentWnd, nID))
+		if (!CListCtrl::Create(dwStyle, cherryRect, pParentWnd, nID))
 			throw CCherryException::ERROR_LISTCTRL_CREATE_FAIL;
 
 		//ModifyStyle(0, LVS_OWNERDATA | LVS_AUTOARRANGE | LVS_SHAREIMAGELISTS | LVS_ICON | LVS_EX_TRACKSELECT);

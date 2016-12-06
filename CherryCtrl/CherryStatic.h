@@ -3,6 +3,7 @@
 #include "CherryException.h"
 #include "CherryFont.h"
 #include "CherryMemDC.h"
+#include "CherryRect.h"
 
 ///////////////////////////////////////////////////////////////////////////
 ///
@@ -28,7 +29,7 @@ public:
 // Constructors
 public:
 	CCherryStatic();
-	virtual CHERRY_RET Create(LPCTSTR lpszText, DWORD dwCherryStyle, DWORD dwStyle, const RECT &rect, CWnd *pParentWnd, UINT nID);
+	virtual CHERRY_RET Create(LPCTSTR lpszText, DWORD dwCherryStyle, DWORD dwStyle, const CCherryRect &cherryRect, CWnd *pParentWnd, UINT nID);
 	
 // Attributes
 protected:

@@ -3,6 +3,7 @@
 #include "CherryWnd.h"
 #include "CherryMemDC.h"
 #include "CherryImage.h"
+#include "CherryRect.h"
 
 ///////////////////////////////////////////////////////////////////////////
 ///
@@ -22,7 +23,7 @@ class CCherryEditBackWnd : public CCherryWnd
 	// Constructors
 public:
 	CCherryEditBackWnd();
-	virtual CHERRY_RET Create(LPCTSTR lpszBackImagePath, DWORD dwStyle, const RECT &rect, CWnd *pParentWnd, UINT nID);
+	virtual CHERRY_RET Create(LPCTSTR lpszBackImagePath, DWORD dwStyle, const CCherryRect &cherryRect, CWnd *pParentWnd, UINT nID);
 
 	// Attributes
 protected:

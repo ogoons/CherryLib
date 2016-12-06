@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CherryCheckBox.h"
+#include "CherryRect.h"
 #include <vector>
 
 using namespace std;
@@ -29,7 +30,7 @@ public:
 		DWORD dwCherryStyle,
 		CCherryRadioButton *pHeadRadioButton,
 		DWORD dwStyle, 
-		const RECT &rect, 
+		const CCherryRect &cherryRect,
 		CWnd *pParentWnd, 
 		UINT nID);
 	

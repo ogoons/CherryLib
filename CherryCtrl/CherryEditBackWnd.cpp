@@ -22,7 +22,7 @@ END_MESSAGE_MAP()
 
 // CCherryEditBackWnd 메시지 처리기입니다.
 
-CHERRY_RET CCherryEditBackWnd::Create(LPCTSTR lpszBackImagePath, DWORD dwStyle, const RECT &rect, CWnd* pParentWnd, UINT nID)
+CHERRY_RET CCherryEditBackWnd::Create(LPCTSTR lpszBackImagePath, DWORD dwStyle, const CCherryRect &cherryRect, CWnd* pParentWnd, UINT nID)
 {
 	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
 
@@ -31,13 +31,13 @@ CHERRY_RET CCherryEditBackWnd::Create(LPCTSTR lpszBackImagePath, DWORD dwStyle, 
 		if ((cherryRet = SetImage(lpszBackImagePath)) != CCherryException::ERROR_CHERRY_SUCCESS)
 			throw cherryRet;
 
-		CRect backWndRect(rect);
+		CRect backWndRect(cherryRect);
 
-		if ((rect.right - rect.left) <= 0)
-			backWndRect.right = rect.left + m_backImage.GetWidth();
+		if ((cherryRect.right - cherryRect.left) <= 0)
+			backWndRect.right = cherryRect.left + m_backImage.GetWidth();
 
-		if ((rect.bottom - rect.top) <= 0)
-			backWndRect.bottom = rect.top + m_backImage.GetHeight();
+		if ((cherryRect.bottom - cherryRect.top) <= 0)
+			backWndRect.bottom = cherryRect.top + m_backImage.GetHeight();
 
 		if (!CCherryWnd::Create(NULL, NULL, dwStyle, backWndRect, pParentWnd, nID + 1000))
 			throw CCherryException::ERROR_EDITBACKWND_CREATE_FAIL;

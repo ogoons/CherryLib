@@ -35,13 +35,13 @@ void CCherryEdit::PreSubclassWindow()
 	CEdit::PreSubclassWindow();
 }
 
-CHERRY_RET CCherryEdit::Create(LPCTSTR lpszBackImagePath, COLORREF backColor, DWORD dwStyle, const RECT &rect, int nBorderMargin, CWnd *pParentWnd, UINT nID)
+CHERRY_RET CCherryEdit::Create(LPCTSTR lpszBackImagePath, COLORREF backColor, DWORD dwStyle, const CCherryRect &cherryRect, int nBorderMargin, CWnd *pParentWnd, UINT nID)
 {
 	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
 
 	try
 	{
-		if ((cherryRet = m_backWnd.Create(lpszBackImagePath, WS_CHILD | WS_VISIBLE, rect, pParentWnd, nID)) != CCherryException::ERROR_CHERRY_SUCCESS)
+		if ((cherryRet = m_backWnd.Create(lpszBackImagePath, WS_CHILD | WS_VISIBLE, cherryRect, pParentWnd, nID)) != CCherryException::ERROR_CHERRY_SUCCESS)
 			throw cherryRet;
 
 		CRect parentClientRect;
@@ -194,12 +194,12 @@ void CCherryEdit::SetFontStyle(DWORD dwFontStyle)
 	CCherryFont::SetFontStyle(dwFontStyle);
 }
 
-BOOL CCherryEdit::SetBorderMargin(int nMargin)
+BOOL CCherryEdit::SetPadding(int nMargin)
 {
-	return SetBorderMargin(nMargin, nMargin, nMargin, nMargin);
+	return SetPadding(nMargin, nMargin, nMargin, nMargin);
 }
 
-BOOL CCherryEdit::SetBorderMargin(int nLeft, int nTop, int nRight, int nBottom)
+BOOL CCherryEdit::SetPadding(int nLeft, int nTop, int nRight, int nBottom)
 {
 	if (!m_backWnd.GetSafeHwnd())
 		return FALSE;

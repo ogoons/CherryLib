@@ -3,6 +3,7 @@
 #include "CherryWnd.h"
 #include "CherryImageList.h"
 #include "CherryMemDC.h"
+#include "CherryRect.h"
 
 ///////////////////////////////////////////////////////////////////////////
 ///
@@ -27,7 +28,7 @@ public:
 		UINT nInterval, 
 		UINT nAnimateNum,
 		DWORD dwStyle,
-		const RECT& rect, 
+		const CCherryRect& cherryRect, 
 		CWnd* pParentWnd, 
 		UINT nID);
 

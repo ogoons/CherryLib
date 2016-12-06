@@ -45,7 +45,7 @@ CHERRY_RET CCherryAnimateImageCtrl::Create(
 	UINT nInterval, 
 	UINT nAnimateNum,
 	DWORD dwStyle, 
-	const RECT& rect, 
+	const CCherryRect &cherryRect,
 	CWnd *pParentWnd, 
 	UINT nID)
 {
@@ -53,7 +53,7 @@ CHERRY_RET CCherryAnimateImageCtrl::Create(
 
 	try
 	{
-		if (!CCherryWnd::Create(NULL, NULL, dwStyle, rect, pParentWnd, nID))
+		if (!CCherryWnd::Create(NULL, NULL, dwStyle, cherryRect, pParentWnd, nID))
 			throw CCherryException::ERROR_ANIMATEIMAGECTRL_CREATE_FAIL;
 		
 		SetImageList(imageList);

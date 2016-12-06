@@ -5,6 +5,7 @@
 #include "CherryWnd.h"
 #include "CherryFont.h"
 #include "CherryMemDC.h"
+#include "CherryRect.h"
 
 ///////////////////////////////////////////////////////////////////////////
 ///
@@ -52,7 +53,7 @@ public:
 		const short nMaxRange, 
 		DWORD dwCherryStyle,
 		DWORD dwStyle, 
-		const RECT &rect, 
+		const CCherryRect &cherryRect,
 		CWnd *pParentWnd, UINT nID);
 
 // Attributes

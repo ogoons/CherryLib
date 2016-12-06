@@ -49,7 +49,7 @@ END_MESSAGE_MAP()
 
 // CCherryComboBox 메시지 처리기입니다.
 
-CHERRY_RET CCherryComboBox::Create(LPCTSTR lpszImagePath, DWORD dwCherryStyle, DWORD dwStyle, const RECT &rect, CWnd *pParentWnd, UINT nID)
+CHERRY_RET CCherryComboBox::Create(LPCTSTR lpszImagePath, DWORD dwCherryStyle, DWORD dwStyle, const CCherryRect &cherryRect, CWnd *pParentWnd, UINT nID)
 {
 	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
 
@@ -57,7 +57,7 @@ CHERRY_RET CCherryComboBox::Create(LPCTSTR lpszImagePath, DWORD dwCherryStyle, D
 	{
 		dwStyle |= CBS_DROPDOWNLIST | CBS_HASSTRINGS;
 
-		if (!CComboBox::Create(dwStyle, rect, pParentWnd, nID))
+		if (!CComboBox::Create(dwStyle, cherryRect, pParentWnd, nID))
 			throw CCherryException::ERROR_COMBOBOX_CREATE_FAIL;
 
 		m_font.CreateFont(15, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET

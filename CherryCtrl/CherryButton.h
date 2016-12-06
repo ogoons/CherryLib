@@ -4,8 +4,8 @@
 #include "CherryMemDC.h"
 #include "CherryFontByStatus.h"
 #include "CherryImage.h"
-
 #include "CherryWnd.h"
+#include "CherryRect.h"
 
 using namespace Gdiplus;
 
@@ -51,7 +51,7 @@ public:
 		LPCTSTR lpszImagePath, 
 		DWORD dwCherryStyle, 
 		DWORD dwStyle, 
-		const RECT &rect, 
+		CCherryRect &cherryRect,
 		CWnd *pParentWnd, 
 		UINT nID);	// 버튼 생성(필수 사용)
 	

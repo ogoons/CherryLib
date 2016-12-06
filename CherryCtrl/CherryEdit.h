@@ -2,6 +2,7 @@
 
 #include "CherryFont.h"
 #include "CherryEditBackWnd.h"
+#include "CherryRect.h"
 
 ///////////////////////////////////////////////////////////////////////////
 ///
@@ -21,9 +22,8 @@ class AFX_EXT_CLASS CCherryEdit : public CEdit, public CCherryFont
 // Constructors
 public:
 	CCherryEdit();
-	CHERRY_RET Create(LPCTSTR lpszBackImagePath, COLORREF backColor, DWORD dwStyle, const RECT &rect, int nBorderMargin, CWnd* pParentWnd, UINT nID);
+	CHERRY_RET Create(LPCTSTR lpszBackImagePath, COLORREF backColor, DWORD dwStyle, const CCherryRect &cherryRect, int nBorderMargin, CWnd* pParentWnd, UINT nID);
 	
-
 // Attributes
 protected:
 	CCherryEditBackWnd	m_backWnd;
@@ -43,8 +43,8 @@ public:
 	void SetFontColor(Color fontColor);
 	void SetFontStyle(DWORD dwFontStyle);
 
-	BOOL SetBorderMargin(int nMargin);
-	BOOL SetBorderMargin(int nLeft, int nTop, int nRight, int nBottom);
+	BOOL SetPadding(int nMargin);
+	BOOL SetPadding(int nLeft, int nTop, int nRight, int nBottom);
 
 // Overridables
 protected:

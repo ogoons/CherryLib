@@ -46,7 +46,7 @@ public:
 		LPCTSTR lpszTabImagePath,
 		DWORD dwCherryStyle,
 		DWORD dwStyle,
-		const RECT &rect,
+		const CCherryRect &cherryRect,
 		CWnd *pParentWnd,
 		UINT nID);
 

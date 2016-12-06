@@ -21,7 +21,7 @@ BEGIN_MESSAGE_MAP(CCherryRadioButton, CCherryCheckBox)
 END_MESSAGE_MAP()
 
 // CCherryRadioButton 메시지 처리기입니다.
-CHERRY_RET CCherryRadioButton::Create(LPCTSTR lpszCaption, LPCTSTR lpszImagePath, DWORD dwCherryStyle, CCherryRadioButton *pHeadRadioButton, DWORD dwStyle, const RECT &rect, CWnd *pParentWnd, UINT nID)
+CHERRY_RET CCherryRadioButton::Create(LPCTSTR lpszCaption, LPCTSTR lpszImagePath, DWORD dwCherryStyle, CCherryRadioButton *pHeadRadioButton, DWORD dwStyle, const CCherryRect &cherryRect, CWnd *pParentWnd, UINT nID)
 {
 	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
 
@@ -29,7 +29,7 @@ CHERRY_RET CCherryRadioButton::Create(LPCTSTR lpszCaption, LPCTSTR lpszImagePath
 	{
 		dwStyle |= BS_OWNERDRAW;	// 추가
 
-		if (!CButton::Create(lpszCaption, dwStyle, rect, pParentWnd, nID))
+		if (!CButton::Create(lpszCaption, dwStyle, cherryRect, pParentWnd, nID))
 			throw CCherryException::ERROR_RADIOBUTTON_CREATE_FAIL;
 
 		// CherryCheckBox 전용 스타일 bit 플래그

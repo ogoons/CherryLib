@@ -13,6 +13,7 @@
 
 #include "CherryUtil.h"
 #include "CherryTimer.h"
+#include "CherryRect.h"
 
 #ifdef _DEBUG
 #pragma comment(lib, "CherryUtilD.lib")
@@ -64,7 +65,7 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 	//SetClientImage(_T("22.png"), NULL);
 
 	//_CrtSetBreakAlloc(357);
-	m_comboBox.Create(_T("combotest.png"), NULL, WS_VISIBLE | WS_CHILD, CRect(150, 250, 500, 500), this, 499);
+	m_comboBox.Create(_T("combotest.png"), NULL, WS_VISIBLE | WS_CHILD, CCherryRect(150, 250, 350, 0), this, 499);
 	m_comboBox.AddString(_T("CherryComboBox"));
 	m_comboBox.AddString(_T("테스트"));
 	//m_comboBox.OffsetText(10, 0);
@@ -75,49 +76,49 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 
 	//m_comboBox.SetCherryFont(_T("맑은 고딕"), 12, Color(255, 0, 0), CherryFont::STYLE_DEFAULT);
 
-	m_toggleButton.Create(NULL, _T("wimax_on_off.png"), CCherryToggleButton::STYLE_AUTORESIZE | CCherryToggleButton::STYLE_AUTOTOGGLEBUTTON, WS_CHILD | WS_VISIBLE, CRect(250, 150, 0, 0), this, 500);
+	m_toggleButton.Create(NULL, _T("wimax_on_off.png"), CCherryToggleButton::STYLE_AUTORESIZE | CCherryToggleButton::STYLE_AUTOTOGGLEBUTTON, WS_CHILD | WS_VISIBLE, CCherryRect(250, 150, 0, 0), this, 500);
 
-	m_radioButton1.Create(_T("라디오 버튼 1"), _T("check.png"), CCherryRadioButton::STYLE_AUTORESIZE | CCherryRadioButton::STYLE_AUTOCHECKBOX, NULL, WS_CHILD | WS_VISIBLE, CRect(300, 150, 500, 200), this, 501);
-	m_radioButton2.Create(_T("라디오 버튼 2"), _T("check.png"), CCherryRadioButton::STYLE_AUTORESIZE | CCherryRadioButton::STYLE_AUTOCHECKBOX, &m_radioButton1, WS_CHILD | WS_VISIBLE, CRect(300, 180, 0, 0), this, 502);
-	m_radioButton3.Create(_T("라디오 버튼 3"), _T("check.png"), CCherryRadioButton::STYLE_AUTORESIZE | CCherryRadioButton::STYLE_AUTOCHECKBOX, &m_radioButton1, WS_CHILD | WS_VISIBLE, CRect(300, 210, 0, 0), this, 503);
+	m_radioButton1.Create(_T("라디오 버튼 1"), _T("wimax_on_off.png"), CCherryRadioButton::STYLE_AUTORESIZE | CCherryRadioButton::STYLE_AUTOCHECKBOX, NULL, WS_CHILD | WS_VISIBLE, CCherryRect(300, 150, 500, 200), this, 501);
+	m_radioButton2.Create(_T("라디오 버튼 2"), _T("wimax_on_off.png"), CCherryRadioButton::STYLE_AUTORESIZE | CCherryRadioButton::STYLE_AUTOCHECKBOX, &m_radioButton1, WS_CHILD | WS_VISIBLE, CCherryRect(300, 180, 0, 0), this, 502);
+	m_radioButton3.Create(_T("라디오 버튼 3"), _T("wimax_on_off.png"), CCherryRadioButton::STYLE_AUTORESIZE | CCherryRadioButton::STYLE_AUTOCHECKBOX, &m_radioButton1, WS_CHILD | WS_VISIBLE, CCherryRect(300, 210, 0, 0), this, 503);
 	m_radioButton2.SetCheck(CCherryRadioButton::STATUS_CHECKED);
 	//m_radioButton1.SetCherryFont(_T("맑은 고딕"), 15, Color(255, 0, 0), CCherryFont::STYLE_DEFAULT);
 	
-	m_defaultSizeButton.Create(_T("[CherryButton]\n기본 사이즈 버튼(&A)"), _T("button.png"), CCherryButton::STYLE_AUTORESIZE, WS_CHILD | WS_VISIBLE, CRect(10, 10, 0, 0), this, 1000);
+	m_defaultSizeButton.Create(_T("[CherryButton]\n기본 사이즈 버튼(&A)"), _T("button.png"), CCherryButton::STYLE_AUTORESIZE, WS_CHILD | WS_VISIBLE, CCherryRect(10, 10, 0, 0), this, 1000);
 	m_defaultSizeButton.SetCherryFont(_T("맑은 고딕"), 15, Color(0, 0, 0), CCherryFont::STYLE_CENTER | CCherryFont::STYLE_VCENTER);
 
-	m_stretchImageButton.Create(_T("[CherryButton]\n확대된 이미지 버튼\n(보다시피 외곽선이\n뭉개지지 않는다.)"), _T("button.png"), NULL, WS_CHILD | WS_VISIBLE, CRect(500, 10, 700, 300), this, 1001);
+	m_stretchImageButton.Create(_T("[CherryButton]\n확대된 이미지 버튼\n(보다시피 외곽선이\n뭉개지지 않는다.)"), _T("button.png"), NULL, WS_CHILD | WS_VISIBLE, CCherryRect(470, 10, 200, 150), this, 1001);
 	//m_stretchImageButton.SetWindowText(_T("[CherryButton]\n확대된 이미지 버튼\n(보다시피 외곽선이\n뭉개지지 않는다 (^^)/)"));
 	m_stretchImageButton.SetNormalFont(_T("맑은 고딕"), 15, Color(255, 100, 50), CCherryFont::STYLE_CENTER | CCherryFont::STYLE_VCENTER | CCherryFont::STYLE_BOLD);
 
-	m_horzRightProgressCtrl.Create(_T("prg.png"), 100, CCherryProgressCtrl::STYLE_HORIZONTAL_LEFT_TO_RIGHT, WS_CHILD | WS_VISIBLE, CRect(70, 70, 0, 0), this, 1002);	
+	m_horzRightProgressCtrl.Create(_T("prg.png"), 100, CCherryProgressCtrl::STYLE_HORIZONTAL_LEFT_TO_RIGHT, WS_CHILD | WS_VISIBLE, CCherryRect(70, 70, 0, 0), this, 1002);
 	m_horzRightProgressCtrl.SetPos(0);
 	m_horzRightProgressCtrl.SetCherryFont(_T("맑은 고딕"), 15, Color(255, 255, 255), CCherryFont::STYLE_CENTER | CCherryFont::STYLE_VCENTER);
 	m_horzRightProgressCtrl.SetWindowText(_T("0%"));
 
-	m_horzLeftProgressCtrl.Create(_T("prg.png"), 100, CCherryProgressCtrl::STYLE_HORIZONTAL_RIGHT_TO_LEFT, WS_CHILD | WS_VISIBLE, CRect(70, 100, 0, 0), this, 1003);	
+	m_horzLeftProgressCtrl.Create(_T("prg.png"), 100, CCherryProgressCtrl::STYLE_HORIZONTAL_RIGHT_TO_LEFT, WS_CHILD | WS_VISIBLE, CCherryRect(70, 100, 0, 0), this, 1003);
 	m_horzLeftProgressCtrl.SetPos(0);
 	m_horzLeftProgressCtrl.SetCherryFont(_T("맑은 고딕"), 15, Color(255, 255, 255), CCherryFont::STYLE_CENTER | CCherryFont::STYLE_VCENTER);
 	m_horzLeftProgressCtrl.SetWindowText(_T("0%"));
 
-	m_vertTopProgressCtrl.Create(_T("prgv.png"), 100, CCherryProgressCtrl::STYLE_VERTICAL_BOTTOM_TO_TOP, WS_CHILD | WS_VISIBLE, CRect(70, 200, 0, 0), this, 1004);	
+	m_vertTopProgressCtrl.Create(_T("prgv.png"), 100, CCherryProgressCtrl::STYLE_VERTICAL_BOTTOM_TO_TOP, WS_CHILD | WS_VISIBLE, CCherryRect(70, 200, 0, 0), this, 1004);
 	m_vertTopProgressCtrl.SetPos(0);
 	m_vertTopProgressCtrl.SetCherryFont(_T("맑은 고딕"), 15, Color(255, 255, 255), CCherryFont::STYLE_CENTER | CCherryFont::STYLE_VCENTER);
 	m_vertTopProgressCtrl.SetWindowText(_T("0%"));
 
-	m_vertBottomProgressCtrl.Create(_T("prgv.png"), 100, CCherryProgressCtrl::STYLE_VERTICAL_TOP_TO_BOTTOM, WS_CHILD | WS_VISIBLE, CRect(100, 200, 0, 0), this, 1005);	
+	m_vertBottomProgressCtrl.Create(_T("prgv.png"), 100, CCherryProgressCtrl::STYLE_VERTICAL_TOP_TO_BOTTOM, WS_CHILD | WS_VISIBLE, CCherryRect(100, 200, 0, 0), this, 1005);
 	m_vertBottomProgressCtrl.SetPos(0);
 	m_vertBottomProgressCtrl.SetCherryFont(_T("맑은 고딕"), 15, Color(255, 255, 255), CCherryFont::STYLE_CENTER | CCherryFont::STYLE_VCENTER);
 	m_vertBottomProgressCtrl.SetWindowText(_T("0%"));
 
-	m_static.Create(_T("[CherryStatic] 화면에 텍스트 표현을\n자유 자제로 가능하게 한다.(투명 배경 지원)"), CCherryStatic::STYLE_AUTORESIZE, WS_CHILD | WS_VISIBLE, CRect(200, 550, 300, 560), this, 1006);
+	m_static.Create(_T("[CherryStatic] 화면에 텍스트 표현을\n자유 자제로 가능하게 한다.(투명 배경 지원)"), CCherryStatic::STYLE_AUTORESIZE, WS_CHILD | WS_VISIBLE, CCherryRect(200, 550, 300, 560), this, 1006);
 	m_static.SetFontStyle(CCherryFont::STYLE_BOLD);
 	m_static.SetCherryFont(_T("맑은 고딕"), 20, Color(0, 255, 255), CCherryFont::STYLE_VCENTER);
 
 	//m_static.EnableAutoResize(FALSE);
 	//m_static.SetCherryFont(_T("맑은 고딕"), 40, Color(0, 255, 255), CherryFont::STYLE_CENTER | CherryFont::STYLE_VCENTER);
 
-	m_linkCtrl.Create(_T("[CherryLinkCtrl]\n하이퍼텍스트 형식의 스테틱 컨트롤"), CCherryLinkCtrl::STYLE_AUTORESIZE, WS_CHILD | WS_VISIBLE, CRect(300, 350, 600, 450), this, 1007);
+	m_linkCtrl.Create(_T("[CherryLinkCtrl]\n하이퍼텍스트 형식의 스테틱 컨트롤"), CCherryLinkCtrl::STYLE_AUTORESIZE, WS_CHILD | WS_VISIBLE, CCherryRect(300, 350, 600, 450), this, 1007);
 
 	CCherryFont linkFont[4];
 	COLORREF color = GetSysColor(COLOR_HOTLIGHT);
@@ -147,15 +148,18 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 	images.Add(_T("on.png"), TRUE);
 	images.Add(_T("off.png"), TRUE);
 
-	m_animateImageCtrl.Create(images, 50, 0, WS_CHILD | WS_VISIBLE, CRect(200, 200, 0, 0), this, 1008);	
+	m_animateImageCtrl.Create(images, 50, 0, WS_CHILD | WS_VISIBLE, CCherryRect(200, 200, 0, 0), this, 1008);
 
-	m_edit.Create(_T("edit_bg.png"), RGB(255, 255, 255), WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_AUTOHSCROLL, CRect(75, 150, 0, 0), 0, this, 1009);
+	m_edit.Create(_T("edit_back.png"), RGB(60, 60, 60), WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_AUTOHSCROLL, CCherryRect(75, 150, 0, 0), 0, this, 1009);
 	m_edit.SetFontName(_T("맑은 고딕"));
-	m_edit.SetFontSize(20);
+	m_edit.SetFontSize(15);
 	m_edit.SetFontStyle(CCherryFont::STYLE_BOLD);
 	m_edit.SetFontColor(Color(255, 0, 0));
+	m_edit.SetPadding(6);
 
-	m_checkBox.Create(_T("[CherryCheckBox] 체크박스(&C)\n테스트1라인\n테스트2라인\n테스트3라인"), _T("wimax_on_off.png"), CCherryCheckBox::STYLE_AUTORESIZE | CCherryCheckBox::STYLE_AUTOCHECKBOX, WS_CHILD | WS_VISIBLE, CRect(200, 380, 0, 0), this, 1010);
+	m_edit.SetWindowText(_T("[CherryEdit] 테스트"));
+
+	m_checkBox.Create(_T("[CherryCheckBox] 체크박스(&C)\n테스트1라인\n테스트2라인\n테스트3라인"), _T("wimax_on_off.png"), CCherryCheckBox::STYLE_AUTORESIZE | CCherryCheckBox::STYLE_AUTOCHECKBOX, WS_CHILD | WS_VISIBLE, CCherryRect(200, 380, 0, 0), this, 1010);
 	m_checkBox.EnableHoverHandCursor(TRUE);
 	//CCherryFont hoverFont(_T("굴림"), 100, Color(23, 233, 56), CherryFont::STYLE_VCENTER);
 	//m_checkBox.SetHoverFont(hoverFont);
@@ -163,7 +167,7 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 	m_checkBox.SetHoverFontSize(20);
 	//m_checkBox.EnableWindow(FALSE);
 
-	m_sliderCtrl.Create(_T("slider_thumb.bmp"), _T("prg.png"), 7, CCherrySliderCtrl::STYLE_HORIZONTAL_LEFT_TO_RIGHT, WS_CHILD | WS_VISIBLE, /*CRect(200, 500, 500, 520)*/ CRect(400, 500, 0, 0), this, 1011);
+	m_sliderCtrl.Create(_T("slider_thumb.bmp"), _T("prg.png"), 7, CCherrySliderCtrl::STYLE_HORIZONTAL_LEFT_TO_RIGHT, WS_CHILD | WS_VISIBLE, /*CRect(200, 500, 500, 520)*/ CCherryRect(400, 500, 0, 0), this, 1011);
 	//m_sliderCtrl.SetPos(40);
 
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
@@ -182,7 +186,7 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 
 
 	// CCherryListCtrl
-	m_listCtrl.Create(_T("header_.png"), _T("list.png"), 60, 50, NULL, WS_VISIBLE | WS_CHILD | LVS_REPORT | LVS_NOCOLUMNHEADER, CRect(700, 10, 1100, 200), this, 1012);
+	m_listCtrl.Create(_T("header_.png"), _T("list.png"), 60, 50, NULL, WS_VISIBLE | WS_CHILD | LVS_REPORT | LVS_NOCOLUMNHEADER, CCherryRect(700, 10, 400, 190), this, 1012);
 	m_listCtrl.InsertColumn(0, _T("테스트1"), LVCFMT_LEFT, 100);
 	m_listCtrl.InsertColumn(1, _T("테스트2"), LVCFMT_LEFT/*| HDF_OWNERDRAW*/, 150);
 	
@@ -200,21 +204,21 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 	m_listCtrl.SetSelectedFontStyle(CCherryFont::STYLE_VCENTER | CCherryFont::STYLE_LEFT);
 
 	// CCherryTabCtrl
-	m_tabCtrl.Create(_T("tab.png"), CCherryTabCtrl::STYLE_TAB_BOTTOM, WS_CHILD | WS_VISIBLE, CRect(700, 250, 1200, 500), this, 1013);
+	m_tabCtrl.Create(_T("tab.png"), CCherryTabCtrl::STYLE_TAB_BOTTOM, WS_CHILD | WS_VISIBLE, CCherryRect(700, 250, 500, 250), this, 1013);
 
-	m_wnd1.Create(NULL, _T("탭1"), WS_CHILD | WS_VISIBLE, CRect(), &m_tabCtrl, 1014);
+	m_wnd1.Create(NULL, _T("탭1"), WS_CHILD | WS_VISIBLE, CCherryRect(), &m_tabCtrl, 1014);
 	m_wnd1.SetBackColor(RGB(255, 0, 0));
 
-	m_wnd2.Create(NULL, _T("탭2"), WS_CHILD | WS_VISIBLE, CRect(), &m_tabCtrl, 1015);
+	m_wnd2.Create(NULL, _T("탭2"), WS_CHILD | WS_VISIBLE, CCherryRect(), &m_tabCtrl, 1015);
 	m_wnd2.SetBackColor(RGB(0, 255, 0));
 
-	m_wnd3.Create(NULL, _T("탭3"), WS_CHILD | WS_VISIBLE, CRect(), &m_tabCtrl, 1016);
+	m_wnd3.Create(NULL, _T("탭3"), WS_CHILD | WS_VISIBLE, CCherryRect(), &m_tabCtrl, 1016);
 	m_wnd3.SetBackColor(RGB(0, 0, 255));
 
-	m_wnd4.Create(NULL, _T("탭4"), WS_CHILD | WS_VISIBLE, CRect(), &m_tabCtrl, 1017);
+	m_wnd4.Create(NULL, _T("탭4"), WS_CHILD | WS_VISIBLE, CCherryRect(), &m_tabCtrl, 1017);
 	m_wnd4.SetBackColor(RGB(255, 255, 255));
 
-	m_wnd5.Create(NULL, _T("탭5"), WS_CHILD | WS_VISIBLE, CRect(), &m_tabCtrl, 1018);
+	m_wnd5.Create(NULL, _T("탭5"), WS_CHILD | WS_VISIBLE, CCherryRect(), &m_tabCtrl, 1018);
 	m_wnd5.SetBackColor(RGB(0, 0, 0));
 
 	m_tabCtrl.AddPage(&m_wnd1);

@@ -26,7 +26,7 @@ BEGIN_MESSAGE_MAP(CCherryCheckBox, CCherryButton)
 END_MESSAGE_MAP()
 
 // CCherryCheckBox 메시지 처리기입니다.
-CHERRY_RET CCherryCheckBox::Create(LPCTSTR lpszCaption, LPCTSTR lpszImagePath, DWORD dwCherryStyle, DWORD dwStyle, const RECT &rect, CWnd *pParentWnd, UINT nID)
+CHERRY_RET CCherryCheckBox::Create(LPCTSTR lpszCaption, LPCTSTR lpszImagePath, DWORD dwCherryStyle, DWORD dwStyle, const CCherryRect &cherryRect, CWnd *pParentWnd, UINT nID)
 {
 	CHERRY_RET cherryRet = CCherryException::ERROR_CHERRY_SUCCESS;
 
@@ -34,7 +34,7 @@ CHERRY_RET CCherryCheckBox::Create(LPCTSTR lpszCaption, LPCTSTR lpszImagePath, D
 	{
 		dwStyle |= BS_OWNERDRAW;	// 추가
 
-		if (!CButton::Create(lpszCaption, dwStyle, rect, pParentWnd, nID))
+		if (!CButton::Create(lpszCaption, dwStyle, cherryRect, pParentWnd, nID))
 			throw CCherryException::ERROR_CHECKBOX_CREATE_FAIL;
 
 		// CherryCheckBox 전용 스타일 bit 플래그

@@ -37,7 +37,7 @@ int CNotificationDialog::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CCherryNotificationDialog::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	m_button.Create(_T("[CherryButton]\n기본 사이즈 버튼(&A)"), _T("button.png"), CCherryButton::STYLE_AUTORESIZE, WS_CHILD | WS_VISIBLE, CRect(0, 00, 0, 0), this, 1000);
+	m_button.Create(_T("[CherryButton]\n기본 사이즈 버튼(&A)"), _T("button.png"), CCherryButton::STYLE_AUTORESIZE, WS_CHILD | WS_VISIBLE, CCherryRect(0, 0, 0, 0), this, 1000);
 
 	return 0;
 }
