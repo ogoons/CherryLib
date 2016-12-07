@@ -678,7 +678,7 @@ void CCherryDialog::RefreshNcRegion()
 				m_hNcEdgeRgn[0] = NULL;
 			}
 
-			m_hNcEdgeRgn[0] = pNcEdgeImage->GetHRGN(CCherryImage::RGN_TYPE_INVISIBLE_THRESHOLD, 160);
+			m_hNcEdgeRgn[0] = pNcEdgeImage->GetHRGN(CCherryImage::RGN_TYPE_VISIBLE);
 
 			if (NULL != pNcEdgeImage)
 			{
@@ -698,7 +698,7 @@ void CCherryDialog::RefreshNcRegion()
 				m_hNcEdgeRgn[1] = NULL;
 			}
 			
-			m_hNcEdgeRgn[1] = pNcEdgeImage->GetHRGN(CCherryImage::RGN_TYPE_INVISIBLE_THRESHOLD, 160);
+			m_hNcEdgeRgn[1] = pNcEdgeImage->GetHRGN(CCherryImage::RGN_TYPE_VISIBLE);
 
 			if (NULL != pNcEdgeImage)
 			{
@@ -718,7 +718,7 @@ void CCherryDialog::RefreshNcRegion()
 				m_hNcEdgeRgn[2] = NULL;
 			}
 			
-			m_hNcEdgeRgn[2] = pNcEdgeImage->GetHRGN(CCherryImage::RGN_TYPE_INVISIBLE_THRESHOLD, 160);
+			m_hNcEdgeRgn[2] = pNcEdgeImage->GetHRGN(CCherryImage::RGN_TYPE_VISIBLE);
 
 			if (NULL != pNcEdgeImage)
 			{
@@ -738,7 +738,7 @@ void CCherryDialog::RefreshNcRegion()
 				m_hNcEdgeRgn[3] = NULL;
 			}
 			
-			m_hNcEdgeRgn[3] = pNcEdgeImage->GetHRGN(CCherryImage::RGN_TYPE_INVISIBLE_THRESHOLD, 160);
+			m_hNcEdgeRgn[3] = pNcEdgeImage->GetHRGN(CCherryImage::RGN_TYPE_VISIBLE);
 
 			if (NULL != pNcEdgeImage)
 			{

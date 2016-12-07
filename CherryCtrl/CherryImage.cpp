@@ -692,21 +692,21 @@ HRGN CCherryImage::GetHRGN(RGN_TYPE rgnType, short nAlpha) const
 			DWORD dwAlpha = (pPixel[i * pBitmapData->Stride / 4 + j] & 0xff000000) >> 3 * 8;
 			switch (rgnType)
 			{
-			case RGN_TYPE_VISIBLE:			
-				if (0 == dwAlpha)
-					region.Xor(Rect(j, i, 1, 1)); // 투명한 부분 제외
-				break;
-			case RGN_TYPE_INVISIBLE:		
+			case RGN_TYPE_VISIBLE:		// 보이는 부분만 가져온다. (반투명 포함)	
 				if (0 < dwAlpha)
-					region.Xor(Rect(j, i, 1, 1)); // 불투명한 부분 제외
+					region.Xor(Rect(j, i, 1, 1));
 				break;
-			case RGN_TYPE_VISIBLE_THRESHOLD:	
-				if (nAlpha > (short)dwAlpha)
-					region.Xor(Rect(j, i, 1, 1)); // 사용자가 설정한 Alpha 값보다 투명하면 제외
+			case RGN_TYPE_INVISIBLE: 	// 안보이는 (완전 불투명) 부분만 가져온다. 
+				if (0 == dwAlpha)
+					region.Xor(Rect(j, i, 1, 1));
 				break;
-			case RGN_TYPE_INVISIBLE_THRESHOLD:		
+			case RGN_TYPE_VISIBLE_THRESHOLD:	// 보이는 부분 alpha 값 임계치를 설정하여 가져온다.
 				if (nAlpha < (short)dwAlpha)
-					region.Xor(Rect(j, i, 1, 1)); // 사용자가 설정한 Alpha 값보다 불투명하면 제외
+					region.Xor(Rect(j, i, 1, 1));
+				break;
+			case RGN_TYPE_INVISIBLE_THRESHOLD:  // 안보이는 부분 alpha 값 임계치를 설정하여 가져온다.
+				if (nAlpha >(short)dwAlpha)
+					region.Xor(Rect(j, i, 1, 1));
 				break;
 			default:
 				break;
