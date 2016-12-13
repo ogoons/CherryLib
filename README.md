@@ -1,4 +1,5 @@
 # CherryLib
+Win32/MFC UI Control, Utilities Library
 
 ## Summary
 
