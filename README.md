@@ -1,6 +1,6 @@
 # CherryLib
 
-### Cherry Library - Win32/MFC Utility Library
+# Summary
 
 Win32/MFC 기반의 Application을 개발하기 위해 필수적인 기능들을 모은 유용한 라이브러리입니다. 
 이 프로젝트는 Visual Studio 2015 작성되었습니다.
@@ -80,6 +80,11 @@ Win32/MFC 기반의 Application을 개발하기 위해 필수적인 기능들을
 2. CherryUpdate: Live Update 모듈화 DLL
 
 3. CherryUtil: 유틸리티성 함수들을 모아놓은 DLL 라이브러리
+
+# Dependencies
+
+* MFC 14.0
+* GDI+
 
 # License
 
