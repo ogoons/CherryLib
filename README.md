@@ -14,7 +14,7 @@ Win32/MFC 기반의 Application을 개발하기 위해 필수적인 기능들을
   
     예쁘고 유연한 UI의 빠른 구현
   
-  - 주요 기능 및 장점
+  - 주요 기능 및 장점
   
     1. MFC와 GDI+를 사용하여 이미지 파일 포맷 사용의 다양성, Transparency 이미지를 지원하여 좀 더 매끄러운 UI 구현을 할 수 있다.
     2. 굳이 third-party 라이브러리를 사용하는 것보다는 Native Windows Control 기반의 이질감 없는 UI 컨트롤의 필요도 있을 것
