@@ -38,7 +38,7 @@ Win32/MFC 기반의 Application을 개발하기 위해 필수적인 기능들을
 
     CCherryImage:
       마찬가지로 CherryCtrl 에서 사용하는 모든 이미지는 클래스를 사용하여 표현하고 관리하도록 한다. 
-      직접 사용하기 보단 상속하여 사용하는 추상 클래스 격을 갖고 있다.
+      직접 사용하기 보단 상속하여 사용하는 추상 클래스 성격을 갖고 있다.
 
     CCherryEdit:
       CEdit 를 Subclassing 한 컨트롤. 배경과 폰트를 Custom 할 수 있다.
