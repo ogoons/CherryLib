@@ -8,8 +8,6 @@ Win32/MFC 기반의 Application을 개발하기 위해 필수적인 기능들을
 
 ## Features
 
-1. CherryCtrl: Windows GDI+ 기반으로 제작된 UI Control DLL 라이브러리
-
   - 목적
   
     예쁘고 유연한 UI의 빠른 구현
