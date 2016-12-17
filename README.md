@@ -36,8 +36,8 @@ Win32/MFC 기반의 Application을 개발하기 위해 필수적인 기능들을
     CCherryEdit: CEdit 를 Subclassing 한 컨트롤. 배경과 폰트를 Custom 할 수 있다.
 
     CCherryListCtrl: CListCtrl을 Subclassing 한 컨트롤. 리스트 헤더/아이템의 배경색 설정이나 이미지를 입힐 수 있다.
-
-    CCherryProressCtrl: CWnd를 Subclassing 하여 새로 구현한 Progress 컨트롤.
+    
+    CCherryProressCtrl: CWnd를 Subclassing 하여 새로 구현한 Progress 컨트롤.
 
     CCherryMenu (준비 중): CMenu를 Subclassing 하여 스킨을 입힐 수 있도록 함.
 
