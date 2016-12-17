@@ -8,6 +8,8 @@ Win32/MFC 기반의 Application을 개발하기 위해 필수적인 기능들을
 
 ## Features
 
+1. CherryCtrl: Win32/MFC UI Control Library
+
   - 목적
   
     예쁘고 유연한 UI의 빠른 구현
