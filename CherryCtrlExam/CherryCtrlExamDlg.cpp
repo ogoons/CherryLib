@@ -81,7 +81,7 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 	m_radioButton1.Create(_T("라디오 버튼 1"), _T("wimax_on_off.png"), CCherryRadioButton::STYLE_AUTORESIZE | CCherryRadioButton::STYLE_AUTOCHECKBOX, NULL, WS_CHILD | WS_VISIBLE, CCherryRect(300, 150, 500, 200), this, 501);
 	m_radioButton2.Create(_T("라디오 버튼 2"), _T("wimax_on_off.png"), CCherryRadioButton::STYLE_AUTORESIZE | CCherryRadioButton::STYLE_AUTOCHECKBOX, &m_radioButton1, WS_CHILD | WS_VISIBLE, CCherryRect(300, 180, 0, 0), this, 502);
 	m_radioButton3.Create(_T("라디오 버튼 3"), _T("wimax_on_off.png"), CCherryRadioButton::STYLE_AUTORESIZE | CCherryRadioButton::STYLE_AUTOCHECKBOX, &m_radioButton1, WS_CHILD | WS_VISIBLE, CCherryRect(300, 210, 0, 0), this, 503);
-	m_radioButton2.SetCheck(CCherryRadioButton::STATUS_CHECKED);
+	//m_radioButton1.SetCheck(CCherryRadioButton::STATUS_CHECKED);
 	//m_radioButton1.SetCherryFont(_T("맑은 고딕"), 15, Color(255, 0, 0), CCherryFont::STYLE_DEFAULT);
 	
 	m_defaultSizeButton.Create(_T("[CherryButton]\n기본 사이즈 버튼(&A)"), _T("button.png"), CCherryButton::STYLE_AUTORESIZE, WS_CHILD | WS_VISIBLE, CCherryRect(10, 10, 0, 0), this, 1000);

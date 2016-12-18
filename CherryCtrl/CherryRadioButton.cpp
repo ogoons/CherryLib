@@ -59,9 +59,14 @@ CHERRY_RET CCherryRadioButton::Create(LPCTSTR lpszCaption, LPCTSTR lpszImagePath
 		m_pHeadRadioButton = pHeadRadioButton;
 
 		if (pHeadRadioButton)
+		{
 			pHeadRadioButton->AddRadioVector(this);
+		}
 		else
+		{
 			AddRadioVector(this);
+			SetCheck(STATUS_CHECKED);
+		}
 
 		cherryRet = SetImage(lpszImagePath);
 	}
@@ -90,11 +95,10 @@ void CCherryRadioButton::SetCheck(STATUS checkStatus)
 	if (GetCherryStyle() & STYLE_AUTOCHECKBOX)
 	{
 		vector<CCherryRadioButton *> *pRadioVector = GetHeadRadioVector();
-
 		for (vector<CCherryRadioButton *>::iterator it = pRadioVector->begin(); it != pRadioVector->end(); ++it)
 		{
 			// 눌린 자신 외 라디오인 경우
-			if (GetSafeHwnd() != ((CCherryRadioButton *)*it)->GetSafeHwnd())
+			if (((CCherryRadioButton *)*it)->GetSafeHwnd() && GetSafeHwnd() != ((CCherryRadioButton *)*it)->GetSafeHwnd())
 			{
 				// 나머지는 전부 체크 해제
 				((CCherryRadioButton *)*it)->m_checkStatus = STATUS_UNCHECKED;
