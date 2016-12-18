@@ -186,10 +186,11 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 
 
 	// CCherryListCtrl
-	m_listCtrl.Create(_T("header_.png"), _T("list.png"), 60, 50, NULL, WS_VISIBLE | WS_CHILD | LVS_REPORT | LVS_NOCOLUMNHEADER, CCherryRect(700, 10, 400, 190), this, 1012);
+	m_listCtrl.Create(_T("header_.png"), _T("list.png"), 60, 50, NULL, WS_VISIBLE | WS_CHILD | LVS_REPORT, CCherryRect(700, 10, 400, 190), this, 1012);
 	m_listCtrl.InsertColumn(0, _T("테스트1"), LVCFMT_LEFT, 100);
 	m_listCtrl.InsertColumn(1, _T("테스트2"), LVCFMT_LEFT/*| HDF_OWNERDRAW*/, 150);
 	
+	/*
 	int nItem = m_listCtrl.InsertItem(m_listCtrl.GetItemCount(), _T("테스트1"));
 	m_listCtrl.SetItem(nItem, 1, LVIF_TEXT, _T("아이템1"), NULL, NULL, NULL, NULL);
 	
@@ -198,10 +199,12 @@ BOOL CCherryCtrlExamDlg::OnCreateCherry()
 
 	m_listCtrl.InsertItem(m_listCtrl.GetItemCount(), _T("테스트3\r\n줄바꿈"));
 	m_listCtrl.InsertItem(m_listCtrl.GetItemCount(), _T("테스트4"));
+	*/
 
 	m_listCtrl.GetCherryHeaderCtrl()->SetFontStyle(CCherryFont::STYLE_VCENTER | CCherryFont::STYLE_LEFT);
 	m_listCtrl.SetNormalFontStyle(CCherryFont::STYLE_VCENTER | CCherryFont::STYLE_LEFT);
 	m_listCtrl.SetSelectedFontStyle(CCherryFont::STYLE_VCENTER | CCherryFont::STYLE_LEFT);
+
 
 	// CCherryTabCtrl
 	m_tabCtrl.Create(_T("tab.png"), CCherryTabCtrl::STYLE_TAB_BOTTOM, WS_CHILD | WS_VISIBLE, CCherryRect(700, 250, 500, 250), this, 1013);

@@ -20,7 +20,6 @@ CCherryHeaderCtrl::~CCherryHeaderCtrl()
 {
 }
 
-
 BEGIN_MESSAGE_MAP(CCherryHeaderCtrl, CHeaderCtrl)
 	ON_NOTIFY_REFLECT(NM_CUSTOMDRAW, &CCherryHeaderCtrl::OnNMCustomdraw)
 	ON_MESSAGE(HDM_LAYOUT, &CCherryHeaderCtrl::OnLayout)
@@ -29,10 +28,7 @@ BEGIN_MESSAGE_MAP(CCherryHeaderCtrl, CHeaderCtrl)
 	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
-
-
 // CCherryHeaderCtrl 메시지 처리기입니다.
-
 void CCherryHeaderCtrl::OnNMCustomdraw(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	/*
@@ -44,10 +40,6 @@ void CCherryHeaderCtrl::OnNMCustomdraw(NMHDR *pNMHDR, LRESULT *pResult)
 	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
 	LPNMLVCUSTOMDRAW pLVCD = reinterpret_cast<LPNMLVCUSTOMDRAW>(pNMHDR);
 	//LPNMHEADER pHeader = reinterpret_cast<LPNMHEADER>(pNMHDR);
-
-
-	//if (1 == pHeader->iItem)
-		//AfxMessageBox(_T("1"));
 
 	*pResult = CDRF_DODEFAULT;
 
@@ -176,14 +168,10 @@ void CCherryHeaderCtrl::PreSubclassWindow()
 	CHeaderCtrl::PreSubclassWindow();
 }
 
-
 void CCherryHeaderCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-
 	CHeaderCtrl::OnLButtonDown(nFlags, point);
 }
-
 
 void CCherryHeaderCtrl::OnDestroy()
 {

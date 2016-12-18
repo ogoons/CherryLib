@@ -63,6 +63,28 @@ CHERRY_RET CCherryListCtrl::Create(
 			if ((cherryRet = m_headerCtrl.Create(lpszHeaderImagePath, WS_VISIBLE | WS_CHILD, CRect(), this, nID + 1)) != CCherryException::ERROR_CHERRY_SUCCESS)
 				throw cherryRet;
 
+			// Initialize header height
+			HDLAYOUT  headerLayout;
+			WINDOWPOS windowPos;
+			RECT      rect;
+
+			// Reposition the header control so that it is placed at 
+			// the top of its parent window's client area.
+			m_headerCtrl.GetParent()->GetClientRect(&rect);
+			headerLayout.prc = &rect;
+			headerLayout.pwpos = &windowPos;
+			m_headerCtrl.Layout(&headerLayout);
+			windowPos.cy = nHeaderHeight; // 헤더 높이 수정
+
+			m_headerCtrl.SetWindowPos(
+				CWnd::FromHandle(windowPos.hwndInsertAfter),
+				windowPos.x,
+				windowPos.y,
+				windowPos.cx,
+				windowPos.cy,
+				windowPos.flags | SWP_SHOWWINDOW);
+
+			// 드래그로 인한 헤더 크기 변경 시 대응
 			SetHeaderHeight(nHeaderHeight);
 
 			cherryRet = SetImage(lpszHeaderImagePath, lpszItemImagePath);
@@ -337,9 +359,9 @@ void CCherryListCtrl::PreSubclassWindow()
 	//CHeaderCtrl *pHeaderCtrl = GetHeaderCtrl();
 	//CCherryListCtrl *pHeaderCtrl = (CCherryListCtrl *)GetHeaderCtrl();
 
-
 	//CHeaderCtrl *pHeaderCtrl = (CHeaderCtrl *)GetHeaderCtrl();
 	//m_headerCtrl.SubclassWindow(pHeaderCtrl->m_hWnd);
+	//m_headerCtrl.SubclassWindow(GetHeaderCtrl()->GetSafeHwnd());
 
 	CListCtrl::PreSubclassWindow();
 }
