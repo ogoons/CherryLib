@@ -79,6 +79,7 @@ Subclassing 된 GDI+ 기반의 Custom UI Controls, Partial 업데이트가 지�
 
 * MFC 14.0
 * GDI+
+* TinyXML2
 
 ## License
 
