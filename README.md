@@ -66,7 +66,7 @@ Subclassing 된 GDI+ 기반의 Custom UI Controls, Partial 업데이트가 지�
 
     CCherryNotificationDialog: 시스템 트레이 언저리에서 사용자 알림을 표기할 수 있는 다이얼로그 클래스. Fade In, Out 효과를 지원하며 동서남북 4방향의 작업표시줄에 대해 능동적으로 반응하여 표기됨.
 
-  **사용 샘플은 CherryExam 프로젝트 참조.**
+  - **사용 샘플은 CherryExam 프로젝트 참조.**
 
 ### 2. CherryUpdate: Live Update 모듈화 DLL
 
