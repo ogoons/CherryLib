@@ -61,11 +61,11 @@ Subclassing 된 GDI+ 기반의 Custom UI Controls, Partial 업데이트가 지�
     CCherryRadioButton: CCherryCheckBox를 베이스로 디자인된 라디오 컨트롤이다. 체크박스와 마찬가지로 이미지, 텍스트 형태 또는 이미지와 텍스트를 합친 형태로 표현이 가능하다.
 
     CCherryFontByStatus: 각 컨트롤에 사용되는 폰트의 상태를 관리하는 클래스이다.
-    
+
     CCherryNotificationIcon: 시스템 트레이를 Support 함. 아이콘의 추가, 수정, 삭제를 자유롭게 지원.
-    
+
     CCherryNotificationDialog: 시스템 트레이 언저리에서 사용자 알림을 표기할 수 있는 다이얼로그 클래스. Fade In, Out 효과를 지원하며 동서남북 4방향의 작업표시줄에 대해 능동적으로 반응하여 표기됨.
-    
+
   **사용 샘플은 CherryExam 프로젝트 참조.**
 
 ### 2. CherryUpdate: Live Update 모듈화 DLL
