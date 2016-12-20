@@ -76,7 +76,7 @@ Subclassing 된 GDI+ 기반의 Custom UI Controls, Partial 업데이트가 지�
 ### 3. CherryUtil: 유틸리티성 함수들을 모아놓은 DLL 라이브러리
 
 ## Dependencies
-
+* The Windows SDK version 10.0.14393.0
 * MFC 14.0
 * GDI+
 * TinyXML2
