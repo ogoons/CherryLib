@@ -50,7 +50,7 @@ Subclassing 된 GDI+ 기반의 Custom UI Controls, Partial 업데이트가 지�
 
     CCherryMemDC: CDC를 상속한 Memory Buffer DC, Double Buffering 구현시 사용하여 Image 깜빡임을 줄이도록 한다.
 
-    CCherryToggleButton: CCherryButton을 상속한 확장 컨트롤이다. 버튼의 상태를 고정할 수 있는 토글 기능이 추가된 컨트롤이다.
+    CCherryToggleButton: CCherryButton을 상속한 확장 클래스, 버튼의 상태를 고정할 수 있는 토글 기능이 추가된 컨트롤이다.
 
     CCherryImageCtrl: CCherryImage와는 다르게 별도의 Window 속성이 부여된 이미지 컨트롤이다.
 
