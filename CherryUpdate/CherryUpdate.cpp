@@ -641,7 +641,7 @@ BOOL CCherryUpdate::RequestHttp(_In_ LPCTSTR lpszUrl, _In_ BOOL bPost, _In_ LPCT
 
 		// 누적 복사
 		strResponse += pszData;
-		delete[]pszData;
+		delete[] pszData;
 	}
 
 	return TRUE;
@@ -759,7 +759,9 @@ void CCherryUpdate::UrlEncode(char *output, char *input)
 				output[++opt_inx] = LowerBit + 'A' - 10;
 		}
 		else
+		{
 			output[opt_inx] = char_val;
+		}
 	}
 	output[opt_inx] = 0;
 }
@@ -1354,7 +1356,7 @@ CString CCherryUpdate::ConvertUtf8ToUnicode(_In_ LPCWSTR lpszUtf8)
 	{
 		strRet = pszBuf;
 
-		delete[]pszBuf;
+		delete[] pszBuf;
 		pszBuf = NULL;
 	}
 

@@ -26,5 +26,5 @@ Release
 *.exe
 *.dll
 *.lib
-/CherryLib.VC.db
-/CherryLib.VC.VC.opendb
+/*.VC.db
+/*.VC.VC.opendb

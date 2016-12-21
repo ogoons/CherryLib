@@ -64,6 +64,7 @@ BEGIN_MESSAGE_MAP(CCherryUpdateExamDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDOK, &CCherryUpdateExamDlg::OnBnClickedOk)
 	ON_BN_CLICKED(IDCANCEL, &CCherryUpdateExamDlg::OnBnClickedCancel)
+	ON_BN_CLICKED(IDC_BUTTON1, &CCherryUpdateExamDlg::OnBnClickedButton1)
 END_MESSAGE_MAP()
 
 
@@ -170,4 +171,10 @@ void CCherryUpdateExamDlg::OnBnClickedCancel()
 	
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	//CDialogEx::OnCancel();
+}
+
+
+void CCherryUpdateExamDlg::OnBnClickedButton1()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
