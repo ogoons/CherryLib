@@ -36,6 +36,7 @@ Subclassing 된 GDI+ 기반의 Custom UI Controls, Partial 업데이트가 지�
     CCherryButton: Windows에서 일반적인 Button의 4가지 상태(Normal, Hover, Down, Disable)에 해당하는 이미지를 오너드로우 하여 뿌려주는 기능.
 
     CCherryFont: CherryCtrl 에서 사용하는 모든 문자열은 이 클래스를 사용하여 표현하고 관리하도록 한다. 직접 사용하기 보단 상속하여 사용하는 추상 클래스 성격을 갖고 있다.
+    
     CCherryImage: 마찬가지로 CherryCtrl 에서 사용하는 모든 이미지는 클래스를 사용하여 표현하고 관리하도록 한다. 직접 사용하기 보단 상속하여 사용하는 추상 클래스 성격을 갖고 있다.
 
     CCherryEdit: CEdit 를 Subclassing 한 컨트롤. 배경과 폰트를 Custom 할 수 있다.
@@ -50,7 +51,7 @@ Subclassing 된 GDI+ 기반의 Custom UI Controls, Partial 업데이트가 지�
 
     CCherryMemDC: CDC를 상속한 Memory Buffer DC, Double Buffering 구현시 사용하여 Image 깜빡임을 줄이도록 한다.
 
-    CCherryToggleButton: CCherryButton을 상속한 확장 클래스, 버튼의 상태를 고정할 수 있는 토글 기능이 추가된 컨트롤이다.
+    CCherryToggleButton: CCherryButton을 상속한 확장 클래스, 버튼의 상태를 고정할 수 있는 토글 기능이 추가된 컨트롤이다.
 
     CCherryImageCtrl: CCherryImage와는 다르게 별도의 Window 속성이 부여된 이미지 컨트롤이다.
 
