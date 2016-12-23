@@ -87,30 +87,30 @@ Subclassing 된 GDI+ 기반의 Custom UI Controls, Partial 업데이트가 지�
 
 ### Debug
 
-    ./Debug/CherryCtrlD.lib
+    ./lib/CherryCtrlD.lib
     ./Debug/CherryCtrlD.dll
     
-    ./Debug/CherryUpdateD.lib
+    ./lib/CherryUpdateD.lib
     ./Debug/CherryUpdateD.dll
     
-    ./Debug/CherryUtilD.lib
+    ./lib/CherryUtilD.lib
     ./Debug/CherryUtilD.dll
     
-    ./Debug/CherryMultiLangD.lib
+    ./lib/CherryMultiLangD.lib
     ./Debug/CherryMultiLangD.dll
 
 ### Release
 
-    ./Release/CherryCtrl.lib
+    ./lib/CherryCtrl.lib
     ./Release/CherryCtrl.dll
     
-    ./Release/CherryUpdate.lib
+    ./lib/CherryUpdate.lib
     ./Release/CherryUpdate.dll
     
-    ./Release/CherryUtil.lib
+    ./lib/CherryUtil.lib
     ./Release/CherryUtil.dll
     
-    ./Release/CherryMultiLang.lib
+    ./lib/CherryMultiLang.lib
     ./Release/CherryMultiLang.dll
     
 ## License
