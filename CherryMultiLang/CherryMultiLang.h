@@ -27,4 +27,8 @@ public:
 	static CString		ConvertUtf8ToUnicode(const char *pszUtf8);
 	static CString		ConvertUtf8ToUnicode(LPCWSTR lpszUtf8);
 	static CStringA		ConvertUtf8ToAnsi(LPCSTR lpszUtf8);
+
+private:
+	CString				ConvertReservedChars(LPCTSTR lpszData);
+
 };

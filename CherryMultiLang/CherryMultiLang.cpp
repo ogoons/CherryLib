@@ -67,11 +67,20 @@ CString CCherryMultiLang::GetString(LPCTSTR lpszId)
 		if (0 == _tcscmp(lpszId, strId))
 		{
 			CString strData = CA2W(pNode->ToElement()->GetText());
-			return strData;
+			return ConvertReservedChars(strData);
 		}
 	} while (pNode = pNode->NextSibling());
 
 	return _T("");
+}
+
+CString CCherryMultiLang::ConvertReservedChars(LPCTSTR lpszData)
+{
+	CString strRet(lpszData);
+	strRet.Replace(_T("&lt"), _T("<"));
+	strRet.Replace(_T("&gt"), _T(">"));
+	strRet.Replace(_T("&amp"), _T("&"));
+	return strRet;
 }
 
 ///////////////////////////////////////////////////////////////////////////
