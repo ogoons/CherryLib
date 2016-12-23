@@ -63,7 +63,8 @@
       <ModuleDefinitionFile>.\CherryCtrl.def</ModuleDefinitionFile>
       <AdditionalDependencies>
       </AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib</AdditionalLibraryDirectories>
+      <ImportLibrary>$(SolutionDir)lib\$(TargetName).lib</ImportLibrary>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -93,7 +94,8 @@
       <ModuleDefinitionFile>.\CherryCtrl.def</ModuleDefinitionFile>
       <AdditionalDependencies>
       </AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib</AdditionalLibraryDirectories>
+      <ImportLibrary>$(SolutionDir)lib\$(TargetName).lib</ImportLibrary>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>

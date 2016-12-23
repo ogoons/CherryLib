@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<resources>
+	<string id="IDS_TEST_01">테스트1</string>
+	<string id="IDS_TEST_02">테스트2</string>
+</resources>

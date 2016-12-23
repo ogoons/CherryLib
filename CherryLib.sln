@@ -14,12 +14,22 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CherryCtrlExam", "CherryCtr
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CherryUpdate", "CherryUpdate\CherryUpdate.vcxproj", "{CFFE84C1-7912-4FDC-9D07-9BA097035C6B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4A5A6A98-7FBC-4D0D-BFDB-05BD7DDF6B88} = {4A5A6A98-7FBC-4D0D-BFDB-05BD7DDF6B88}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CherryUtil", "CherryUtil\CherryUtil.vcxproj", "{4A5A6A98-7FBC-4D0D-BFDB-05BD7DDF6B88}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CherryUpdateExam", "CherryUpdateExam\CherryUpdateExam.vcxproj", "{791CE701-970B-4951-A880-DA0311B11A83}"
 	ProjectSection(ProjectDependencies) = postProject
 		{CFFE84C1-7912-4FDC-9D07-9BA097035C6B} = {CFFE84C1-7912-4FDC-9D07-9BA097035C6B}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CherryMultiLang", "CherryMultiLang\CherryMultiLang.vcxproj", "{B5957381-0E60-4FD9-83E2-14DDD131B628}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CherryMultiLangExam", "CherryMultiLangExam\CherryMultiLangExam.vcxproj", "{E7EDF3B5-786C-4C7B-B581-2E1E29EA7537}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B5957381-0E60-4FD9-83E2-14DDD131B628} = {B5957381-0E60-4FD9-83E2-14DDD131B628}
 	EndProjectSection
 EndProject
 Global
@@ -60,6 +70,22 @@ Global
 		{791CE701-970B-4951-A880-DA0311B11A83}.Release|Win32.ActiveCfg = Release|Win32
 		{791CE701-970B-4951-A880-DA0311B11A83}.Release|Win32.Build.0 = Release|Win32
 		{791CE701-970B-4951-A880-DA0311B11A83}.Release|x64.ActiveCfg = Release|Win32
+		{B5957381-0E60-4FD9-83E2-14DDD131B628}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B5957381-0E60-4FD9-83E2-14DDD131B628}.Debug|Win32.Build.0 = Debug|Win32
+		{B5957381-0E60-4FD9-83E2-14DDD131B628}.Debug|x64.ActiveCfg = Debug|x64
+		{B5957381-0E60-4FD9-83E2-14DDD131B628}.Debug|x64.Build.0 = Debug|x64
+		{B5957381-0E60-4FD9-83E2-14DDD131B628}.Release|Win32.ActiveCfg = Release|Win32
+		{B5957381-0E60-4FD9-83E2-14DDD131B628}.Release|Win32.Build.0 = Release|Win32
+		{B5957381-0E60-4FD9-83E2-14DDD131B628}.Release|x64.ActiveCfg = Release|x64
+		{B5957381-0E60-4FD9-83E2-14DDD131B628}.Release|x64.Build.0 = Release|x64
+		{E7EDF3B5-786C-4C7B-B581-2E1E29EA7537}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E7EDF3B5-786C-4C7B-B581-2E1E29EA7537}.Debug|Win32.Build.0 = Debug|Win32
+		{E7EDF3B5-786C-4C7B-B581-2E1E29EA7537}.Debug|x64.ActiveCfg = Debug|x64
+		{E7EDF3B5-786C-4C7B-B581-2E1E29EA7537}.Debug|x64.Build.0 = Debug|x64
+		{E7EDF3B5-786C-4C7B-B581-2E1E29EA7537}.Release|Win32.ActiveCfg = Release|Win32
+		{E7EDF3B5-786C-4C7B-B581-2E1E29EA7537}.Release|Win32.Build.0 = Release|Win32
+		{E7EDF3B5-786C-4C7B-B581-2E1E29EA7537}.Release|x64.ActiveCfg = Release|x64
+		{E7EDF3B5-786C-4C7B-B581-2E1E29EA7537}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
