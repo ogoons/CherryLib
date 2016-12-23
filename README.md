@@ -83,6 +83,36 @@ Subclassing 된 GDI+ 기반의 Custom UI Controls, Partial 업데이트가 지�
 * GDI+
 * TinyXML2
 
+## Outputs
+
+### Debug
+
+    ./Debug/CherryCtrlD.lib
+    ./Debug/CherryCtrlD.dll
+    
+    ./Debug/CherryUpdateD.lib
+    ./Debug/CherryUpdateD.dll
+    
+    ./Debug/CherryUtilD.lib
+    ./Debug/CherryUtilD.dll
+    
+    ./Debug/CherryMultiLangD.lib
+    ./Debug/CherryMultiLangD.dll
+
+### Release
+
+    ./Release/CherryCtrl.lib
+    ./Release/CherryCtrl.dll
+    
+    ./Release/CherryUpdate.lib
+    ./Release/CherryUpdate.dll
+    
+    ./Release/CherryUtil.lib
+    ./Release/CherryUtil.dll
+    
+    ./Release/CherryMultiLang.lib
+    ./Release/CherryMultiLang.dll
+    
 ## License
 
     The MIT License (MIT)
