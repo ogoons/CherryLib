@@ -52,10 +52,10 @@ protected:
 	virtual void PreSubclassWindow();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg HBRUSH CtlColor(CDC* /*pDC*/, UINT /*nCtlColor*/);
+	afx_msg void OnDestroy();
 
 // Implementation
 public:
-	afx_msg void OnDestroy();
 	virtual ~CCherryEdit();
 
 protected:

@@ -52,6 +52,7 @@ public:
 
 		// CherryComboBox
 		ERROR_COMBOBOX_CREATE_FAIL,
+		ERROR_COMBOBOX_CREATE_FONT_FAIL,
 
 		// CherryStatic
 		ERROR_STATIC_CREATE_FAIL,

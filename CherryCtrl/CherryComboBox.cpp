@@ -43,6 +43,7 @@ BEGIN_MESSAGE_MAP(CCherryComboBox, CComboBox)
 	ON_WM_MOUSELEAVE()
 	ON_WM_ERASEBKGND()
 	ON_WM_ENABLE()
+	ON_WM_DESTROY()
 	ON_CONTROL_REFLECT(CBN_DROPDOWN, &CCherryComboBox::OnCbnDropDown)
 	ON_CONTROL_REFLECT(CBN_CLOSEUP, &CCherryComboBox::OnCbnCloseUp)
 END_MESSAGE_MAP()
@@ -60,8 +61,9 @@ CHERRY_RET CCherryComboBox::Create(LPCTSTR lpszImagePath, DWORD dwCherryStyle, D
 		if (!CComboBox::Create(dwStyle, cherryRect, pParentWnd, nID))
 			throw CCherryException::ERROR_COMBOBOX_CREATE_FAIL;
 
-		m_font.CreateFont(15, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET
-			, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, DEFAULT_FONT_NAME);
+		if (NULL == m_font.CreateFont(15, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET
+			, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, DEFAULT_FONT_NAME))
+			throw CCherryException::ERROR_COMBOBOX_CREATE_FAIL;
 
 		SetFont(&m_font);
 
@@ -562,9 +564,14 @@ void CCherryComboBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 	*/
 }
 
-
 void CCherryComboBox::MeasureItem(LPMEASUREITEMSTRUCT /*lpMeasureItemStruct*/)
 {
-
 	// TODO:  지정된 항목의 크기를 확인하는 코드를 추가합니다.
 }
+
+void CCherryComboBox::OnDestroy()
+{
+	CComboBox::OnDestroy();
+	m_font.DeleteObject();
+}
+
