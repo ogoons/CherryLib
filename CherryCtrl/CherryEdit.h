@@ -36,6 +36,7 @@ protected:
 public:
 	void SetBackColor(COLORREF backColor);
 
+	// Font
 	void SetCherryFont(LPCTSTR lpszFontName, float fFontSize, Color fontColor, DWORD dwFontStyle);
 	BOOL SetCherryFont(CCherryFont *pCherryFont);
 	void SetFontName(LPCTSTR lpszFontName);
@@ -54,6 +55,7 @@ protected:
 
 // Implementation
 public:
+	afx_msg void OnDestroy();
 	virtual ~CCherryEdit();
 
 protected:

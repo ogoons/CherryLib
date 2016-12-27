@@ -61,6 +61,7 @@ public:
 
 		// CherryEdit
 		ERROR_EDIT_CREATE_FAIL,
+		ERROR_EDIT_CREATE_FONT_FAIL,
 
 		// CherryEditBackWnd
 		ERROR_EDITBACKWND_CREATE_FAIL,

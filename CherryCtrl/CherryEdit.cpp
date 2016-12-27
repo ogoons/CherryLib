@@ -21,10 +21,10 @@ CCherryEdit::~CCherryEdit()
 {
 }
 
-
 BEGIN_MESSAGE_MAP(CCherryEdit, CEdit)
 	ON_WM_CTLCOLOR_REFLECT()
 	ON_WM_SIZE()
+	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 // CCherryEdit 메시지 처리기입니다.
@@ -52,9 +52,10 @@ CHERRY_RET CCherryEdit::Create(LPCTSTR lpszBackImagePath, COLORREF backColor, DW
 
 		if (!CEdit::Create(dwStyle, deflatedRect, &m_backWnd, nID))
 			throw CCherryException::ERROR_EDIT_CREATE_FAIL;
-
-		m_font.CreateFont(DEFAULT_ORG_FONT_SIZE, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET
-			, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, DEFAULT_FONT_NAME);
+		
+		if (NULL == m_font.CreateFont(DEFAULT_ORG_FONT_SIZE, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET
+			, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, DEFAULT_FONT_NAME))
+			throw CCherryException::ERROR_EDIT_CREATE_FONT_FAIL;
 
 		SetFont(&m_font);
 		SetBackColor(backColor);
@@ -213,4 +214,10 @@ BOOL CCherryEdit::SetPadding(int nLeft, int nTop, int nRight, int nBottom)
 	MoveWindow(deflatedRect);
 
 	return TRUE;
+}
+
+void CCherryEdit::OnDestroy()
+{
+	CEdit::OnDestroy();
+	m_font.DeleteObject();
 }
