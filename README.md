@@ -10,6 +10,10 @@ Subclassing 된 GDI+ 기반의 Custom UI Controls, Partial 업데이트가 지�
 
 이 프로젝트는 Visual Studio 2015 에서 작성되었습니다.
 
+## Demo
+
+![CherryCtrl Demo](./Demo/demo.png)
+
 ## Features
 ### 1. CherryCtrl: Win32/MFC UI Control Library
 
