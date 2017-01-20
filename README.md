@@ -12,7 +12,7 @@ Subclassing 된 GDI+ 기반의 Custom UI Controls, Partial 업데이트가 지�
 
 ## Demo
 
-![CherryCtrl Demo](./Demo/demo.png)
+![CherryCtrl Demo](./demo.png)
 
 ## Features
 ### 1. CherryCtrl: Win32/MFC UI Control Library
