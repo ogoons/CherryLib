@@ -1,6 +1,6 @@
 # CherryLib
 
-Win32/MFC UI Control, Live Update, Utilities Library
+Win32/MFC UI Control, Live Update, Utility Library
 
 ## Summary
 
