@@ -2,7 +2,7 @@
 
 Win32/MFC UI Control, Live Update, Utility Library
 
-## Summary
+## Overview
 
 Win32/MFC 기반의 Application을 빠르게 개발하기 위하여 필수적인 기능들을 담은 유용한 라이브러리입니다.
 
